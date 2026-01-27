@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AfterAI — Coming soon</title>
+  <link rel="icon" type="image/png" href="favicon.png">
+  <meta name="description" content="AfterAI is coming soon. Production AI changes require evidence."/>
+  <link rel="stylesheet" href="styles.css"/>
+
+  <!-- AfterAI public config -->
+  <script>
+    window.AFTERAI_SIGNUP_ENDPOINT = "https://api.useafter.ai/signup";
+  </script>
+  
+  <script defer src="script.js"></script>
+</head>
+<body>
+  <div class="bg">
+    <div class="grain"></div>
+    <div class="glow g1"></div>
+    <div class="glow g2"></div>
+    <div class="glow g3"></div>
+  </div>
+
+  <header class="topbar">
+    <div class="wrap">
+      <div class="brand">
+        <img class="logo" src="Modern purple and gold logo.png" alt="AfterAI logo" />
+        <span class="name">AfterAI</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="main">
+    <section class="card" aria-label="Coming soon">
+      <div class="badge">Coming soon</div>
+
+      <h1>Production AI changes<br/>require evidence.</h1>
+      <p class="sub">
+        AfterAI helps teams running AI in production understand upgrade risk and drift — and keep a clear decision trail when changes matter.
+      </p>
+
+      <form class="form" action="https://formspree.io/f/xvzzqoro" method="POST">
+        <input type="hidden" name="_redirect" value="index.html?submitted=1" />
+        <label class="label" for="email">Join the early access list</label>
+        <div class="row">
+          <input id="email" name="email" type="email" placeholder="you@company.com" autocomplete="email" required />
+          <button type="submit" class="btn">
+            <span>Notify me</span>
+            <span class="arrow" aria-hidden="true">→</span>
+          </button>
+        </div>
+        <p class="hint">No spam. One email when we open early access.</p>
+        <p class="ok" id="okMsg" aria-live="polite"></p>
+      </form>
+    </section>
+
+    <footer class="footer">
+      <div class="wrap foot">
+        <span>© <span id="year"></span> AfterAI</span>
+      </div>
+    </footer>
+  </main>
+</body>
+</html>
