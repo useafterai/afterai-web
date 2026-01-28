@@ -9,10 +9,10 @@
 </head>
 <body>
     <!-- Logo -->
-    <div class="logo">
+    <a href="../" class="logo" style="text-decoration: none; color: inherit;">
         <img src="../logo.png" alt="AfterAI logo" style="height: 26px; width: auto;">
         <span>AfterAI</span>
-    </div>
+    </a>
 
     <!-- Main Content Card -->
     <div class="container">
@@ -24,16 +24,16 @@
             <!-- Signup Form -->
             <form id="signupForm" class="signup-form">
                 <div class="form-group">
-                    <label for="name">Full Name</label>
+                    <label for="username">Username</label>
                     <input 
                         type="text" 
-                        id="name" 
-                        name="name" 
-                        placeholder="John Doe" 
+                        id="username" 
+                        name="username" 
+                        placeholder="johndoe" 
                         required
-                        autocomplete="name"
+                        autocomplete="username"
                     >
-                    <span class="error-message" id="nameError"></span>
+                    <span class="error-message" id="usernameError"></span>
                 </div>
 
                 <div class="form-group">
@@ -50,16 +50,28 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="orgName">Organization Name</label>
+                    <label for="password">Password</label>
+                    <input 
+                        type="password" 
+                        id="password" 
+                        name="password" 
+                        placeholder="••••••••" 
+                        required
+                        autocomplete="new-password"
+                    >
+                    <span class="error-message" id="passwordError"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="name">Full Name <span style="color: var(--muted2); font-weight: normal;">(optional)</span></label>
                     <input 
                         type="text" 
-                        id="orgName" 
-                        name="orgName" 
-                        placeholder="Acme Corp" 
-                        required
-                        autocomplete="organization"
+                        id="name" 
+                        name="name" 
+                        placeholder="John Doe" 
+                        autocomplete="name"
                     >
-                    <span class="error-message" id="orgNameError"></span>
+                    <span class="error-message" id="nameError"></span>
                 </div>
 
                 <button type="submit" class="submit-btn" id="submitBtn">

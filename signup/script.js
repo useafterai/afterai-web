@@ -14,14 +14,16 @@ const errorState = document.getElementById('errorState');
 const formState = form.closest('.card');
 
 // Form fields
-const nameInput = document.getElementById('name');
+const usernameInput = document.getElementById('username');
 const emailInput = document.getElementById('email');
-const orgNameInput = document.getElementById('orgName');
+const passwordInput = document.getElementById('password');
+const nameInput = document.getElementById('name');
 
 // Error message elements
-const nameError = document.getElementById('nameError');
+const usernameError = document.getElementById('usernameError');
 const emailError = document.getElementById('emailError');
-const orgNameError = document.getElementById('orgNameError');
+const passwordError = document.getElementById('passwordError');
+const nameError = document.getElementById('nameError');
 const errorMessage = document.getElementById('errorMessage');
 
 // Success elements
@@ -39,13 +41,20 @@ function validateForm() {
     let isValid = true;
     
     // Clear previous errors
-    nameError.textContent = '';
+    usernameError.textContent = '';
     emailError.textContent = '';
-    orgNameError.textContent = '';
+    passwordError.textContent = '';
+    nameError.textContent = '';
     
-    // Validate name
-    if (!nameInput.value.trim()) {
-        nameError.textContent = 'Name is required';
+    // Validate username
+    if (!usernameInput.value.trim()) {
+        usernameError.textContent = 'Username is required';
+        isValid = false;
+    } else if (usernameInput.value.trim().length < 3) {
+        usernameError.textContent = 'Username must be at least 3 characters';
+        isValid = false;
+    } else if (!/^[a-zA-Z0-9_-]+$/.test(usernameInput.value.trim())) {
+        usernameError.textContent = 'Username can only contain letters, numbers, underscores, and hyphens';
         isValid = false;
     }
     
@@ -58,11 +67,16 @@ function validateForm() {
         isValid = false;
     }
     
-    // Validate organization name
-    if (!orgNameInput.value.trim()) {
-        orgNameError.textContent = 'Organization name is required';
+    // Validate password
+    if (!passwordInput.value) {
+        passwordError.textContent = 'Password is required';
+        isValid = false;
+    } else if (passwordInput.value.length < 8) {
+        passwordError.textContent = 'Password must be at least 8 characters';
         isValid = false;
     }
+    
+    // Name is optional, no validation needed
     
     return isValid;
 }
@@ -101,6 +115,41 @@ function showError(message) {
     formState.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
+// Show email sent state
+function showEmailSent() {
+    form.style.display = 'none';
+    errorState.style.display = 'none';
+    successState.style.display = 'block';
+    
+    // Update success state to show email verification message
+    const successIcon = successState.querySelector('.success-icon');
+    const successTitle = successState.querySelector('h2');
+    const successMsg = successState.querySelector('.success-message');
+    const apiKeySection = successState.querySelector('.api-key-section');
+    const nextSteps = successState.querySelector('.next-steps');
+    
+    if (successIcon) successIcon.textContent = '✉️';
+    if (successTitle) successTitle.textContent = 'Check Your Email!';
+    if (successMsg) {
+        successMsg.textContent = `We've sent a verification email to ${emailInput.value.trim()}. Please click the link in the email to verify your account and get your API key.`;
+    }
+    if (apiKeySection) apiKeySection.style.display = 'none';
+    if (nextSteps) {
+        nextSteps.innerHTML = `
+            <h3>Next Steps:</h3>
+            <ol>
+                <li>Check your email inbox (and spam folder) for the verification email</li>
+                <li>Click the verification link in the email</li>
+                <li>You'll be redirected to a page with your API key</li>
+                <li>Save your API key securely - you won't be able to see it again</li>
+            </ol>
+        `;
+    }
+    
+    // Scroll to top of card
+    formState.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
 // Show form (for retry)
 function showForm() {
     form.style.display = 'flex';
@@ -109,9 +158,10 @@ function showForm() {
     
     // Clear form
     form.reset();
-    nameError.textContent = '';
+    usernameError.textContent = '';
     emailError.textContent = '';
-    orgNameError.textContent = '';
+    passwordError.textContent = '';
+    nameError.textContent = '';
 }
 
 // Copy API key to clipboard
@@ -170,10 +220,10 @@ async function handleSubmit(e) {
     setLoading(true);
     
     // Prepare request data
-    // Note: The API endpoint stores this data in Azure Table Storage when STORAGE_BACKEND=azure_tables
     const requestData = {
+        username: usernameInput.value.trim(),
         email: emailInput.value.trim(),
-        org_name: orgNameInput.value.trim(),
+        password: passwordInput.value,
         name: nameInput.value.trim() || undefined  // Optional field for personalization
     };
     
@@ -209,14 +259,18 @@ async function handleSubmit(e) {
             throw new Error('Invalid response from server. Please try again.');
         }
         
-        // Validate response has required fields
-        if (!data.api_key || !data.tenant_id) {
+        // Check if this is a validation email response
+        if (data.message && data.message.includes('email')) {
+            // Show "check your email" message instead of API key
+            setLoading(false);
+            showEmailSent();
+        } else if (data.api_key && data.tenant_id) {
+            // Validation completed - show API key
+            setLoading(false);
+            showSuccess(data.api_key, data.tenant_id);
+        } else {
             throw new Error('Invalid response format from server.');
         }
-        
-        // Success - show API key
-        setLoading(false);
-        showSuccess(data.api_key, data.tenant_id);
         
     } catch (error) {
         setLoading(false);
@@ -245,11 +299,15 @@ copyBtn.addEventListener('click', copyApiKey);
 retryBtn.addEventListener('click', showForm);
 
 // Real-time validation
-nameInput.addEventListener('blur', () => {
-    if (!nameInput.value.trim()) {
-        nameError.textContent = 'Name is required';
+usernameInput.addEventListener('blur', () => {
+    if (!usernameInput.value.trim()) {
+        usernameError.textContent = 'Username is required';
+    } else if (usernameInput.value.trim().length < 3) {
+        usernameError.textContent = 'Username must be at least 3 characters';
+    } else if (!/^[a-zA-Z0-9_-]+$/.test(usernameInput.value.trim())) {
+        usernameError.textContent = 'Username can only contain letters, numbers, underscores, and hyphens';
     } else {
-        nameError.textContent = '';
+        usernameError.textContent = '';
     }
 });
 
@@ -263,18 +321,20 @@ emailInput.addEventListener('blur', () => {
     }
 });
 
-orgNameInput.addEventListener('blur', () => {
-    if (!orgNameInput.value.trim()) {
-        orgNameError.textContent = 'Organization name is required';
+passwordInput.addEventListener('blur', () => {
+    if (!passwordInput.value) {
+        passwordError.textContent = 'Password is required';
+    } else if (passwordInput.value.length < 8) {
+        passwordError.textContent = 'Password must be at least 8 characters';
     } else {
-        orgNameError.textContent = '';
+        passwordError.textContent = '';
     }
 });
 
 // Clear errors on input
-nameInput.addEventListener('input', () => {
-    if (nameError.textContent) {
-        nameError.textContent = '';
+usernameInput.addEventListener('input', () => {
+    if (usernameError.textContent) {
+        usernameError.textContent = '';
     }
 });
 
@@ -284,9 +344,15 @@ emailInput.addEventListener('input', () => {
     }
 });
 
-orgNameInput.addEventListener('input', () => {
-    if (orgNameError.textContent) {
-        orgNameError.textContent = '';
+passwordInput.addEventListener('input', () => {
+    if (passwordError.textContent) {
+        passwordError.textContent = '';
+    }
+});
+
+nameInput.addEventListener('input', () => {
+    if (nameError.textContent) {
+        nameError.textContent = '';
     }
 });
 
