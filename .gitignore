@@ -1,0 +1,30 @@
+# Internal documentation
+README.md
+README.internal.md
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+npm-debug.log*
+
+# Environment variables
+.env
+.env.local
+
+# Build files (if using a build process)
+dist/
+build/
+
+# Temporary/copy files
+* copy.*
+* copy.html
