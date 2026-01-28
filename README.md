@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # AfterAI Web Application
 
 Modern web application for AfterAI - Production AI Change Intelligence Platform.
@@ -92,10 +91,10 @@ afterai-web/
 - Social proof section
 
 ### Authentication
-- Signup with data region selection
+- Signup (username, email, password, optional full name) → POST to backend; success shows “Check your email”
 - Email verification flow
 - Sign in page
-- Mock authentication (ready for API integration)
+- Mock authentication for login (ready for API integration)
 
 ### App Console
 - Sidebar navigation with sections:
@@ -129,14 +128,13 @@ afterai-web/
 - Headings: Bold, large sizes
 - Body: Regular weight, readable line-height
 
+## Environment Variables
+
+- **`NEXT_PUBLIC_API_BASE_URL`** — Base URL for the AfterAI API (signup, etc.). Default: `https://api.useafter.ai`. Set to your backend (e.g. `http://localhost:8000`) for local dev.
+
 ## API Integration
 
-Currently, the app uses mock data and stubbed API calls. To integrate with the AfterAI backend:
-
-1. Update API endpoints in form handlers
-2. Add authentication token management
-3. Replace mock data with real API calls
-4. Add error handling and loading states
+Signup POSTs to `{NEXT_PUBLIC_API_BASE_URL}/signup` with `username`, `email`, `password`, and optional `name`. Other flows use mock/stub data until wired.
 
 ## Deployment
 
@@ -145,26 +143,6 @@ The application can be deployed to:
 - Docker containers
 - Any Node.js hosting platform
 
-=======
-# AfterAI Website
-
-Marketing website for AfterAI — production AI change intelligence.
-
-
-## Structure
-
-```
-website/
-├── index.html          # Root page (redirects to /signup/)
-├── favicon.png         # Site favicon
-├── logo.png            # AfterAI logo
-└── signup/
-    ├── index.html      # Signup page
-    ├── script.js       # Signup form logic
-    └── styles.css      # Signup page styles
-```
-
->>>>>>> 5f3afb90d8c9a2900f26d684eb8d36b010fff9b1
 ## License
 
 Copyright © 2026 AfterAI
