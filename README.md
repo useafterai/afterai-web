@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # AfterAI Web Application
 
 Modern web application for AfterAI - Production AI Change Intelligence Platform.
@@ -144,6 +145,26 @@ The application can be deployed to:
 - Docker containers
 - Any Node.js hosting platform
 
+=======
+# AfterAI Website
+
+Marketing website for AfterAI — production AI change intelligence.
+
+
+## Structure
+
+```
+website/
+├── index.html          # Root page (redirects to /signup/)
+├── favicon.png         # Site favicon
+├── logo.png            # AfterAI logo
+└── signup/
+    ├── index.html      # Signup page
+    ├── script.js       # Signup form logic
+    └── styles.css      # Signup page styles
+```
+
+>>>>>>> 5f3afb90d8c9a2900f26d684eb8d36b010fff9b1
 ## License
 
 Copyright © 2026 AfterAI

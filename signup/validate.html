@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify Account - AfterAI</title>
+    <link rel="icon" type="image/png" href="../favicon.png">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Logo -->
+    <a href="../" class="logo" style="text-decoration: none; color: inherit;">
+        <img src="../logo.png" alt="AfterAI logo" style="height: 26px; width: auto;">
+        <span>AfterAI</span>
+    </a>
+
+    <!-- Main Content Card -->
+    <div class="container">
+        <div class="card">
+            <!-- Loading State -->
+            <div id="loadingState" style="text-align: center;">
+                <div class="success-icon" style="background: var(--accent); animation: spin 1s linear infinite;">
+                    <span style="font-size: 24px;">⟳</span>
+                </div>
+                <h2>Verifying your account...</h2>
+                <p class="subtitle">Please wait while we verify your email address.</p>
+            </div>
+
+            <!-- Success State -->
+            <div id="successState" class="success-state" style="display: none;">
+                <div class="success-icon">✓</div>
+                <h2>Account Verified Successfully!</h2>
+                <p class="success-message">Your account has been verified. Here is your API key:</p>
+                
+                <div class="api-key-section">
+                    <label>Your API Key (save this now - it won't be shown again):</label>
+                    <div class="api-key-container">
+                        <code id="apiKeyDisplay" class="api-key"></code>
+                        <button id="copyBtn" class="copy-btn" title="Copy to clipboard">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <path d="M5.5 3.5H3.5C2.67 3.5 2 4.17 2 5v7.5c0 .83.67 1.5 1.5 1.5H9c.83 0 1.5-.67 1.5-1.5V11M5.5 3.5c0 .83.67 1.5 1.5 1.5H11c.83 0 1.5-.67 1.5-1.5V5c0-.83-.67-1.5-1.5-1.5H7c-.83 0-1.5.67-1.5 1.5v-1.5z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <p class="api-key-warning">⚠️ Store this key securely. You won't be able to see it again.</p>
+                </div>
+
+                <div class="account-info-section" style="margin-top: 2rem; padding: 1.5rem; background: var(--bg2); border-radius: 8px;">
+                    <h3 style="margin-top: 0; margin-bottom: 1rem; font-size: 1.1rem;">Account Information</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                        <div>
+                            <label style="display: block; font-size: 0.875rem; color: var(--muted2); margin-bottom: 0.25rem;">Tenant ID</label>
+                            <code id="tenantIdDisplay" style="font-size: 0.875rem; color: var(--text);"></code>
+                        </div>
+                        <div>
+                            <label style="display: block; font-size: 0.875rem; color: var(--muted2); margin-bottom: 0.25rem;">Plan</label>
+                            <span id="planDisplay" style="font-size: 0.875rem; color: var(--text); font-weight: 500; text-transform: capitalize;"></span>
+                        </div>
+                        <div>
+                            <label style="display: block; font-size: 0.875rem; color: var(--muted2); margin-bottom: 0.25rem;">ACE Usage</label>
+                            <span id="aceUsageDisplay" style="font-size: 0.875rem; color: var(--text); font-weight: 500;"></span>
+                        </div>
+                        <div>
+                            <label style="display: block; font-size: 0.875rem; color: var(--muted2); margin-bottom: 0.25rem;">ACE Limit</label>
+                            <span id="aceLimitDisplay" style="font-size: 0.875rem; color: var(--text); font-weight: 500;"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="next-steps">
+                    <h3>Next Steps:</h3>
+                    <ol>
+                        <li>Save your API key in a secure location</li>
+                        <li>Install the AfterAI Python SDK: <code>pip install afterai</code></li>
+                        <li>Start tracking your AI changes</li>
+                    </ol>
+                </div>
+            </div>
+
+            <!-- Error State -->
+            <div id="errorState" class="error-state" style="display: none;">
+                <div class="error-icon">✕</div>
+                <h2>Verification Failed</h2>
+                <p id="errorMessage" class="error-message"></p>
+                <a href="index.html" class="retry-btn" style="display: inline-block; text-decoration: none;">Back to Sign Up</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>© <span id="year"></span> AfterAI</p>
+    </footer>
+
+    <script>
+        // Configuration
+        const API_BASE_URL = 'https://api.useafter.ai'; // Update with your actual API URL
+
+        // Get token from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const token = urlParams.get('token');
+
+        // DOM Elements
+        const loadingState = document.getElementById('loadingState');
+        const successState = document.getElementById('successState');
+        const errorState = document.getElementById('errorState');
+        const apiKeyDisplay = document.getElementById('apiKeyDisplay');
+        const copyBtn = document.getElementById('copyBtn');
+        const errorMessage = document.getElementById('errorMessage');
+
+        // Validate token and get API key
+        async function validateToken() {
+            if (!token) {
+                showError('No validation token provided. Please check your email and click the link again.');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/validate/${token}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                });
+
+                if (!response.ok) {
+                    let errorMsg = 'Failed to verify account. Please try again.';
+                    try {
+                        const errorData = await response.json();
+                        console.error('Validation error response:', errorData);
+                        
+                        // Handle different error types
+                        if (Array.isArray(errorData.detail)) {
+                            // FastAPI validation errors
+                            errorMsg = errorData.detail[0]?.msg || errorData.detail[0] || errorMsg;
+                        } else if (errorData.detail) {
+                            errorMsg = errorData.detail;
+                        } else if (errorData.message) {
+                            errorMsg = errorData.message;
+                        }
+                    } catch (parseError) {
+                        console.error('Failed to parse error response:', parseError);
+                        errorMsg = response.statusText || `Server error (${response.status})`;
+                    }
+                    throw new Error(errorMsg);
+                }
+
+                const data = await response.json();
+                
+                if (!data.api_key || !data.tenant_id) {
+                    throw new Error('Invalid response format from server.');
+                }
+
+                // Success - show API key and account info
+                showSuccess(
+                    data.api_key, 
+                    data.tenant_id,
+                    data.plan || 'monitor',
+                    data.ace_used !== undefined ? data.ace_used : 0,
+                    data.ace_limit !== undefined ? data.ace_limit : 25
+                );
+
+            } catch (error) {
+                let errorMessageText = 'Something went wrong. Please try again.';
+                
+                if (error.name === 'TypeError') {
+                    if (error.message.includes('fetch') || error.message.includes('Failed to fetch')) {
+                        errorMessageText = 'Network error. Please check your connection and try again.';
+                    } else {
+                        errorMessageText = error.message || errorMessageText;
+                    }
+                } else if (error.message) {
+                    errorMessageText = error.message;
+                }
+                
+                console.error('Validation error:', error);
+                showError(errorMessageText);
+            }
+        }
+
+        // Show success state
+        function showSuccess(apiKey, tenantId, plan, aceUsed, aceLimit) {
+            loadingState.style.display = 'none';
+            errorState.style.display = 'none';
+            successState.style.display = 'block';
+            apiKeyDisplay.textContent = apiKey;
+            
+            // Display account information
+            document.getElementById('tenantIdDisplay').textContent = tenantId;
+            document.getElementById('planDisplay').textContent = plan || 'monitor';
+            document.getElementById('aceUsageDisplay').textContent = aceUsed !== undefined ? aceUsed : 0;
+            document.getElementById('aceLimitDisplay').textContent = aceLimit !== undefined ? aceLimit : 25;
+        }
+
+        // Show error state
+        function showError(message) {
+            loadingState.style.display = 'none';
+            successState.style.display = 'none';
+            errorState.style.display = 'block';
+            errorMessage.textContent = message || 'An unexpected error occurred. Please try again.';
+        }
+
+        // Copy API key to clipboard
+        async function copyApiKey() {
+            const apiKey = apiKeyDisplay.textContent;
+            
+            try {
+                await navigator.clipboard.writeText(apiKey);
+                
+                // Visual feedback
+                const originalText = copyBtn.innerHTML;
+                copyBtn.innerHTML = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M13 4L6 11L3 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+                copyBtn.style.color = '#10b981';
+                
+                setTimeout(() => {
+                    copyBtn.innerHTML = originalText;
+                    copyBtn.style.color = '';
+                }, 2000);
+            } catch (err) {
+                console.error('Failed to copy:', err);
+            }
+        }
+
+        // Event Listeners
+        copyBtn.addEventListener('click', copyApiKey);
+
+        // Update year in footer
+        const year = document.getElementById('year');
+        if (year) {
+            year.textContent = new Date().getFullYear();
+        }
+
+        // Start validation on page load
+        validateToken();
+    </script>
+</body>
+</html>
