@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { IconType } from "react-icons";
 import {
   FiHome,
   FiActivity,
@@ -17,11 +18,30 @@ import {
   FiUser,
 } from "react-icons/fi";
 
+type NavItem = {
+  name: string;
+  href: string;
+  icon: IconType;
+  badge?: string;
+};
+
+type NavSection = {
+  name: string;
+  section: true;
+  items: NavItem[];
+};
+
+type NavEntry = NavItem | NavSection;
+
+function isNavSection(entry: NavEntry): entry is NavSection {
+  return "section" in entry && entry.section === true;
+}
+
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const pathname = usePathname();
 
-  const navigation = [
+  const navigation: NavEntry[] = [
     { name: "Home", href: "/app", icon: FiHome },
     {
       name: "OBSERVE",
@@ -98,15 +118,15 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
 
           {/* Navigation */}
           <nav className="flex-1 overflow-y-auto p-4 space-y-6">
-            {navigation.map((item) => {
-              if (item.section) {
+            {navigation.map((entry) => {
+              if (isNavSection(entry)) {
                 return (
-                  <div key={item.name}>
+                  <div key={entry.name}>
                     <div className="px-3 mb-2 text-xs font-bold text-muted2 uppercase tracking-wider">
-                      {item.name}
+                      {entry.name}
                     </div>
                     <div className="space-y-1">
-                      {item.items?.map((navItem) => (
+                      {entry.items.map((navItem) => (
                         <Link
                           key={navItem.href}
                           href={navItem.href}
@@ -118,7 +138,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                         >
                           <navItem.icon className="w-5 h-5" />
                           <span className="flex-1">{navItem.name}</span>
-                          {"badge" in navItem && navItem.badge && (
+                          {navItem.badge && (
                             <span className="px-2 py-0.5 text-xs rounded-full border border-gold-500/22 bg-gold-500/10 text-gold-500">
                               {navItem.badge}
                             </span>
@@ -129,18 +149,19 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                   </div>
                 );
               }
+              // Simple nav item
               return (
                 <Link
-                  key={item.href}
-                  href={item.href}
+                  key={entry.href}
+                  href={entry.href}
                   className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-all ${
-                    pathname === item.href
+                    pathname === entry.href
                       ? "bg-purple-500/20 text-purple-300 border border-purple-500/30"
                       : "text-muted hover:bg-white/5 hover:text-white"
                   }`}
                 >
-                  <item.icon className="w-5 h-5" />
-                  <span>{item.name}</span>
+                  <entry.icon className="w-5 h-5" />
+                  <span>{entry.name}</span>
                 </Link>
               );
             })}
