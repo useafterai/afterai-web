@@ -49,6 +49,8 @@ npm start
 
 ## Docker Deployment
 
+The Dockerfile uses Node 20 and `npm install` (no lockfile). For reproducible builds, add `package-lock.json`, copy it in the Dockerfile, and use `npm ci` instead of `npm install`.
+
 ```bash
 # Build Docker image
 docker build -t afterai-web .

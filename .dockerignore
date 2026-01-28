@@ -9,3 +9,4 @@ yarn-debug.log*
 yarn-error.log*
 .DS_Store
 *.pem
+# package-lock.json is NOT ignored — commit it and use npm ci in Dockerfile for reproducible builds

@@ -1,17 +1,18 @@
-# Build stage
+# Build stage — Node 20 (Next.js 14 requires Node >= 18)
 FROM node:20-alpine AS builder
 
 WORKDIR /app
 
-# Copy package files
-COPY package*.json ./
+# Copy package files first for layer caching
+COPY package.json ./
 COPY tsconfig.json ./
 COPY next.config.js ./
 COPY tailwind.config.ts ./
 COPY postcss.config.js ./
 
-# Install dependencies
-RUN npm ci
+# Install dependencies. Use npm ci when package-lock.json is committed; else npm install.
+# To use npm ci: add COPY package-lock.json ./ above and replace with RUN npm ci
+RUN npm install
 
 # Copy source code
 COPY . .
@@ -24,7 +25,7 @@ FROM node:20-alpine AS runner
 
 WORKDIR /app
 
-ENV NODE_ENV production
+ENV NODE_ENV=production
 
 # Create non-root user
 RUN addgroup --system --gid 1001 nodejs
@@ -39,7 +40,7 @@ USER nextjs
 
 EXPOSE 3000
 
-ENV PORT 3000
-ENV HOSTNAME "0.0.0.0"
+ENV PORT=3000
+ENV HOSTNAME="0.0.0.0"
 
 CMD ["node", "server.js"]
