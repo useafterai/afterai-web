@@ -6,30 +6,52 @@
 // Set ALLOWED_ORIGINS environment variable in the API to include your website domain
 const API_BASE_URL = 'https://api.useafter.ai'; // Update with your actual API URL
 
-// DOM Elements
-const form = document.getElementById('signupForm');
-const submitBtn = document.getElementById('submitBtn');
-const successState = document.getElementById('successState');
-const errorState = document.getElementById('errorState');
-const formState = form.closest('.card');
+// DOM Elements - wait for DOM to be ready
+let form, submitBtn, successState, errorState, formState;
 
-// Form fields
-const usernameInput = document.getElementById('username');
-const emailInput = document.getElementById('email');
-const passwordInput = document.getElementById('password');
-const nameInput = document.getElementById('name');
+function initDOM() {
+    form = document.getElementById('signupForm');
+    submitBtn = document.getElementById('submitBtn');
+    successState = document.getElementById('successState');
+    errorState = document.getElementById('errorState');
+    if (form) {
+        formState = form.closest('.card');
+    }
+    
+    // Form fields
+    usernameInput = document.getElementById('username');
+    emailInput = document.getElementById('email');
+    passwordInput = document.getElementById('password');
+    nameInput = document.getElementById('name');
+    
+    // Error message elements
+    usernameError = document.getElementById('usernameError');
+    emailError = document.getElementById('emailError');
+    passwordError = document.getElementById('passwordError');
+    nameError = document.getElementById('nameError');
+    errorMessage = document.getElementById('errorMessage');
+    
+    // Success elements
+    apiKeyDisplay = document.getElementById('apiKeyDisplay');
+    copyBtn = document.getElementById('copyBtn');
+    retryBtn = document.getElementById('retryBtn');
+    
+    if (!form) {
+        console.error('Signup form element not found!');
+        return false;
+    }
+    if (!submitBtn) {
+        console.error('Submit button not found!');
+        return false;
+    }
+    console.log('DOM initialized successfully');
+    return true;
+}
 
-// Error message elements
-const usernameError = document.getElementById('usernameError');
-const emailError = document.getElementById('emailError');
-const passwordError = document.getElementById('passwordError');
-const nameError = document.getElementById('nameError');
-const errorMessage = document.getElementById('errorMessage');
-
-// Success elements
-const apiKeyDisplay = document.getElementById('apiKeyDisplay');
-const copyBtn = document.getElementById('copyBtn');
-const retryBtn = document.getElementById('retryBtn');
+// Form fields - will be initialized in initDOM
+let usernameInput, emailInput, passwordInput, nameInput;
+let usernameError, emailError, passwordError, nameError, errorMessage;
+let apiKeyDisplay, copyBtn, retryBtn;
 
 // Validation
 function validateEmail(email) {
@@ -210,12 +232,15 @@ async function copyApiKey() {
 // Submit form
 async function handleSubmit(e) {
     e.preventDefault();
+    console.log('Form submitted');
     
     // Validate form
     if (!validateForm()) {
+        console.log('Form validation failed');
         return;
     }
     
+    console.log('Form validation passed, submitting...');
     // Set loading state
     setLoading(true);
     
@@ -228,6 +253,9 @@ async function handleSubmit(e) {
     };
     
     try {
+        console.log('Making API request to:', `${API_BASE_URL}/signup`);
+        console.log('Request data:', { ...requestData, password: '***' }); // Don't log password
+        
         // Make API request
         const response = await fetch(`${API_BASE_URL}/signup`, {
             method: 'POST',
@@ -236,6 +264,8 @@ async function handleSubmit(e) {
             },
             body: JSON.stringify(requestData)
         });
+        
+        console.log('Response status:', response.status);
         
         // Check if response is ok before parsing
         if (!response.ok) {
@@ -259,15 +289,17 @@ async function handleSubmit(e) {
             throw new Error('Invalid response from server. Please try again.');
         }
         
-        // Check if this is a validation email response
-        if (data.message && data.message.includes('email')) {
-            // Show "check your email" message instead of API key
-            setLoading(false);
-            showEmailSent();
-        } else if (data.api_key && data.tenant_id) {
+        // Check response type
+        // New signup flow: returns only {message: "..."} - need email validation
+        // Validation flow: returns {api_key, tenant_id, message}
+        if (data.api_key && data.tenant_id) {
             // Validation completed - show API key
             setLoading(false);
             showSuccess(data.api_key, data.tenant_id);
+        } else if (data.message) {
+            // Signup successful - show "check your email" message
+            setLoading(false);
+            showEmailSent();
         } else {
             throw new Error('Invalid response format from server.');
         }
@@ -293,71 +325,106 @@ async function handleSubmit(e) {
     }
 }
 
-// Event Listeners
-form.addEventListener('submit', handleSubmit);
-copyBtn.addEventListener('click', copyApiKey);
-retryBtn.addEventListener('click', showForm);
-
-// Real-time validation
-usernameInput.addEventListener('blur', () => {
-    if (!usernameInput.value.trim()) {
-        usernameError.textContent = 'Username is required';
-    } else if (usernameInput.value.trim().length < 3) {
-        usernameError.textContent = 'Username must be at least 3 characters';
-    } else if (!/^[a-zA-Z0-9_-]+$/.test(usernameInput.value.trim())) {
-        usernameError.textContent = 'Username can only contain letters, numbers, underscores, and hyphens';
-    } else {
-        usernameError.textContent = '';
+// Initialize when DOM is ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() {
+        if (initDOM()) {
+            setupEventListeners();
+        }
+    });
+} else {
+    // DOM already loaded
+    if (initDOM()) {
+        setupEventListeners();
     }
-});
-
-emailInput.addEventListener('blur', () => {
-    if (!emailInput.value.trim()) {
-        emailError.textContent = 'Email is required';
-    } else if (!validateEmail(emailInput.value)) {
-        emailError.textContent = 'Please enter a valid email address';
-    } else {
-        emailError.textContent = '';
-    }
-});
-
-passwordInput.addEventListener('blur', () => {
-    if (!passwordInput.value) {
-        passwordError.textContent = 'Password is required';
-    } else if (passwordInput.value.length < 8) {
-        passwordError.textContent = 'Password must be at least 8 characters';
-    } else {
-        passwordError.textContent = '';
-    }
-});
-
-// Clear errors on input
-usernameInput.addEventListener('input', () => {
-    if (usernameError.textContent) {
-        usernameError.textContent = '';
-    }
-});
-
-emailInput.addEventListener('input', () => {
-    if (emailError.textContent) {
-        emailError.textContent = '';
-    }
-});
-
-passwordInput.addEventListener('input', () => {
-    if (passwordError.textContent) {
-        passwordError.textContent = '';
-    }
-});
-
-nameInput.addEventListener('input', () => {
-    if (nameError.textContent) {
-        nameError.textContent = '';
-    }
-});
-
-// Update year in footer
-const year = document.getElementById('year');
-if (year) {
-    year.textContent = new Date().getFullYear();
 }
+
+function setupEventListeners() {
+    // Event Listeners
+    if (form) {
+        form.addEventListener('submit', handleSubmit);
+        console.log('Form submit listener attached');
+    } else {
+        console.error('Signup form not found!');
+    }
+
+    if (copyBtn) {
+        copyBtn.addEventListener('click', copyApiKey);
+    }
+
+    if (retryBtn) {
+        retryBtn.addEventListener('click', showForm);
+    }
+    
+    // Real-time validation
+    if (usernameInput) {
+        usernameInput.addEventListener('blur', () => {
+            if (!usernameInput.value.trim()) {
+                usernameError.textContent = 'Username is required';
+            } else if (usernameInput.value.trim().length < 3) {
+                usernameError.textContent = 'Username must be at least 3 characters';
+            } else if (!/^[a-zA-Z0-9_-]+$/.test(usernameInput.value.trim())) {
+                usernameError.textContent = 'Username can only contain letters, numbers, underscores, and hyphens';
+            } else {
+                usernameError.textContent = '';
+            }
+        });
+        
+        usernameInput.addEventListener('input', () => {
+            if (usernameError && usernameError.textContent) {
+                usernameError.textContent = '';
+            }
+        });
+    }
+    
+    if (emailInput) {
+        emailInput.addEventListener('blur', () => {
+            if (!emailInput.value.trim()) {
+                emailError.textContent = 'Email is required';
+            } else if (!validateEmail(emailInput.value)) {
+                emailError.textContent = 'Please enter a valid email address';
+            } else {
+                emailError.textContent = '';
+            }
+        });
+        
+        emailInput.addEventListener('input', () => {
+            if (emailError && emailError.textContent) {
+                emailError.textContent = '';
+            }
+        });
+    }
+    
+    if (passwordInput) {
+        passwordInput.addEventListener('blur', () => {
+            if (!passwordInput.value) {
+                passwordError.textContent = 'Password is required';
+            } else if (passwordInput.value.length < 8) {
+                passwordError.textContent = 'Password must be at least 8 characters';
+            } else {
+                passwordError.textContent = '';
+            }
+        });
+        
+        passwordInput.addEventListener('input', () => {
+            if (passwordError && passwordError.textContent) {
+                passwordError.textContent = '';
+            }
+        });
+    }
+    
+    if (nameInput) {
+        nameInput.addEventListener('input', () => {
+            if (nameError && nameError.textContent) {
+                nameError.textContent = '';
+            }
+        });
+    }
+    
+    // Update year in footer
+    const year = document.getElementById('year');
+    if (year) {
+        year.textContent = new Date().getFullYear();
+    }
+}
+
