@@ -2,6 +2,8 @@
 // For production, update this to your actual API URL (e.g., 'https://api.useafter.ai')
 // For local development, use 'http://localhost:8000'
 // Note: The API endpoint stores signup data in Azure Table Storage when configured with STORAGE_BACKEND=azure_tables
+// IMPORTANT: Ensure the API has CORS configured to allow requests from this domain
+// Set ALLOWED_ORIGINS environment variable in the API to include your website domain
 const API_BASE_URL = 'https://api.useafter.ai'; // Update with your actual API URL
 
 // DOM Elements
@@ -185,12 +187,31 @@ async function handleSubmit(e) {
             body: JSON.stringify(requestData)
         });
         
-        const data = await response.json();
-        
+        // Check if response is ok before parsing
         if (!response.ok) {
-            // Handle API errors
-            const errorMsg = data.detail || data.message || 'Failed to create account. Please try again.';
+            // Try to parse error response
+            let errorMsg = 'Failed to create account. Please try again.';
+            try {
+                const errorData = await response.json();
+                errorMsg = errorData.detail || errorData.message || errorMsg;
+            } catch (parseError) {
+                // If JSON parsing fails, use status text
+                errorMsg = response.statusText || `Server error (${response.status})`;
+            }
             throw new Error(errorMsg);
+        }
+        
+        // Parse successful response
+        let data;
+        try {
+            data = await response.json();
+        } catch (parseError) {
+            throw new Error('Invalid response from server. Please try again.');
+        }
+        
+        // Validate response has required fields
+        if (!data.api_key || !data.tenant_id) {
+            throw new Error('Invalid response format from server.');
         }
         
         // Success - show API key
@@ -200,13 +221,20 @@ async function handleSubmit(e) {
     } catch (error) {
         setLoading(false);
         
-        // Handle network errors
-        if (error.name === 'TypeError' && error.message.includes('fetch')) {
-            showError('Network error. Please check your connection and try again.');
-        } else {
-            showError(error.message);
+        // Handle different error types
+        let errorMessage = 'Something went wrong. Please try again.';
+        
+        if (error.name === 'TypeError') {
+            if (error.message.includes('fetch') || error.message.includes('Failed to fetch')) {
+                errorMessage = 'Network error. Please check your connection and try again.';
+            } else {
+                errorMessage = error.message || errorMessage;
+            }
+        } else if (error.message) {
+            errorMessage = error.message;
         }
         
+        showError(errorMessage);
         console.error('Signup error:', error);
     }
 }
