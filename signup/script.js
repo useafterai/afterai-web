@@ -273,11 +273,30 @@ async function handleSubmit(e) {
             let errorMsg = 'Failed to create account. Please try again.';
             try {
                 const errorData = await response.json();
-                errorMsg = errorData.detail || errorData.message || errorMsg;
+                console.log('Error response data:', errorData);
+                
+                // Handle FastAPI validation errors (422)
+                if (errorData.detail) {
+                    if (Array.isArray(errorData.detail)) {
+                        // FastAPI validation errors are arrays
+                        const firstError = errorData.detail[0];
+                        errorMsg = firstError.msg || firstError.message || errorData.detail[0] || errorMsg;
+                    } else {
+                        // Single error message
+                        errorMsg = errorData.detail;
+                    }
+                } else if (errorData.message) {
+                    errorMsg = errorData.message;
+                } else {
+                    // Fallback: stringify the whole object for debugging
+                    errorMsg = JSON.stringify(errorData);
+                }
             } catch (parseError) {
+                console.error('Failed to parse error response:', parseError);
                 // If JSON parsing fails, use status text
                 errorMsg = response.statusText || `Server error (${response.status})`;
             }
+            console.error('Signup error:', errorMsg);
             throw new Error(errorMsg);
         }
         
