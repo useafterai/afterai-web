@@ -6,25 +6,24 @@
 }
 
 :root {
-    --bg-dark: #000000;
-    --bg-purple: #1a0b2e;
+    --bg: #0b0b12;
+    --accent: #7b5cff;
+    --accent2: #f6c945;
+    --text: #f5f5f7;
+    --muted: rgba(245, 245, 247, 0.72);
+    --muted2: rgba(245, 245, 247, 0.58);
     --card-bg: rgba(30, 30, 40, 0.8);
-    --text-white: #ffffff;
-    --text-light: #e5e7eb;
-    --text-muted: #9ca3af;
-    --accent-yellow: #ff8c42;
-    --accent-purple: #8b5cf6;
     --input-bg: rgba(20, 20, 30, 0.6);
     --input-border: rgba(255, 255, 255, 0.1);
-    --input-border-focus: rgba(139, 92, 246, 0.5);
+    --input-border-focus: rgba(123, 92, 255, 0.5);
     --error-color: #ef4444;
     --success-color: #10b981;
 }
 
 body {
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-    background: radial-gradient(ellipse at left, var(--bg-purple) 0%, var(--bg-dark) 70%);
-    color: var(--text-light);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Roboto, sans-serif;
+    background: radial-gradient(ellipse at left, rgba(26, 11, 46, 1) 0%, var(--bg) 70%);
+    color: var(--text);
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -45,12 +44,12 @@ body {
     gap: 10px;
     font-size: 20px;
     font-weight: 600;
-    color: var(--text-white);
+    color: var(--text);
     z-index: 10;
 }
 
 .logo span {
-    background: linear-gradient(135deg, var(--accent-purple), var(--accent-yellow));
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -78,8 +77,8 @@ body {
 /* Tag */
 .tag {
     display: inline-block;
-    background: var(--accent-yellow);
-    color: var(--text-white);
+    background: var(--accent2);
+    color: var(--bg);
     padding: 6px 12px;
     border-radius: 8px;
     font-size: 12px;
@@ -93,13 +92,13 @@ body {
 h1 {
     font-size: 2rem;
     font-weight: 700;
-    color: var(--text-white);
+    color: var(--text);
     margin-bottom: 12px;
     line-height: 1.2;
 }
 
 .subtitle {
-    color: var(--text-light);
+    color: var(--muted);
     font-size: 16px;
     line-height: 1.6;
     margin-bottom: 32px;
@@ -122,7 +121,7 @@ h1 {
 .form-group label {
     font-size: 14px;
     font-weight: 500;
-    color: var(--text-light);
+    color: var(--text);
 }
 
 .form-group input {
@@ -131,19 +130,19 @@ h1 {
     border-radius: 12px;
     padding: 14px 16px;
     font-size: 16px;
-    color: var(--text-white);
+    color: var(--text);
     font-family: inherit;
     transition: all 0.2s ease;
     outline: none;
 }
 
 .form-group input::placeholder {
-    color: var(--text-muted);
+    color: var(--muted2);
 }
 
 .form-group input:focus {
     border-color: var(--input-border-focus);
-    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+    box-shadow: 0 0 0 3px rgba(123, 92, 255, 0.1);
     background: rgba(20, 20, 30, 0.8);
 }
 
@@ -160,13 +159,13 @@ h1 {
 
 /* Submit Button */
 .submit-btn {
-    background: linear-gradient(135deg, var(--accent-purple), var(--accent-yellow));
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
     border: none;
     border-radius: 12px;
     padding: 16px 24px;
     font-size: 16px;
     font-weight: 600;
-    color: var(--text-white);
+    color: var(--bg);
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -179,7 +178,7 @@ h1 {
 
 .submit-btn:hover:not(:disabled) {
     transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(139, 92, 246, 0.4);
+    box-shadow: 0 8px 24px rgba(123, 92, 255, 0.4);
 }
 
 .submit-btn:active:not(:disabled) {
@@ -207,7 +206,7 @@ h1 {
     height: 64px;
     border-radius: 50%;
     background: var(--success-color);
-    color: var(--text-white);
+    color: var(--text);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -217,12 +216,12 @@ h1 {
 }
 
 .success-state h2 {
-    color: var(--text-white);
+    color: var(--text);
     margin-bottom: 12px;
 }
 
 .success-message {
-    color: var(--text-light);
+    color: var(--muted);
     margin-bottom: 32px;
 }
 
@@ -238,7 +237,7 @@ h1 {
     display: block;
     font-size: 14px;
     font-weight: 500;
-    color: var(--text-light);
+    color: var(--text);
     margin-bottom: 12px;
 }
 
@@ -256,7 +255,7 @@ h1 {
     flex: 1;
     font-family: 'Monaco', 'Menlo', 'Courier New', monospace;
     font-size: 13px;
-    color: var(--text-white);
+    color: var(--text);
     word-break: break-all;
     user-select: all;
 }
@@ -267,7 +266,7 @@ h1 {
     border-radius: 6px;
     padding: 8px;
     cursor: pointer;
-    color: var(--text-white);
+    color: var(--text);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -286,7 +285,7 @@ h1 {
 
 .api-key-warning {
     font-size: 13px;
-    color: var(--accent-yellow);
+    color: var(--accent2);
     margin-top: 8px;
 }
 
@@ -299,13 +298,13 @@ h1 {
 
 .next-steps h3 {
     font-size: 18px;
-    color: var(--text-white);
+    color: var(--text);
     margin-bottom: 16px;
 }
 
 .next-steps ol {
     padding-left: 24px;
-    color: var(--text-light);
+    color: var(--muted);
     line-height: 1.8;
 }
 
@@ -319,7 +318,7 @@ h1 {
     border-radius: 4px;
     font-family: 'Monaco', 'Menlo', 'Courier New', monospace;
     font-size: 13px;
-    color: var(--accent-yellow);
+    color: var(--accent2);
 }
 
 /* Error State */
@@ -333,7 +332,7 @@ h1 {
     height: 64px;
     border-radius: 50%;
     background: var(--error-color);
-    color: var(--text-white);
+    color: var(--text);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -343,12 +342,12 @@ h1 {
 }
 
 .error-state h2 {
-    color: var(--text-white);
+    color: var(--text);
     margin-bottom: 12px;
 }
 
 .error-message {
-    color: var(--text-light);
+    color: var(--muted);
     margin-bottom: 24px;
     padding: 16px;
     background: rgba(239, 68, 68, 0.1);
@@ -357,13 +356,13 @@ h1 {
 }
 
 .retry-btn {
-    background: var(--accent-purple);
+    background: var(--accent);
     border: none;
     border-radius: 12px;
     padding: 12px 24px;
     font-size: 14px;
     font-weight: 600;
-    color: var(--text-white);
+    color: var(--text);
     cursor: pointer;
     transition: all 0.2s ease;
     font-family: inherit;
@@ -380,7 +379,7 @@ h1 {
     bottom: 30px;
     left: 50%;
     transform: translateX(-50%);
-    color: var(--text-muted);
+    color: var(--muted2);
     font-size: 14px;
 }
 
@@ -411,7 +410,7 @@ h1 {
     height: 20px;
     margin: -10px 0 0 -10px;
     border: 2px solid rgba(255, 255, 255, 0.3);
-    border-top-color: var(--text-white);
+    border-top-color: var(--text);
     border-radius: 50%;
     animation: spin 0.6s linear infinite;
 }

@@ -258,3 +258,9 @@ orgNameInput.addEventListener('input', () => {
         orgNameError.textContent = '';
     }
 });
+
+// Update year in footer
+const year = document.getElementById('year');
+if (year) {
+    year.textContent = new Date().getFullYear();
+}
