@@ -62,39 +62,39 @@ function validateEmail(email) {
 function validateForm() {
     let isValid = true;
     
-    // Clear previous errors
-    usernameError.textContent = '';
-    emailError.textContent = '';
-    passwordError.textContent = '';
-    nameError.textContent = '';
+    // Clear previous errors (with null checks)
+    if (usernameError) usernameError.textContent = '';
+    if (emailError) emailError.textContent = '';
+    if (passwordError) passwordError.textContent = '';
+    if (nameError) nameError.textContent = '';
     
     // Validate username
-    if (!usernameInput.value.trim()) {
-        usernameError.textContent = 'Username is required';
+    if (!usernameInput || !usernameInput.value.trim()) {
+        if (usernameError) usernameError.textContent = 'Username is required';
         isValid = false;
     } else if (usernameInput.value.trim().length < 3) {
-        usernameError.textContent = 'Username must be at least 3 characters';
+        if (usernameError) usernameError.textContent = 'Username must be at least 3 characters';
         isValid = false;
     } else if (!/^[a-zA-Z0-9_-]+$/.test(usernameInput.value.trim())) {
-        usernameError.textContent = 'Username can only contain letters, numbers, underscores, and hyphens';
+        if (usernameError) usernameError.textContent = 'Username can only contain letters, numbers, underscores, and hyphens';
         isValid = false;
     }
     
     // Validate email
-    if (!emailInput.value.trim()) {
-        emailError.textContent = 'Email is required';
+    if (!emailInput || !emailInput.value.trim()) {
+        if (emailError) emailError.textContent = 'Email is required';
         isValid = false;
     } else if (!validateEmail(emailInput.value)) {
-        emailError.textContent = 'Please enter a valid email address';
+        if (emailError) emailError.textContent = 'Please enter a valid email address';
         isValid = false;
     }
     
     // Validate password
-    if (!passwordInput.value) {
-        passwordError.textContent = 'Password is required';
+    if (!passwordInput || !passwordInput.value) {
+        if (passwordError) passwordError.textContent = 'Password is required';
         isValid = false;
     } else if (passwordInput.value.length < 8) {
-        passwordError.textContent = 'Password must be at least 8 characters';
+        if (passwordError) passwordError.textContent = 'Password must be at least 8 characters';
         isValid = false;
     }
     
@@ -152,7 +152,7 @@ function showEmailSent() {
     
     if (successIcon) successIcon.textContent = '✉️';
     if (successTitle) successTitle.textContent = 'Check Your Email!';
-    if (successMsg) {
+    if (successMsg && emailInput) {
         successMsg.textContent = `We've sent a verification email to ${emailInput.value.trim()}. Please click the link in the email to verify your account and get your API key.`;
     }
     if (apiKeySection) apiKeySection.style.display = 'none';
@@ -174,16 +174,16 @@ function showEmailSent() {
 
 // Show form (for retry)
 function showForm() {
-    form.style.display = 'flex';
-    errorState.style.display = 'none';
-    successState.style.display = 'none';
+    if (form) form.style.display = 'flex';
+    if (errorState) errorState.style.display = 'none';
+    if (successState) successState.style.display = 'none';
     
     // Clear form
-    form.reset();
-    usernameError.textContent = '';
-    emailError.textContent = '';
-    passwordError.textContent = '';
-    nameError.textContent = '';
+    if (form) form.reset();
+    if (usernameError) usernameError.textContent = '';
+    if (emailError) emailError.textContent = '';
+    if (passwordError) passwordError.textContent = '';
+    if (nameError) nameError.textContent = '';
 }
 
 // Copy API key to clipboard
@@ -246,10 +246,10 @@ async function handleSubmit(e) {
     
     // Prepare request data
     const requestData = {
-        username: usernameInput.value.trim(),
-        email: emailInput.value.trim(),
-        password: passwordInput.value,
-        name: nameInput.value.trim() || undefined  // Optional field for personalization
+        username: usernameInput ? usernameInput.value.trim() : '',
+        email: emailInput ? emailInput.value.trim() : '',
+        password: passwordInput ? passwordInput.value : '',
+        name: nameInput ? (nameInput.value.trim() || undefined) : undefined  // Optional field for personalization
     };
     
     try {
