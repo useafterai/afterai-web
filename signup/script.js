@@ -1,6 +1,7 @@
 // Configuration - Update this with your API endpoint
 // For production, update this to your actual API URL (e.g., 'https://api.useafter.ai')
 // For local development, use 'http://localhost:8000'
+// Note: The API endpoint stores signup data in Azure Table Storage when configured with STORAGE_BACKEND=azure_tables
 const API_BASE_URL = 'https://api.useafter.ai'; // Update with your actual API URL
 
 // DOM Elements
@@ -167,9 +168,11 @@ async function handleSubmit(e) {
     setLoading(true);
     
     // Prepare request data
+    // Note: The API endpoint stores this data in Azure Table Storage when STORAGE_BACKEND=azure_tables
     const requestData = {
         email: emailInput.value.trim(),
-        org_name: orgNameInput.value.trim()
+        org_name: orgNameInput.value.trim(),
+        name: nameInput.value.trim() || undefined  // Optional field for personalization
     };
     
     try {

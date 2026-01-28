@@ -188,6 +188,7 @@ input:focus{
   transition: transform .18s ease, box-shadow .18s ease, filter .18s ease;
   display:inline-flex; align-items:center; gap:10px;
   white-space:nowrap;
+  text-decoration:none;
 }
 .btn:hover{
   transform: translateY(-2px);
@@ -199,6 +200,10 @@ input:focus{
 
 .hint{margin: 10px 0 0; color: var(--muted2); font-size: 12px;}
 .ok{margin: 10px 0 0; color: rgba(246,201,69,.96); font-weight: 800; font-size: 12px; min-height: 16px;}
+
+.cta-section{position:relative; z-index:1; margin-top: 24px;}
+.cta-section .btn{text-decoration:none;}
+.btn-primary{font-size: 16px; padding: 16px 24px;}
 
 .divider{
   height:1px;

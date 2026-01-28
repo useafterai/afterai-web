@@ -3,15 +3,53 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>AfterAI — Redirecting</title>
+  <title>AfterAI — Coming soon</title>
   <link rel="icon" type="image/png" href="favicon.png">
-  <meta name="description" content="AfterAI — Production AI change intelligence."/>
-  <meta http-equiv="refresh" content="0; url=signup/">
-  <script>
-    window.location.href = 'signup/';
-  </script>
+  <meta name="description" content="AfterAI is coming soon. Production AI changes require evidence."/>
+  <link rel="stylesheet" href="styles.css"/>
+  
+  <script defer src="script.js"></script>
 </head>
 <body>
-  <p>Redirecting to <a href="signup/">signup page</a>...</p>
+  <div class="bg">
+    <div class="grain"></div>
+    <div class="glow g1"></div>
+    <div class="glow g2"></div>
+    <div class="glow g3"></div>
+  </div>
+
+  <header class="topbar">
+    <div class="wrap">
+      <div class="brand">
+        <img class="logo" src="logo.png" alt="AfterAI logo" />
+        <span class="name">AfterAI</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="main">
+    <section class="card" aria-label="Coming soon">
+      <div class="badge">Coming soon</div>
+
+      <h1>Production AI changes<br/>require evidence.</h1>
+      <p class="sub">
+        AfterAI helps teams running AI in production understand upgrade risk and drift — and keep a clear decision trail when changes matter.
+      </p>
+
+      <div class="cta-section">
+        <a href="signup/" class="btn btn-primary">
+          <span>Sign Up</span>
+          <span class="arrow" aria-hidden="true">→</span>
+        </a>
+        <p class="hint">Get early access and start tracking your AI changes.</p>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="wrap foot">
+        <span>© <span id="year"></span> AfterAI</span>
+      </div>
+    </footer>
+  </main>
 </body>
 </html>
