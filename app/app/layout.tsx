@@ -118,7 +118,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                         >
                           <navItem.icon className="w-5 h-5" />
                           <span className="flex-1">{navItem.name}</span>
-                          {navItem.badge && (
+                          {"badge" in navItem && navItem.badge && (
                             <span className="px-2 py-0.5 text-xs rounded-full border border-gold-500/22 bg-gold-500/10 text-gold-500">
                               {navItem.badge}
                             </span>
