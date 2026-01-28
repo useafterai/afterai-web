@@ -136,6 +136,8 @@ afterai-web/
 
 Signup POSTs to `{NEXT_PUBLIC_API_BASE_URL}/signup` with `username`, `email`, `password`, and optional `name`. Other flows use mock/stub data until wired.
 
+**Email verification:** The backend emails a link to `{WEBSITE_BASE_URL}/signup/validate.html?token=...`. The Next app redirects `validate.html` → `/signup/validate`, calls `GET {NEXT_PUBLIC_API_BASE_URL}/validate/{token}`, then shows the API key or an error. Ensure the backend `WEBSITE_BASE_URL` (default `https://useafter.ai`) matches the deployed Next.js URL.
+
 ## Deployment
 
 The application can be deployed to:
