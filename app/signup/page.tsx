@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { FiArrowRight, FiCheck, FiGithub } from "react-icons/fi";
 
@@ -19,68 +20,66 @@ export default function SignupPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
-    // Stub: In production, call API
     await new Promise((resolve) => setTimeout(resolve, 1000));
-    
-    // Redirect to verify page
     router.push(`/verify?email=${encodeURIComponent(formData.email)}`);
   };
 
+  const benefits = [
+    "Capture ACE without impacting performance",
+    "Assess upgrade risk with AURA",
+    "Clear decision trail for production changes",
+    "Monitor drift and quality metrics",
+  ];
+
   return (
-    <div className="min-h-screen bg-dark flex">
-      {/* Background effects */}
+    <div className="min-h-screen bg-dark flex flex-col">
+      {/* Distinct background: subtle gradient band, no full Arize-style glow */}
       <div className="fixed inset-0 -z-10 overflow-hidden">
-        <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'180\' height=\'180\'%3E%3Cfilter id=\'n\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'.9\' numOctaves=\'3\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'180\' height=\'180\' filter=\'url(%23n)\' opacity=\'.22\'/%3E%3C/svg%3E')] opacity-20 mix-blend-overlay rotate-12" />
-        <div className="absolute -left-72 -top-72 h-[820px] w-[820px] rounded-full bg-gradient-radial from-purple-500/30 to-transparent blur-[70px] opacity-28" />
-        <div className="absolute -right-80 top-32 h-[820px] w-[820px] rounded-full bg-gradient-radial from-gold-500/30 to-transparent blur-[70px] opacity-28" />
+        <div className="absolute inset-0 bg-dark" />
+        <div className="absolute left-0 top-0 w-[600px] h-[600px] bg-purple-500/10 rounded-full blur-[120px] -translate-x-1/2 -translate-y-1/2" />
+        <div className="absolute right-0 bottom-0 w-[500px] h-[500px] bg-gold-500/8 rounded-full blur-[100px] translate-x-1/3 translate-y-1/3" />
+        <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'180\' height=\'180\'%3E%3Cfilter id=\'n\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'.9\' numOctaves=\'3\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'180\' height=\'180\' filter=\'url(%23n)\' opacity=\'.08\'/%3E%3C/svg%3E')] opacity-50 mix-blend-overlay" />
       </div>
 
-      {/* Left Panel - Benefits */}
-      <div className="hidden lg:flex lg:w-1/2 p-12 flex-col justify-center">
-        <Link href="/" className="flex items-center gap-3 mb-12">
-          <div className="h-7 w-7 rounded-lg bg-gradient-to-br from-purple-500 to-gold-500 shadow-lg" />
-          <span className="text-xl font-bold">AfterAI</span>
-        </Link>
-        <div className="max-w-md">
-          <h2 className="text-3xl font-bold mb-6">Start tracking AI changes</h2>
-          <div className="space-y-4">
-            {[
-              "Capture AI change events (ACE) without impacting performance",
-              "Assess upgrade risk with AURA before deploying changes",
-              "Keep a clear decision trail for production AI changes",
-              "Monitor drift and quality metrics across your AI systems",
-            ].map((benefit) => (
-              <div key={benefit} className="flex items-start gap-3">
-                <FiCheck className="mt-1 text-gold-500 flex-shrink-0" />
-                <span className="text-muted">{benefit}</span>
-              </div>
-            ))}
-          </div>
+      <header className="border-b border-white/8 bg-dark/80 backdrop-blur-md">
+        <div className="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
+          <Link href="/" className="flex items-center gap-3">
+            <Image src="/logo.png" alt="AfterAI" width={28} height={28} className="h-7 w-auto" />
+            <span className="text-xl font-bold">AfterAI</span>
+          </Link>
+          <Link href="/login" className="text-sm text-muted hover:text-white transition-colors">
+            Sign in
+          </Link>
         </div>
-      </div>
+      </header>
 
-      {/* Right Panel - Form */}
-      <div className="flex-1 flex items-center justify-center p-6">
-        <div className="w-full max-w-md">
-          <div className="lg:hidden mb-8">
-            <Link href="/" className="flex items-center gap-3">
-              <div className="h-7 w-7 rounded-lg bg-gradient-to-br from-purple-500 to-gold-500 shadow-lg" />
-              <span className="text-xl font-bold">AfterAI</span>
-            </Link>
+      <main className="flex-1 flex flex-col items-center justify-center px-6 py-12 md:py-16">
+        <div className="w-full max-w-[420px]">
+          {/* Compact benefits — not a big left panel */}
+          <div className="mb-8">
+            <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-muted mb-6">
+              {benefits.map((b) => (
+                <span key={b} className="flex items-center gap-1.5">
+                  <FiCheck className="text-gold-500 flex-shrink-0" />
+                  {b}
+                </span>
+              ))}
+            </div>
           </div>
 
-          <div className="p-8 rounded-2xl border border-white/14 bg-gradient-to-b from-white/8 to-white/4 backdrop-blur-xl">
-            <h1 className="text-2xl font-bold mb-2">Create your account</h1>
-            <p className="text-muted mb-8">Start monitoring your AI changes</p>
+          {/* Form container: distinct — left accent, different proportions */}
+          <div className="relative pl-5 py-8 pr-8 rounded-2xl border border-white/10 bg-white/[0.04]">
+            <div className="absolute left-0 top-8 bottom-8 w-1 rounded-full bg-gradient-to-b from-purple-500/60 to-gold-500/40" />
+            <h1 className="text-xl font-bold mb-1">Create your account</h1>
+            <p className="text-sm text-muted mb-6">Start monitoring your AI changes</p>
 
-            <form onSubmit={handleSubmit} className="space-y-5">
+            <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-sm font-semibold mb-2">Data Region</label>
+                <label className="block text-xs font-semibold text-muted2 uppercase tracking-wider mb-1.5">Data Region</label>
                 <select
                   value={formData.dataRegion}
                   onChange={(e) => setFormData({ ...formData, dataRegion: e.target.value })}
-                  className="w-full px-4 py-3 rounded-lg border border-white/16 bg-black/22 text-white outline-none focus:border-purple-500/55 focus:ring-4 focus:ring-purple-500/16"
+                  className="input-afterai"
                   required
                 >
                   <option value="US">United States</option>
@@ -89,50 +88,53 @@ export default function SignupPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold mb-2">Full Name</label>
+                <label className="block text-xs font-semibold text-muted2 uppercase tracking-wider mb-1.5">Full Name</label>
                 <input
                   type="text"
                   value={formData.fullName}
                   onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-                  className="w-full px-4 py-3 rounded-lg border border-white/16 bg-black/22 text-white outline-none focus:border-purple-500/55 focus:ring-4 focus:ring-purple-500/16"
+                  className="input-afterai"
+                  placeholder="Jane Doe"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold mb-2">Email</label>
+                <label className="block text-xs font-semibold text-muted2 uppercase tracking-wider mb-1.5">Email</label>
                 <input
                   type="email"
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  className="w-full px-4 py-3 rounded-lg border border-white/16 bg-black/22 text-white outline-none focus:border-purple-500/55 focus:ring-4 focus:ring-purple-500/16"
+                  className="input-afterai"
+                  placeholder="you@company.com"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold mb-2">Password</label>
+                <label className="block text-xs font-semibold text-muted2 uppercase tracking-wider mb-1.5">Password</label>
                 <input
                   type="password"
                   value={formData.password}
                   onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                  className="w-full px-4 py-3 rounded-lg border border-white/16 bg-black/22 text-white outline-none focus:border-purple-500/55 focus:ring-4 focus:ring-purple-500/16"
+                  className="input-afterai"
+                  placeholder="At least 8 characters"
                   required
                   minLength={8}
                 />
               </div>
 
-              <div className="flex items-start gap-3">
+              <div className="flex items-start gap-3 pt-1">
                 <input
                   type="checkbox"
                   id="terms"
                   checked={formData.agreeToTerms}
                   onChange={(e) => setFormData({ ...formData, agreeToTerms: e.target.checked })}
-                  className="mt-1 w-4 h-4 rounded border-white/16 bg-black/22 text-purple-500 focus:ring-purple-500/16"
+                  className="mt-1 w-4 h-4 rounded border-white/16 bg-[#0f0f18] text-purple-500 focus:ring-2 focus:ring-purple-500/30"
                   required
                 />
                 <label htmlFor="terms" className="text-sm text-muted">
-                  I agree to the <Link href="/terms" className="text-purple-400 hover:text-purple-300">Terms of Service</Link> and{" "}
+                  I agree to the <Link href="/terms" className="text-purple-400 hover:text-purple-300">Terms</Link> and{" "}
                   <Link href="/privacy" className="text-purple-400 hover:text-purple-300">Privacy Policy</Link>
                 </label>
               </div>
@@ -140,29 +142,21 @@ export default function SignupPage() {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full px-6 py-3 rounded-lg bg-gradient-to-r from-purple-500 to-gold-500 text-dark font-bold hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                className="w-full mt-2 px-6 py-3 rounded-xl bg-gradient-to-r from-purple-500 to-gold-500 text-dark font-bold hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
               >
                 {isSubmitting ? "Creating account..." : "Sign Up"}
                 {!isSubmitting && <FiArrowRight />}
               </button>
             </form>
 
-            <div className="mt-6">
-              <div className="relative">
-                <div className="absolute inset-0 flex items-center">
-                  <div className="w-full border-t border-white/12"></div>
-                </div>
-                <div className="relative flex justify-center text-sm">
-                  <span className="px-2 bg-transparent text-muted2">Or continue with</span>
-                </div>
-              </div>
-
-              <div className="mt-6 grid grid-cols-2 gap-3">
+            <div className="mt-6 pt-6 border-t border-white/10">
+              <p className="text-center text-xs text-muted2 mb-3">Or continue with</p>
+              <div className="grid grid-cols-2 gap-3">
                 <button
                   type="button"
-                  className="px-4 py-3 rounded-lg border border-white/16 bg-white/5 hover:bg-white/8 transition-all flex items-center justify-center gap-2"
+                  className="py-2.5 rounded-lg border border-white/12 bg-white/5 text-sm font-medium hover:bg-white/8 transition-all flex items-center justify-center gap-2"
                 >
-                  <svg className="w-5 h-5" viewBox="0 0 24 24">
+                  <svg className="w-4 h-4" viewBox="0 0 24 24">
                     <path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
                     <path fill="currentColor" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
                     <path fill="currentColor" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" />
@@ -172,9 +166,9 @@ export default function SignupPage() {
                 </button>
                 <button
                   type="button"
-                  className="px-4 py-3 rounded-lg border border-white/16 bg-white/5 hover:bg-white/8 transition-all flex items-center justify-center gap-2"
+                  className="py-2.5 rounded-lg border border-white/12 bg-white/5 text-sm font-medium hover:bg-white/8 transition-all flex items-center justify-center gap-2"
                 >
-                  <FiGithub className="w-5 h-5" />
+                  <FiGithub className="w-4 h-4" />
                   GitHub
                 </button>
               </div>
@@ -188,7 +182,7 @@ export default function SignupPage() {
             </p>
           </div>
         </div>
-      </div>
+      </main>
     </div>
   );
 }

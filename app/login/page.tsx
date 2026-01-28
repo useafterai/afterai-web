@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { FiArrowRight } from "react-icons/fi";
 
@@ -17,42 +18,37 @@ export default function LoginPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
-    // Stub: In production, call API
     await new Promise((resolve) => setTimeout(resolve, 1000));
-    
-    // Redirect to app console
-    router.push("/app");
+    router.push("/console-coming-soon");
   };
 
   return (
     <div className="min-h-screen bg-dark flex items-center justify-center p-6">
-      {/* Background effects */}
       <div className="fixed inset-0 -z-10 overflow-hidden">
-        <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'180\' height=\'180\'%3E%3Cfilter id=\'n\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'.9\' numOctaves=\'3\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'180\' height=\'180\' filter=\'url(%23n)\' opacity=\'.22\'/%3E%3C/svg%3E')] opacity-20 mix-blend-overlay rotate-12" />
-        <div className="absolute -left-72 -top-72 h-[820px] w-[820px] rounded-full bg-gradient-radial from-purple-500/30 to-transparent blur-[70px] opacity-28" />
-        <div className="absolute -right-80 top-32 h-[820px] w-[820px] rounded-full bg-gradient-radial from-gold-500/30 to-transparent blur-[70px] opacity-28" />
+        <div className="absolute inset-0 bg-dark" />
+        <div className="absolute left-0 top-0 w-[600px] h-[600px] bg-purple-500/10 rounded-full blur-[120px] -translate-x-1/2 -translate-y-1/2" />
+        <div className="absolute right-0 bottom-0 w-[500px] h-[500px] bg-gold-500/8 rounded-full blur-[100px] translate-x-1/3 translate-y-1/3" />
       </div>
 
       <div className="w-full max-w-md">
         <div className="mb-8 text-center">
           <Link href="/" className="inline-flex items-center gap-3 mb-4">
-            <div className="h-7 w-7 rounded-lg bg-gradient-to-br from-purple-500 to-gold-500 shadow-lg" />
+            <Image src="/logo.png" alt="AfterAI" width={28} height={28} className="h-7 w-auto" />
             <span className="text-xl font-bold">AfterAI</span>
           </Link>
         </div>
 
-        <div className="p-8 rounded-2xl border border-white/14 bg-gradient-to-b from-white/8 to-white/4 backdrop-blur-xl">
+        <div className="p-8 rounded-2xl border border-white/14 bg-white/[0.04]">
           <h1 className="text-2xl font-bold mb-2">Sign in to your account</h1>
           <p className="text-muted mb-8">Welcome back</p>
 
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
-              <label className="block text-sm font-semibold mb-2">Data Region</label>
+              <label className="block text-xs font-semibold text-muted2 uppercase tracking-wider mb-1.5">Data Region</label>
               <select
                 value={formData.dataRegion}
                 onChange={(e) => setFormData({ ...formData, dataRegion: e.target.value })}
-                className="w-full px-4 py-3 rounded-lg border border-white/16 bg-black/22 text-white outline-none focus:border-purple-500/55 focus:ring-4 focus:ring-purple-500/16"
+                className="input-afterai"
                 required
               >
                 <option value="US">United States</option>
@@ -61,23 +57,25 @@ export default function LoginPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-semibold mb-2">Email</label>
+              <label className="block text-xs font-semibold text-muted2 uppercase tracking-wider mb-1.5">Email</label>
               <input
                 type="email"
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="w-full px-4 py-3 rounded-lg border border-white/16 bg-black/22 text-white outline-none focus:border-purple-500/55 focus:ring-4 focus:ring-purple-500/16"
+                className="input-afterai"
+                placeholder="you@company.com"
                 required
               />
             </div>
 
             <div>
-              <label className="block text-sm font-semibold mb-2">Password</label>
+              <label className="block text-xs font-semibold text-muted2 uppercase tracking-wider mb-1.5">Password</label>
               <input
                 type="password"
                 value={formData.password}
                 onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                className="w-full px-4 py-3 rounded-lg border border-white/16 bg-black/22 text-white outline-none focus:border-purple-500/55 focus:ring-4 focus:ring-purple-500/16"
+                className="input-afterai"
+                placeholder="••••••••"
                 required
               />
             </div>

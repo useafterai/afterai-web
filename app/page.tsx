@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { FiArrowRight, FiCheck } from "react-icons/fi";
 
 export default function LandingPage() {
@@ -16,7 +17,7 @@ export default function LandingPage() {
       <header className="sticky top-0 z-50 backdrop-blur-xl bg-dark/55 border-b border-white/8">
         <nav className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-3">
-            <div className="h-7 w-7 rounded-lg bg-gradient-to-br from-purple-500 to-gold-500 shadow-lg" />
+            <Image src="/logo.png" alt="AfterAI" width={28} height={28} className="h-7 w-auto" />
             <span className="text-xl font-bold">AfterAI</span>
           </Link>
           <div className="hidden md:flex items-center gap-8">
@@ -53,15 +54,15 @@ export default function LandingPage() {
                 <FiArrowRight />
               </Link>
               <Link
-                href="/app"
+                href="/console-coming-soon"
                 className="px-8 py-4 rounded-xl border border-white/16 bg-white/5 text-white font-semibold hover:bg-white/8 transition-all"
               >
-                View the console
+                Console (Coming Soon)
               </Link>
             </div>
           </div>
 
-          {/* Value Tiles */}
+          {/* Value Tiles — AURA / ACE / PACR */}
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-20">
             <ValueTile
               title="AURA"
@@ -79,32 +80,22 @@ export default function LandingPage() {
               description="Decision artifact for locked changes. Keep a clear, defensible trail when changes matter most."
               badge="Coming soon"
             />
-            <ValueTile
-              title="Confidence-Weighted Deltas"
-              subtitle="Multi-dimensional analysis"
-              description="Compare quality, cost, latency, stability, and safety metrics with statistical confidence."
-            />
-            <ValueTile
-              title="Provider-Neutral"
-              subtitle="Out-of-band collection"
-              description="Works with any AI provider. Fail-open architecture that doesn't sit in your inference path."
-            />
-            <ValueTile
-              title="No Routing Proxy"
-              subtitle="Zero hot-path impact"
-              description="Capture change events without intercepting requests. Your production performance stays intact."
-            />
           </div>
 
-          {/* Social Proof */}
-          <div className="mt-24 pt-16 border-t border-white/12">
-            <p className="text-sm text-muted2 text-center mb-8">Trusted by teams running AI in production</p>
-            <div className="flex flex-wrap justify-center items-center gap-8 opacity-60">
-              {["Company A", "Company B", "Company C", "Company D"].map((name) => (
-                <div key={name} className="text-muted2 font-semibold">
-                  {name}
-                </div>
-              ))}
+          {/* Distinct section: Deltas / Provider-Neutral / No Proxy */}
+          <div className="mt-20 rounded-2xl border border-white/10 bg-white/[0.04] p-8 md:p-12">
+            <div className="grid md:grid-cols-2 gap-10 md:gap-16 items-center">
+              <div>
+                <h2 className="text-2xl font-bold mb-3">Built for production, not your hot path</h2>
+                <p className="text-muted leading-relaxed">
+                  AfterAI gives you confidence-weighted deltas, works with any provider, and never sits in front of your inference.
+                </p>
+              </div>
+              <div className="flex flex-col sm:flex-row md:flex-col gap-4">
+                <PillItem label="Confidence-weighted deltas" desc="Quality, cost, latency, stability, safety" />
+                <PillItem label="Provider-neutral, out-of-band" desc="Fail-open; not in your inference path" />
+                <PillItem label="No routing proxy" desc="Zero hot-path impact; capture without intercepting" />
+              </div>
             </div>
           </div>
 
@@ -119,7 +110,7 @@ export default function LandingPage() {
                 <PricingCard
                   name="Monitor"
                   price="$0"
-                  period="forever"
+                  period="month"
                   features={["25 ACE events/month", "Change Feed access", "Basic dashboards", "Email support"]}
                   highlighted
                 />
@@ -128,12 +119,14 @@ export default function LandingPage() {
                   price="$99"
                   period="month"
                   features={["Unlimited ACE events", "Full AURA assessments", "Advanced analytics", "Priority support"]}
+                  comingSoon
                 />
                 <PricingCard
                   name="Enterprise"
                   price="Custom"
                   period=""
                   features={["PACR access", "Custom integrations", "Dedicated support", "SLA guarantees"]}
+                  comingSoon
                 />
               </div>
             </div>
@@ -170,7 +163,16 @@ function ValueTile({ title, subtitle, description, badge }: { title: string; sub
   );
 }
 
-function PricingCard({ name, price, period, features, highlighted }: { name: string; price: string; period: string; features: string[]; highlighted?: boolean }) {
+function PillItem({ label, desc }: { label: string; desc: string }) {
+  return (
+    <div className="flex items-start gap-3 px-4 py-3 rounded-xl bg-white/5 border border-white/8">
+      <span className="text-sm font-semibold text-white flex-shrink-0">{label}</span>
+      <span className="text-sm text-muted2">{desc}</span>
+    </div>
+  );
+}
+
+function PricingCard({ name, price, period, features, highlighted, comingSoon }: { name: string; price: string; period: string; features: string[]; highlighted?: boolean; comingSoon?: boolean }) {
   return (
     <div className={`p-6 rounded-xl border ${highlighted ? "border-gold-500/30 bg-gradient-to-b from-white/10 to-white/5" : "border-white/10 bg-white/5"}`}>
       <h3 className="font-bold text-xl mb-2">{name}</h3>
@@ -193,6 +195,15 @@ function PricingCard({ name, price, period, features, highlighted }: { name: str
         >
           Get started
         </Link>
+      )}
+      {comingSoon && (
+        <button
+          type="button"
+          disabled
+          className="mt-6 w-full px-4 py-2 rounded-lg border border-white/12 bg-white/5 text-muted2 font-semibold cursor-not-allowed"
+        >
+          Coming soon
+        </button>
       )}
     </div>
   );

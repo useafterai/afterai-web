@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { IconType } from "react-icons";
 import {
@@ -97,7 +98,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           {/* Logo */}
           <div className="p-6 border-b border-white/8 flex items-center justify-between">
             <Link href="/app" className="flex items-center gap-3">
-              <div className="h-7 w-7 rounded-lg bg-gradient-to-br from-purple-500 to-gold-500 shadow-lg" />
+              <Image src="/logo.png" alt="AfterAI" width={28} height={28} className="h-7 w-auto" />
               <span className="text-lg font-bold">AfterAI</span>
             </Link>
             <button

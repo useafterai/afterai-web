@@ -76,3 +76,35 @@ a {
 .animate-float {
   animation: float 10s ease-in-out infinite;
 }
+
+/* Form inputs: visible text, placeholder, caret, focus */
+.input-afterai {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: #0f0f18;
+  color: #f5f5f7;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  caret-color: #a78bfa;
+}
+.input-afterai::placeholder {
+  color: rgba(245, 245, 247, 0.45);
+}
+.input-afterai:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+}
+.input-afterai:focus {
+  border-color: rgba(123, 92, 255, 0.6);
+  box-shadow: 0 0 0 3px rgba(123, 92, 255, 0.2);
+}
+select.input-afterai {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%239ca3af'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 1.25rem;
+  padding-right: 2.5rem;
+}
