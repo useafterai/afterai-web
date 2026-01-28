@@ -105,8 +105,19 @@
                     let errorMsg = 'Failed to verify account. Please try again.';
                     try {
                         const errorData = await response.json();
-                        errorMsg = errorData.detail || errorData.message || errorMsg;
+                        console.error('Validation error response:', errorData);
+                        
+                        // Handle different error types
+                        if (Array.isArray(errorData.detail)) {
+                            // FastAPI validation errors
+                            errorMsg = errorData.detail[0]?.msg || errorData.detail[0] || errorMsg;
+                        } else if (errorData.detail) {
+                            errorMsg = errorData.detail;
+                        } else if (errorData.message) {
+                            errorMsg = errorData.message;
+                        }
                     } catch (parseError) {
+                        console.error('Failed to parse error response:', parseError);
                         errorMsg = response.statusText || `Server error (${response.status})`;
                     }
                     throw new Error(errorMsg);
@@ -134,8 +145,8 @@
                     errorMessageText = error.message;
                 }
                 
-                showError(errorMessageText);
                 console.error('Validation error:', error);
+                showError(errorMessageText);
             }
         }
 
