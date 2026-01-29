@@ -79,10 +79,11 @@ az containerapp update \
 Create a `.env.local` file for local development:
 
 ```env
-NEXT_PUBLIC_API_URL=http://localhost:8000
+NEXT_PUBLIC_API_BASE_URL=http://localhost:8000
+AFTERAI_AUTH_SECRET=your-secret-min-32-chars
 ```
 
-For production, set these in your deployment platform.
+For production, set these in your deployment platform. `AFTERAI_AUTH_SECRET` must match the backend value (used for JWT verification in middleware).
 
 ## Vercel Deployment (Alternative)
 
@@ -99,4 +100,4 @@ Or connect your GitHub repository to Vercel for automatic deployments.
 - The app uses Next.js standalone output mode for Docker
 - All pages are server-rendered by default
 - Client components are marked with "use client"
-- Mock authentication is in place - replace with real API calls
+- Login uses FastAPI `POST /login`; session stored in httpOnly cookie. Set `AFTERAI_AUTH_SECRET` in Next.js and backend.

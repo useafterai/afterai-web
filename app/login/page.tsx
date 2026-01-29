@@ -1,24 +1,51 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { FiArrowRight } from "react-icons/fi";
 
-export default function LoginPage() {
+function LoginForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const returnTo = searchParams.get("returnTo") || "/console";
+
   const [formData, setFormData] = useState({
     identifier: "",
     password: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError(null);
     setIsSubmitting(true);
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    router.push("/console-coming-soon");
+    try {
+      const res = await fetch("/api/session/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          identifier: formData.identifier,
+          password: formData.password,
+        }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        setError("Invalid credentials");
+        return;
+      }
+      if (data?.ok) {
+        router.push(returnTo);
+        return;
+      }
+      setError("Invalid credentials");
+    } catch {
+      setError("Invalid credentials");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -47,7 +74,10 @@ export default function LoginPage() {
               <input
                 type="text"
                 value={formData.identifier}
-                onChange={(e) => setFormData({ ...formData, identifier: e.target.value })}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  setError(null);
+                  setFormData({ ...formData, identifier: e.target.value });
+                }}
                 className="input-afterai"
                 placeholder="Email or username"
                 required
@@ -59,12 +89,21 @@ export default function LoginPage() {
               <input
                 type="password"
                 value={formData.password}
-                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  setError(null);
+                  setFormData({ ...formData, password: e.target.value });
+                }}
                 className="input-afterai"
                 placeholder="••••••••"
                 required
               />
             </div>
+
+            {error && (
+              <p className="text-red-400 text-sm" role="alert">
+                {error}
+              </p>
+            )}
 
             <button
               type="submit"
@@ -77,7 +116,7 @@ export default function LoginPage() {
           </form>
 
           <p className="mt-6 text-center text-sm text-muted2">
-            Don't have an account?{" "}
+            Don&apos;t have an account?{" "}
             <Link href="/signup" className="text-purple-400 hover:text-purple-300 font-semibold">
               Sign up
             </Link>
@@ -85,5 +124,19 @@ export default function LoginPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-dark flex items-center justify-center">
+          <p className="text-muted">Loading…</p>
+        </div>
+      }
+    >
+      <LoginForm />
+    </Suspense>
   );
 }

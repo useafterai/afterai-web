@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { IconType } from "react-icons";
 import {
   FiHome,
@@ -41,6 +41,12 @@ function isNavSection(entry: NavEntry): entry is NavSection {
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const pathname = usePathname();
+  const router = useRouter();
+
+  const handleSignOut = async () => {
+    await fetch("/api/session/logout", { method: "POST" });
+    router.push("/console-coming-soon");
+  };
 
   const navigation: NavEntry[] = [
     { name: "Home", href: "/app", icon: FiHome },
@@ -179,13 +185,14 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                 <div className="text-xs text-muted2 truncate">user@example.com</div>
               </div>
             </div>
-            <Link
-              href="/login"
-              className="mt-2 flex items-center gap-3 px-3 py-2 rounded-lg text-muted hover:bg-white/5 hover:text-white transition-all"
+            <button
+              type="button"
+              onClick={handleSignOut}
+              className="mt-2 w-full flex items-center gap-3 px-3 py-2 rounded-lg text-muted hover:bg-white/5 hover:text-white transition-all text-left"
             >
               <FiLogOut className="w-5 h-5" />
               <span>Sign out</span>
-            </Link>
+            </button>
           </div>
         </div>
       </aside>
