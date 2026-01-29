@@ -83,7 +83,13 @@ NEXT_PUBLIC_API_BASE_URL=http://localhost:8000
 AFTERAI_AUTH_SECRET=your-secret-min-32-chars
 ```
 
-For production, set these in your deployment platform. `AFTERAI_AUTH_SECRET` must match the backend value (used for JWT verification in middleware).
+For **production (e.g. Vercel)** when the API is behind Cloudflare:
+
+- **`AFTERAI_INTERNAL_API_BASE_URL`** (required): Internal API URL used by the `/api/session/login` proxy only. Set to the Azure Container App FQDN (e.g. `https://<app>.azurecontainerapps.io`). Server-to-server login calls use this to bypass Cloudflare; without it, Cloudflare can block those requests (403) and login will fail.
+- **`AFTERAI_AUTH_SECRET`**: Must match the backend; used for JWT verification in middleware.
+- **`NEXT_PUBLIC_API_BASE_URL`**: Used by the browser for signup/validate (e.g. `https://api.useafter.ai`).
+
+If `AFTERAI_INTERNAL_API_BASE_URL` is missing in production, the login proxy returns **503** with a clear error.
 
 ## Vercel Deployment (Alternative)
 
@@ -94,6 +100,19 @@ Vercel is the recommended platform for Next.js apps:
 3. Follow the prompts
 
 Or connect your GitHub repository to Vercel for automatic deployments.
+
+## Validation: signup → validate → login → /console
+
+1. **Signup:** Browser POST to `api.useafter.ai/signup` (via `NEXT_PUBLIC_API_BASE_URL`). Cloudflare allows browser traffic.
+2. **Validate:** User clicks email link → `.../signup/validate?token=...`. Browser GETs `api.useafter.ai/validate/...`.
+3. **Login:** Browser POST to `/api/session/login`. Next.js server calls **internal** API URL (`AFTERAI_INTERNAL_API_BASE_URL`) to bypass Cloudflare, sets `afterai_session` cookie, returns 200.
+4. **Redirect:** Client redirects to `returnTo` (default `/console`). Middleware allows access when session is valid.
+
+Ensure `AFTERAI_INTERNAL_API_BASE_URL` is set in production so the login proxy reaches the backend.
+
+## Middleware and static assets
+
+Middleware runs only on `/app`, `/app/*`, `/console`, `/console-coming-soon`, `/signup/validate.html`. It explicitly bypasses `/_next/*`, `/favicon.*` so static assets are never gated. `/api` is not in the matcher.
 
 ## Notes
 

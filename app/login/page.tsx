@@ -33,7 +33,7 @@ function LoginForm() {
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) {
-        setError("Invalid credentials");
+        setError(res.status === 503 ? "Login temporarily unavailable. Please try again later." : "Invalid credentials");
         return;
       }
       if (data?.ok) {

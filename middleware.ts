@@ -23,6 +23,15 @@ async function hasValidSession(request: NextRequest): Promise<boolean> {
 export async function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname;
 
+  // Never gate static assets (bypass early)
+  if (
+    path.startsWith("/_next") ||
+    path === "/favicon.ico" ||
+    /^\/favicon\.(ico|png|svg|webp)(\?|$)/.test(path)
+  ) {
+    return NextResponse.next();
+  }
+
   // Email validation links: /signup/validate.html?token=... → /signup/validate
   if (path === "/signup/validate.html") {
     const url = new URL("/signup/validate", request.url);
@@ -52,5 +61,12 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/app", "/app/:path*", "/console", "/console-coming-soon", "/signup/validate.html"],
+  // Only run on auth-relevant routes. Excludes /api, /_next, favicon, /login, /, etc.
+  matcher: [
+    "/app",
+    "/app/:path*",
+    "/console",
+    "/console-coming-soon",
+    "/signup/validate.html",
+  ],
 };

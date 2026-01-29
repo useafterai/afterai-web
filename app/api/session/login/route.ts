@@ -1,16 +1,37 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const API_BASE =
-  process.env.NEXT_PUBLIC_API_BASE_URL ||
-  process.env.AFTERAI_API_BASE_URL || // 👈 fallback just in case
-  "https://api.useafter.ai";
-
 const COOKIE_NAME = "afterai_session";
 const MAX_AGE_DAYS = 7;
 const MAX_AGE_SECONDS = MAX_AGE_DAYS * 24 * 60 * 60;
 
+function getLoginApiBase(): { base: string; error?: string } {
+  const isProd = process.env.NODE_ENV === "production";
+  const internal = process.env.AFTERAI_INTERNAL_API_BASE_URL?.trim();
+  const publicBase =
+    process.env.NEXT_PUBLIC_API_BASE_URL?.trim() || "https://api.useafter.ai";
+
+  if (isProd) {
+    if (!internal) {
+      return {
+        base: "",
+        error:
+          "AFTERAI_INTERNAL_API_BASE_URL must be set in production for server-to-server login (bypass Cloudflare).",
+      };
+    }
+    return { base: internal.replace(/\/$/, "") };
+  }
+
+  return { base: (internal || publicBase).replace(/\/$/, "") };
+}
+
 export async function POST(request: NextRequest) {
-  console.log("[session/login] API_BASE =", API_BASE); // 👈
+  const { base, error } = getLoginApiBase();
+  if (error) {
+    return NextResponse.json(
+      { ok: false, error },
+      { status: 503 }
+    );
+  }
 
   let body: { identifier?: string; password?: string; returnTo?: string };
   try {
@@ -24,12 +45,10 @@ export async function POST(request: NextRequest) {
   const password = typeof body?.password === "string" ? body.password : "";
 
   if (!identifier || !password) {
-    console.log("[session/login] missing identifier or password"); // 👈
     return NextResponse.json({ ok: false }, { status: 401 });
   }
 
-  const url = `${API_BASE.replace(/\/$/, "")}/login`;
-  console.log("[session/login] POST", url); // 👈
+  const url = `${base}/login`;
 
   const res = await fetch(url, {
     method: "POST",
@@ -37,10 +56,7 @@ export async function POST(request: NextRequest) {
     body: JSON.stringify({ identifier, password }),
   });
 
-  console.log("[session/login] backend status =", res.status); // 👈
-
   const data = await res.json().catch(() => ({}));
-  console.log("[session/login] backend response =", data); // 👈
 
   if (!res.ok) {
     return NextResponse.json({ ok: false }, { status: 401 });
@@ -48,7 +64,6 @@ export async function POST(request: NextRequest) {
 
   const token = data?.token;
   if (!token || typeof token !== "string") {
-    console.log("[session/login] missing token in response"); // 👈
     return NextResponse.json({ ok: false }, { status: 502 });
   }
 
