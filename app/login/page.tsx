@@ -9,8 +9,7 @@ import { FiArrowRight } from "react-icons/fi";
 export default function LoginPage() {
   const router = useRouter();
   const [formData, setFormData] = useState({
-    dataRegion: "US",
-    email: "",
+    identifier: "",
     password: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -44,26 +43,13 @@ export default function LoginPage() {
 
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
-              <label className="block text-xs font-semibold text-muted2 uppercase tracking-wider mb-1.5">Data Region</label>
-              <select
-                value={formData.dataRegion}
-                onChange={(e) => setFormData({ ...formData, dataRegion: e.target.value })}
-                className="input-afterai"
-                required
-              >
-                <option value="US">United States</option>
-                <option value="EU">European Union</option>
-              </select>
-            </div>
-
-            <div>
-              <label className="block text-xs font-semibold text-muted2 uppercase tracking-wider mb-1.5">Email</label>
+              <label className="block text-xs font-semibold text-muted2 uppercase tracking-wider mb-1.5">Email or username</label>
               <input
-                type="email"
-                value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                type="text"
+                value={formData.identifier}
+                onChange={(e) => setFormData({ ...formData, identifier: e.target.value })}
                 className="input-afterai"
-                placeholder="you@company.com"
+                placeholder="Email or username"
                 required
               />
             </div>
@@ -89,25 +75,6 @@ export default function LoginPage() {
               {!isSubmitting && <FiArrowRight />}
             </button>
           </form>
-
-          <div className="mt-6">
-            <div className="relative">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-white/12"></div>
-              </div>
-              <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-transparent text-muted2">Or use SSO</span>
-              </div>
-            </div>
-
-            <button
-              type="button"
-              disabled
-              className="mt-6 w-full px-4 py-3 rounded-lg border border-white/16 bg-white/5 text-muted2 cursor-not-allowed"
-            >
-              SAML SSO (Coming soon)
-            </button>
-          </div>
 
           <p className="mt-6 text-center text-sm text-muted2">
             Don't have an account?{" "}
