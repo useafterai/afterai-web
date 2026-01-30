@@ -32,18 +32,18 @@ export default function LandingPage() {
         </nav>
       </header>
 
-      {/* Hero Section */}
       <main className="relative">
         <section className="max-w-5xl mx-auto px-6 py-24 md:py-32">
-          <div className="text-center mb-16">
+          {/* 1. Hero */}
+          <div id="product" className="text-center mb-20">
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-gold-500/22 bg-gold-500/10 text-gold-500 text-xs font-bold mb-6">
-              <span>Monitor Plan Available</span>
+              <span>Monitor available now · More plans coming soon</span>
             </div>
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
               Production AI changes<br />require evidence.
             </h1>
             <p className="text-xl text-muted max-w-3xl mx-auto mb-10 leading-relaxed">
-              AfterAI helps teams running AI in production understand upgrade risk and drift — and keep a clear decision trail when changes matter.
+              AfterAI gives platform teams upgrade risk, change visibility, and a defensible decision trail — without touching the inference path.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <Link
@@ -57,84 +57,191 @@ export default function LandingPage() {
                 href="/console-coming-soon"
                 className="px-8 py-4 rounded-xl border border-white/16 bg-white/5 text-white font-semibold hover:bg-white/8 transition-all"
               >
-                Console (Coming Soon)
+                See the console
               </Link>
             </div>
           </div>
 
-          {/* Value Tiles — AURA / ACE / PACR */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-20">
-            <ValueTile
-              title="AURA"
-              subtitle="AI Upgrade Risk Assessment"
-              description="Delta-focused evaluation before changes. Understand upgrade risk with confidence-weighted deltas across quality, cost, latency, stability, and safety."
-            />
-            <ValueTile
-              title="ACE"
-              subtitle="AI Change Event"
-              description="Change-centric visibility and usage unit. Track every AI change event with full context and metadata."
-            />
-            <ValueTile
-              title="PACR"
-              subtitle="Production AI Change Record"
-              description="Decision artifact for locked changes. Keep a clear, defensible trail when changes matter most."
-              badge="Coming soon"
-            />
+          {/* 2. Problem framing */}
+          <div className="mb-24">
+            <h2 className="text-2xl md:text-3xl font-bold mb-4">Upgrades shouldn&apos;t be a leap of faith.</h2>
+            <p className="text-muted leading-relaxed mb-4 max-w-3xl">
+              Every model swap, prompt change, or config update is a decision. Without evidence, you&apos;re guessing on risk. AfterAI turns change into measurable upgrade risk and a clear decision trail so platform teams and leadership can move with confidence.
+            </p>
+            <p className="text-sm text-muted2 italic max-w-2xl">
+              With faster model releases, provider deprecations, and agentic systems in production, AI change is now continuous — but approvals haven&apos;t caught up.
+            </p>
           </div>
 
-          {/* Distinct section: Deltas / Provider-Neutral / No Proxy */}
-          <div className="mt-20 rounded-2xl border border-white/10 bg-white/[0.04] p-8 md:p-12">
-            <div className="grid md:grid-cols-2 gap-10 md:gap-16 items-center">
+          {/* 3. Who it's for */}
+          <div className="mb-24">
+            <h2 className="text-2xl md:text-3xl font-bold mb-6">Built for platform teams who own AI in production.</h2>
+            <ul className="space-y-3 text-muted max-w-2xl mb-4">
+              <li className="flex items-start gap-2">
+                <FiCheck className="mt-1 text-gold-500 flex-shrink-0" />
+                <span>Heads of AI Platform and ML Platform shipping model and pipeline changes.</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <FiCheck className="mt-1 text-gold-500 flex-shrink-0" />
+                <span>Teams who need upgrade risk and change visibility — not another observability dashboard.</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <FiCheck className="mt-1 text-gold-500 flex-shrink-0" />
+                <span>Organizations that need a clear, defensible answer when leadership asks what changed and why.</span>
+              </li>
+            </ul>
+            <p className="text-sm text-muted2">If you don&apos;t run AI in production, this probably isn&apos;t for you.</p>
+          </div>
+
+          {/* 4. Core concepts — AURA, ACE, PACR */}
+          <div className="mb-24">
+            <div className="rounded-xl border border-white/10 bg-white/[0.03] p-6 mb-8 max-w-2xl">
+              <p className="font-semibold text-white mb-2">The decision moment</p>
+              <p className="text-sm text-muted leading-relaxed">
+                Every production AI change eventually reaches a point where someone must approve it — often with incomplete information. AfterAI is built specifically for that moment.
+              </p>
+            </div>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <ValueTile
+                title="AURA"
+                subtitle="AI Upgrade Risk Assessment"
+                description="Delta-focused evaluation before you ship. Confidence-weighted deltas across quality, cost, latency, stability, and safety so you understand upgrade risk before it hits production."
+              />
+              <ValueTile
+                title="ACE"
+                subtitle="AI Change Event"
+                description="Every change, one unit. Track model swaps, config changes, and pipeline updates with full context. Your change feed — not your hot path."
+              />
+              <ValueTile
+                title="PACR"
+                subtitle="Production AI Change Record"
+                description="The durable artifact when a change is locked. A clear, auditable record for the changes that matter most."
+                badge="Coming soon"
+              />
+            </div>
+            <p className="text-sm text-muted2 mt-4">PACR is where AURA and ACE converge into a system of record.</p>
+          </div>
+
+          {/* 5. What AfterAI is not */}
+          <div className="mb-24">
+            <h2 className="text-2xl md:text-3xl font-bold mb-6">What AfterAI is not</h2>
+            <ul className="space-y-2 text-muted max-w-2xl mb-4">
+              <li className="flex items-start gap-2">
+                <span className="text-muted2">·</span>
+                <span>Not request-level observability or logging.</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-muted2">·</span>
+                <span>Not prompt tuning, routing, or automatic model switching.</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-muted2">·</span>
+                <span>Not a compliance tool that shows up after decisions are already made.</span>
+              </li>
+            </ul>
+            <p className="text-muted leading-relaxed max-w-2xl">
+              AfterAI exists at the decision moment — when a change is proposed and someone has to say yes or no.
+            </p>
+          </div>
+
+          {/* 6. How it works / architecture */}
+          <div className="mb-24 rounded-2xl border border-white/10 bg-white/[0.04] p-8 md:p-12">
+            <h2 className="text-2xl font-bold mb-4">Built for production, not your hot path.</h2>
+            <p className="text-muted leading-relaxed mb-8 max-w-2xl">
+              AfterAI uses confidence-weighted deltas, works with any provider, and never sits in front of your inference. Capture change and risk out-of-band — no proxy, no routing, zero impact on latency.
+            </p>
+            <div className="flex flex-col sm:flex-row md:flex-wrap gap-4 mb-10">
+              <PillItem label="Confidence-weighted deltas" desc="Quality, cost, latency, stability, safety" />
+              <PillItem label="Provider-neutral, out-of-band" desc="Fail-open; not in your inference path" />
+              <PillItem label="No routing proxy" desc="Zero hot-path impact; capture without intercepting" />
+            </div>
+            <div className="grid md:grid-cols-2 gap-8 pt-8 border-t border-white/10">
               <div>
-                <h2 className="text-2xl font-bold mb-3">Built for production, not your hot path</h2>
-                <p className="text-muted leading-relaxed">
-                  AfterAI gives you confidence-weighted deltas, works with any provider, and never sits in front of your inference.
-                </p>
+                <h3 className="text-sm font-semibold text-muted2 uppercase tracking-wide mb-3">Before AfterAI</h3>
+                <ul className="space-y-2 text-sm text-muted">
+                  <li>Slack threads and screenshots</li>
+                  <li>Metrics without context</li>
+                  <li>&quot;It seemed fine&quot; approvals</li>
+                  <li>No durable record</li>
+                </ul>
               </div>
-              <div className="flex flex-col sm:flex-row md:flex-col gap-4">
-                <PillItem label="Confidence-weighted deltas" desc="Quality, cost, latency, stability, safety" />
-                <PillItem label="Provider-neutral, out-of-band" desc="Fail-open; not in your inference path" />
-                <PillItem label="No routing proxy" desc="Zero hot-path impact; capture without intercepting" />
+              <div>
+                <h3 className="text-sm font-semibold text-gold-500 uppercase tracking-wide mb-3">With AfterAI</h3>
+                <ul className="space-y-2 text-sm text-muted">
+                  <li>Explicit AI Change Events (ACE)</li>
+                  <li>Measured upgrade risk (AURA)</li>
+                  <li>Confidence-weighted deltas</li>
+                  <li>Defensible decision trail</li>
+                </ul>
               </div>
             </div>
           </div>
 
-          {/* Pricing Teaser */}
-          <div id="pricing" className="mt-24">
-            <div className="max-w-4xl mx-auto p-8 rounded-2xl border border-white/14 bg-gradient-to-b from-white/8 to-white/4 backdrop-blur-xl">
+          {/* 7. Pricing */}
+          <div id="pricing" className="mb-24">
+            <div className="max-w-5xl mx-auto p-8 rounded-2xl border border-white/14 bg-gradient-to-b from-white/8 to-white/4 backdrop-blur-xl">
               <div className="text-center mb-8">
-                <h2 className="text-3xl font-bold mb-4">Start monitoring for free</h2>
-                <p className="text-muted">Monitor Plan includes ACE capture and basic visibility</p>
+                <h2 className="text-3xl font-bold mb-4">Start monitoring for free.</h2>
+                <p className="text-muted">Monitor is live. Assess and Enterprise are coming soon.</p>
               </div>
               <div className="grid md:grid-cols-3 gap-6">
                 <PricingCard
                   name="Monitor"
                   price="$0"
                   period="month"
-                  features={["25 ACE events/month", "Change Feed access", "Basic dashboards", "Email support"]}
+                  features={["25 ACE events/month", "Change Feed, basic dashboards", "Email support", "1 preview AURA/month"]}
+                  addOn="Need one full assessment now? Add one full AURA for $99 (one-time)."
+                  ctaLabel="Get started"
+                  ctaHref="/signup"
                   highlighted
                 />
                 <PricingCard
                   name="Assess"
-                  price="$99"
+                  price="$250"
                   period="month"
-                  features={["Unlimited ACE events", "Full AURA assessments", "Advanced analytics", "Priority support"]}
+                  features={["Unlimited ACE", "Full AURA assessments", "Advanced analytics", "Priority support"]}
+                  ctaLabel="Coming soon"
                   comingSoon
                 />
                 <PricingCard
                   name="Enterprise"
-                  price="Custom"
-                  period=""
-                  features={["PACR access", "Custom integrations", "Dedicated support", "SLA guarantees"]}
+                  price="$4,500"
+                  priceSub="or custom"
+                  period="month"
+                  features={["PACR", "Custom integrations", "Dedicated support", "SLA"]}
+                  ctaLabel="Talk to us"
                   comingSoon
                 />
               </div>
             </div>
           </div>
+
+          {/* 8. Trust & coming-soon */}
+          <div id="trust" className="mb-16">
+            <h2 className="text-2xl font-bold mb-4">Early access, real product.</h2>
+            <p className="text-muted leading-relaxed mb-6 max-w-2xl">
+              AfterAI is in early access. Monitor is live — sign up, capture AI Change Events, and run a preview AURA on a real upgrade. We&apos;re building Assess and Enterprise with platform teams like yours.
+            </p>
+            <ul className="space-y-2 text-muted mb-6">
+              <li className="flex items-center gap-2"><FiCheck className="text-gold-500 flex-shrink-0" /> Connect your first system</li>
+              <li className="flex items-center gap-2"><FiCheck className="text-gold-500 flex-shrink-0" /> Capture AI Change Events (ACE)</li>
+              <li className="flex items-center gap-2"><FiCheck className="text-gold-500 flex-shrink-0" /> See how often AI is actually changing</li>
+              <li className="flex items-center gap-2"><FiCheck className="text-gold-500 flex-shrink-0" /> Run a preview AURA on a real upgrade</li>
+            </ul>
+            <p className="text-sm text-muted2 mb-6">No credit card required for Monitor. Provider-neutral — bring your own models and pipelines.</p>
+            <div className="flex flex-wrap gap-4">
+              <Link href="/signup" className="px-6 py-3 rounded-xl bg-gradient-to-r from-purple-500 to-gold-500 text-dark font-bold hover:shadow-lg transition-all">
+                Get started free
+              </Link>
+              <Link href="/console-coming-soon" className="px-6 py-3 rounded-xl border border-white/16 bg-white/5 text-white font-semibold hover:bg-white/8 transition-all">
+                Request a demo
+              </Link>
+            </div>
+          </div>
         </section>
       </main>
 
-      {/* Footer */}
+      {/* 9. Footer */}
       <footer className="border-t border-white/8 py-8">
         <div className="max-w-7xl mx-auto px-6 flex items-center justify-center text-sm text-muted2">
           <span>© {new Date().getFullYear()} AfterAI</span>
@@ -146,7 +253,7 @@ export default function LandingPage() {
 
 function ValueTile({ title, subtitle, description, badge }: { title: string; subtitle: string; description: string; badge?: string }) {
   return (
-    <div className="p-6 rounded-xl border border-white/10 bg-white/5 hover:border-gold-500/20 hover:bg-white/6 transition-all group">
+    <div className="p-6 rounded-xl border border-white/10 bg-white/5 hover:border-gold-500/20 hover:bg-white/6 transition-all group hover:scale-[1.02]">
       <div className="flex items-start justify-between mb-3">
         <div>
           <h3 className="font-bold text-lg mb-1">{title}</h3>
@@ -172,12 +279,26 @@ function PillItem({ label, desc }: { label: string; desc: string }) {
   );
 }
 
-function PricingCard({ name, price, period, features, highlighted, comingSoon }: { name: string; price: string; period: string; features: string[]; highlighted?: boolean; comingSoon?: boolean }) {
+type PricingCardProps = {
+  name: string;
+  price: string;
+  priceSub?: string;
+  period: string;
+  features: string[];
+  addOn?: string;
+  ctaLabel?: string;
+  ctaHref?: string;
+  highlighted?: boolean;
+  comingSoon?: boolean;
+};
+
+function PricingCard({ name, price, priceSub, period, features, addOn, ctaLabel, ctaHref, highlighted, comingSoon }: PricingCardProps) {
   return (
     <div className={`p-6 rounded-xl border ${highlighted ? "border-gold-500/30 bg-gradient-to-b from-white/10 to-white/5" : "border-white/10 bg-white/5"}`}>
       <h3 className="font-bold text-xl mb-2">{name}</h3>
       <div className="mb-4">
         <span className="text-3xl font-bold">{price}</span>
+        {priceSub && <span className="text-lg font-semibold text-muted2 ml-1">{priceSub}</span>}
         {period && <span className="text-muted2 ml-2">/{period}</span>}
       </div>
       <ul className="space-y-2">
@@ -188,12 +309,15 @@ function PricingCard({ name, price, period, features, highlighted, comingSoon }:
           </li>
         ))}
       </ul>
-      {highlighted && (
+      {addOn && (
+        <p className="mt-4 text-xs text-muted2 border-t border-white/8 pt-4">{addOn}</p>
+      )}
+      {highlighted && ctaHref && (
         <Link
-          href="/signup"
+          href={ctaHref}
           className="mt-6 block w-full text-center px-4 py-2 rounded-lg bg-gradient-to-r from-purple-500 to-gold-500 text-dark font-semibold hover:shadow-lg transition-all"
         >
-          Get started
+          {ctaLabel ?? "Get started"}
         </Link>
       )}
       {comingSoon && (
@@ -202,7 +326,7 @@ function PricingCard({ name, price, period, features, highlighted, comingSoon }:
           disabled
           className="mt-6 w-full px-4 py-2 rounded-lg border border-white/12 bg-white/5 text-muted2 font-semibold cursor-not-allowed"
         >
-          Coming soon
+          {ctaLabel ?? "Coming soon"}
         </button>
       )}
     </div>
