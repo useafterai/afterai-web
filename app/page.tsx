@@ -34,8 +34,9 @@ export default function LandingPage() {
 
       <main className="relative">
         {/* 1. Hero */}
-        <section id="product" className="max-w-5xl mx-auto px-6 py-24 md:py-32 animate-fade-in-up">
+        <section id="product" className="max-w-5xl mx-auto px-6 py-24 md:py-32 animate-fade-in-up section-with-anchor">
           <div className="text-center">
+            <span className="section-heading-anchor block text-center mx-auto" aria-hidden="true" />
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-gold-500/22 bg-gold-500/10 text-gold-500 text-xs font-bold mb-6">
               <span>Monitor available now · More plans coming soon</span>
             </div>
@@ -65,21 +66,26 @@ export default function LandingPage() {
 
         {/* 2. Problem framing */}
         <section className="border-t border-white/8 bg-white/[0.02]">
-          <div className="max-w-5xl mx-auto px-6 py-16 md:py-20">
-            <h2 className="text-2xl md:text-3xl font-bold mb-4">Upgrades shouldn&apos;t be a leap of faith.</h2>
+          <div className="max-w-5xl mx-auto px-6 py-16 md:py-20 section-with-anchor">
+            <span className="section-heading-anchor" aria-hidden="true" />
+            <h2 className="text-2xl md:text-3xl font-bold mb-4 motion-section-heading">Upgrades shouldn&apos;t be a leap of faith.</h2>
+            <div className="motion-section-content">
             <p className="text-muted leading-relaxed mb-4 max-w-3xl">
               Every model swap, prompt change, or config update is a decision. Without evidence, you&apos;re guessing on risk. AfterAI turns change into measurable upgrade risk and a clear decision trail so platform teams and leadership can move with confidence.
             </p>
             <p className="text-sm text-muted2 italic max-w-2xl">
               With faster model releases, provider deprecations, and agentic systems in production, AI change is now continuous — but approvals haven&apos;t caught up.
             </p>
+            </div>
           </div>
         </section>
 
         {/* 3. Who it's for */}
         <section className="border-t border-white/8">
-          <div className="max-w-5xl mx-auto px-6 py-16 md:py-20">
-            <h2 className="text-2xl md:text-3xl font-bold mb-6">Built for platform teams who own AI in production.</h2>
+          <div className="max-w-5xl mx-auto px-6 py-16 md:py-20 section-with-anchor">
+            <span className="section-heading-anchor" aria-hidden="true" />
+            <h2 className="text-2xl md:text-3xl font-bold mb-6 motion-section-heading">Built for platform teams who own AI in production.</h2>
+            <div className="motion-section-content">
             <ul className="space-y-3 text-muted max-w-2xl mb-4">
               <li className="flex items-start gap-2">
                 <FiCheck className="mt-1 text-gold-500 flex-shrink-0" />
@@ -95,19 +101,23 @@ export default function LandingPage() {
               </li>
             </ul>
             <p className="text-sm text-muted2">If you don&apos;t run AI in production, this probably isn&apos;t for you.</p>
+            </div>
           </div>
         </section>
 
         {/* 4. Core concepts — AURA, ACE, PACR */}
         <section className="border-t border-white/8 bg-white/[0.02]">
-          <div className="max-w-5xl mx-auto px-6 py-16 md:py-20">
+          <div className="max-w-5xl mx-auto px-6 py-16 md:py-20 section-with-anchor">
+            <span className="section-heading-anchor" aria-hidden="true" />
+            <div className="motion-section-heading">
             <div className="rounded-xl border border-white/10 bg-white/[0.04] p-6 mb-8 max-w-2xl transition-all hover:border-gold-500/20 focus-within:border-gold-500/20">
               <p className="font-semibold text-white mb-2">The decision moment</p>
               <p className="text-sm text-muted leading-relaxed">
                 Every production AI change eventually reaches a point where someone must approve it — often with incomplete information. AfterAI is built specifically for that moment.
               </p>
             </div>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
+            </div>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch motion-section-content">
               <ValueTile
                 title="AURA"
                 subtitle="AI Upgrade Risk Assessment"
@@ -129,10 +139,12 @@ export default function LandingPage() {
           </div>
         </section>
 
-        {/* 5. What AfterAI is not */}
+        {/* 5. What AfterAI is not — contrast beat, tied to Core Concepts */}
         <section className="border-t border-white/8">
-          <div className="max-w-5xl mx-auto px-6 py-16 md:py-20">
-            <div className="max-w-2xl rounded-2xl border border-white/10 bg-white/[0.04] p-8 md:p-10">
+          <div className="max-w-5xl mx-auto px-6 pt-8 pb-16 md:pt-10 md:pb-20 section-with-anchor">
+            <span className="section-heading-anchor" aria-hidden="true" />
+            <p className="text-xs font-semibold uppercase tracking-wider text-muted2 mb-4 motion-section-heading">By contrast</p>
+            <div className="max-w-2xl rounded-xl border border-white/10 bg-white/[0.04] p-8 md:p-10 motion-section-content">
               <div className="flex items-start gap-4 mb-6">
                 <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-white/8 border border-white/10 flex items-center justify-center">
                   <FiSlash className="w-5 h-5 text-muted2" aria-hidden />
@@ -165,9 +177,11 @@ export default function LandingPage() {
 
         {/* 6. How it works / architecture */}
         <section id="docs" className="border-t border-white/8 bg-white/[0.02]">
-          <div className="max-w-5xl mx-auto px-6 py-16 md:py-20">
+          <div className="max-w-5xl mx-auto px-6 py-16 md:py-20 section-with-anchor">
+            <span className="section-heading-anchor" aria-hidden="true" />
           <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-8 md:p-12">
-            <h2 className="text-2xl font-bold mb-4">Built for production, not your hot path.</h2>
+            <h2 className="text-2xl font-bold mb-4 motion-section-heading">Built for production, not your hot path.</h2>
+            <div className="motion-section-content">
             <p className="text-muted leading-relaxed mb-8 max-w-2xl">
               AfterAI uses confidence-weighted deltas, works with any provider, and never sits in front of your inference. Capture change and risk out-of-band — no proxy, no routing, zero impact on latency.
             </p>
@@ -196,19 +210,20 @@ export default function LandingPage() {
                 </ul>
               </div>
             </div>
-          </div>
+            </div>
           </div>
         </section>
 
         {/* 7. Pricing */}
         <section id="pricing" className="border-t border-white/8">
-          <div className="max-w-5xl mx-auto px-6 py-16 md:py-20">
+          <div className="max-w-5xl mx-auto px-6 py-16 md:py-20 section-with-anchor">
+            <span className="section-heading-anchor" aria-hidden="true" />
             <div className="p-8 rounded-2xl border border-white/14 bg-gradient-to-b from-white/8 to-white/4 backdrop-blur-xl">
               <div className="text-center mb-8">
-                <h2 className="text-3xl font-bold mb-4">Start monitoring for free.</h2>
-                <p className="text-muted">Monitor is live. Assess and Enterprise are coming soon.</p>
+                <h2 className="text-3xl font-bold mb-4 motion-section-heading">Start monitoring for free.</h2>
+                <p className="text-muted motion-section-content">Monitor is live. Assess and Enterprise are coming soon.</p>
               </div>
-              <div className="grid md:grid-cols-3 gap-6 items-stretch">
+              <div className="grid md:grid-cols-3 gap-6 items-stretch motion-section-content">
                 <PricingCard
                   name="Monitor"
                   price="$0"
@@ -243,8 +258,10 @@ export default function LandingPage() {
 
         {/* 8. Trust & coming-soon */}
         <section id="trust" className="border-t border-white/8 bg-white/[0.02]">
-          <div className="max-w-5xl mx-auto px-6 py-16 md:py-20">
-            <h2 className="text-2xl font-bold mb-4">Early access, real product.</h2>
+          <div className="max-w-5xl mx-auto px-6 py-16 md:py-20 section-with-anchor">
+            <span className="section-heading-anchor" aria-hidden="true" />
+            <h2 className="text-2xl font-bold mb-4 motion-section-heading">Early access, real product.</h2>
+            <div className="motion-section-content">
             <p className="text-muted leading-relaxed mb-6 max-w-2xl">
               AfterAI is in early access. Monitor is live — sign up, capture AI Change Events, and run a preview AURA on a real upgrade. We&apos;re building Assess and Enterprise with platform teams like yours.
             </p>
@@ -262,6 +279,7 @@ export default function LandingPage() {
               <Link href="/console-coming-soon" className="px-6 py-3 rounded-xl border border-white/16 bg-white/5 text-white font-semibold hover:bg-white/8 transition-all">
                 Request a demo
               </Link>
+            </div>
             </div>
           </div>
         </section>
@@ -340,24 +358,27 @@ function PricingCard({ name, price, priceSub, period, features, addOn, ctaLabel,
           <p className="mt-4 text-xs text-muted2 border-t border-white/8 pt-4">{addOn}</p>
         )}
       </div>
-      <div className="mt-6 pt-4 border-t border-white/8 min-h-[52px] flex items-end">
-        {highlighted && ctaHref && (
-          <Link
-            href={ctaHref}
-            className="block w-full text-center px-4 py-3 rounded-lg bg-gradient-to-r from-purple-500 to-gold-500 text-dark font-semibold hover:shadow-lg transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-500 focus-visible:ring-offset-2 focus-visible:ring-offset-dark"
-          >
-            {ctaLabel ?? "Get started"}
-          </Link>
-        )}
-        {comingSoon && (
-          <button
-            type="button"
-            disabled
-            className="w-full px-4 py-3 rounded-lg border border-white/12 bg-white/5 text-muted2 font-semibold cursor-not-allowed"
-          >
-            {ctaLabel ?? "Coming soon"}
-          </button>
-        )}
+      <div className="mt-6 pt-4 border-t border-white/8 flex items-end">
+        <div className="w-full min-h-[48px] flex items-center justify-center rounded-lg">
+          {highlighted && ctaHref && (
+            <Link
+              href={ctaHref}
+              className="w-full min-h-[48px] flex items-center justify-center px-4 rounded-lg bg-gradient-to-r from-purple-500 to-gold-500 text-dark font-semibold text-[15px] hover:shadow-lg transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-500 focus-visible:ring-offset-2 focus-visible:ring-offset-dark"
+            >
+              {ctaLabel ?? "Get started"}
+            </Link>
+          )}
+          {comingSoon && (
+            <button
+              type="button"
+              disabled
+              className="w-full min-h-[48px] flex items-center justify-center px-4 rounded-lg border border-dashed border-white/12 bg-white/[0.03] text-muted2 font-semibold text-[15px] cursor-not-allowed opacity-90"
+              aria-disabled="true"
+            >
+              {ctaLabel ?? "Coming soon"}
+            </button>
+          )}
+        </div>
       </div>
     </div>
   );

@@ -113,11 +113,36 @@ a {
   .animate-fade-in-up,
   .animate-fade-in-up-delay-1,
   .animate-fade-in-up-delay-2,
-  .animate-fade-in-up-delay-3 {
+  .animate-fade-in-up-delay-3,
+  .motion-section-heading,
+  .motion-section-content {
     animation: none;
     opacity: 1;
     transform: none;
   }
+}
+
+/* Section identity: accent line above heading (entry point) */
+.section-with-anchor .section-heading-anchor {
+  display: block;
+  width: 40px;
+  height: 2px;
+  background: linear-gradient(90deg, rgba(246, 201, 69, 0.5), transparent);
+  border-radius: 1px;
+  margin-bottom: 0.75rem;
+}
+
+/* Motion hierarchy: section → heading → content (stagger, short, directional) */
+.motion-section-heading {
+  opacity: 0;
+  animation: fade-in-up 0.4s ease-out forwards;
+  animation-delay: 0.05s;
+}
+
+.motion-section-content {
+  opacity: 0;
+  animation: fade-in-up 0.4s ease-out forwards;
+  animation-delay: 0.12s;
 }
 
 /* Form inputs: visible text, placeholder, caret, focus */
