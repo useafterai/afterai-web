@@ -212,6 +212,7 @@ export default function LandingPage() {
             </div>
             </div>
           </div>
+          </div>
         </section>
 
         {/* 7. Pricing */}
