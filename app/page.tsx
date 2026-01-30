@@ -23,6 +23,7 @@ export default function LandingPage() {
           <div className="hidden md:flex items-center gap-8">
             <Link href="#product" className="text-muted hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-500/40 focus-visible:ring-offset-2 focus-visible:ring-offset-dark rounded">Product</Link>
             <Link href="#pricing" className="text-muted hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-500/40 focus-visible:ring-offset-2 focus-visible:ring-offset-dark rounded">Pricing</Link>
+            <Link href="#faq" className="text-muted hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-500/40 focus-visible:ring-offset-2 focus-visible:ring-offset-dark rounded">FAQ</Link>
             <Link href="#docs" className="text-muted hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-500/40 focus-visible:ring-offset-2 focus-visible:ring-offset-dark rounded">Docs</Link>
             <Link href="/login" className="text-muted hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-500/40 focus-visible:ring-offset-2 focus-visible:ring-offset-dark rounded">Sign in</Link>
             <Link href="/signup" className="px-4 py-2 rounded-lg bg-gradient-to-r from-purple-500 to-gold-500 text-dark font-semibold hover:shadow-lg transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-500 focus-visible:ring-offset-2 focus-visible:ring-offset-dark">
@@ -253,6 +254,88 @@ export default function LandingPage() {
                   comingSoon
                 />
               </div>
+            </div>
+          </div>
+        </section>
+
+        {/* FAQ */}
+        <section id="faq" className="border-t border-white/8 bg-white/[0.02]">
+          <div className="max-w-5xl mx-auto px-6 py-16 md:py-20 section-with-anchor">
+            <span className="section-heading-anchor" aria-hidden="true" />
+            <h2 className="text-2xl md:text-3xl font-bold mb-8 motion-section-heading">FAQ</h2>
+            <div className="faq motion-section-content space-y-3">
+              <details className="faqitem">
+                <summary>How is this different from model evaluation tools?</summary>
+                <div className="faq-answer">
+                  Evaluation tools tell you which model performed better. AfterAI tells you whether a change should be approved, what the trade-offs are, and who approved it — and preserves that decision over time.
+                </div>
+              </details>
+              <details className="faqitem">
+                <summary>Is AfterAI observability?</summary>
+                <div className="faq-answer">
+                  No. AfterAI is not request-level observability, tracing, or logging. It operates at the change level, not the inference level.
+                </div>
+              </details>
+              <details className="faqitem">
+                <summary>Does AfterAI sit in the inference path?</summary>
+                <div className="faq-answer">
+                  No. AfterAI is completely out-of-band. It does not proxy traffic, route requests, or block production calls. Telemetry is asynchronous and designed to fail open.
+                </div>
+              </details>
+              <details className="faqitem">
+                <summary>Do you need to send prompts or model outputs?</summary>
+                <div className="faq-answer">
+                  No. AfterAI is metadata-first by default. Prompt and output capture is optional, sampled, and fully controllable with redaction and retention policies.
+                </div>
+              </details>
+              <details className="faqitem">
+                <summary>Can AfterAI automatically block or roll back changes?</summary>
+                <div className="faq-answer">
+                  No. AfterAI never takes action in production. It produces evidence and decision options — humans remain accountable.
+                </div>
+              </details>
+              <details className="faqitem">
+                <summary>Is this a compliance or security product?</summary>
+                <div className="faq-answer">
+                  No. Governance is an output, not an entry requirement. Teams adopt AfterAI to move faster, not to satisfy compliance checklists — but the artifacts it produces do hold up in audits.
+                </div>
+              </details>
+              <details className="faqitem">
+                <summary>Why not build this internally?</summary>
+                <div className="faq-answer">
+                  Most teams do — until the first forced migration, incident, or audit. AfterAI standardizes how evidence is generated, compared, and preserved, so every approval isn&apos;t a bespoke process.
+                </div>
+              </details>
+              <details className="faqitem">
+                <summary>Can&apos;t we do this with docs and dashboards?</summary>
+                <div className="faq-answer">
+                  Docs and dashboards capture outputs. AfterAI captures decisions: scope, evidence, trade-offs, confidence, and approvals — in a repeatable format.
+                </div>
+              </details>
+              <details className="faqitem">
+                <summary>Does AfterAI tune prompts or optimize models?</summary>
+                <div className="faq-answer">
+                  No. AfterAI evaluates changes; it does not suggest or apply optimizations.
+                </div>
+              </details>
+              <details className="faqitem">
+                <summary>Does AfterAI route between models or providers?</summary>
+                <div className="faq-answer">
+                  No. It is provider-neutral and intentionally avoids becoming part of the execution layer.
+                </div>
+              </details>
+              <details className="faqitem">
+                <summary>What kinds of changes does AfterAI cover?</summary>
+                <div className="faq-answer">
+                  Model upgrades, prompt edits, configuration changes, safety policy updates, and forced migrations — anything where risk and accountability matter.
+                </div>
+              </details>
+              <details className="faqitem">
+                <summary>How hard is it to get started?</summary>
+                <div className="faq-answer">
+                  Most teams start metadata-only with minimal integration. You can add deeper evaluation or content capture later as needed.
+                </div>
+              </details>
             </div>
           </div>
         </section>
