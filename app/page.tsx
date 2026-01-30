@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { FiArrowRight, FiCheck } from "react-icons/fi";
+import { FiArrowRight, FiCheck, FiSlash } from "react-icons/fi";
 
 export default function LandingPage() {
   return (
@@ -21,11 +21,11 @@ export default function LandingPage() {
             <span className="text-xl font-bold">AfterAI</span>
           </Link>
           <div className="hidden md:flex items-center gap-8">
-            <Link href="#product" className="text-muted hover:text-white transition-colors">Product</Link>
-            <Link href="#pricing" className="text-muted hover:text-white transition-colors">Pricing</Link>
-            <Link href="#docs" className="text-muted hover:text-white transition-colors">Docs</Link>
-            <Link href="/login" className="text-muted hover:text-white transition-colors">Sign in</Link>
-            <Link href="/signup" className="px-4 py-2 rounded-lg bg-gradient-to-r from-purple-500 to-gold-500 text-dark font-semibold hover:shadow-lg transition-all">
+            <Link href="#product" className="text-muted hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-500/40 focus-visible:ring-offset-2 focus-visible:ring-offset-dark rounded">Product</Link>
+            <Link href="#pricing" className="text-muted hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-500/40 focus-visible:ring-offset-2 focus-visible:ring-offset-dark rounded">Pricing</Link>
+            <Link href="#docs" className="text-muted hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-500/40 focus-visible:ring-offset-2 focus-visible:ring-offset-dark rounded">Docs</Link>
+            <Link href="/login" className="text-muted hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-500/40 focus-visible:ring-offset-2 focus-visible:ring-offset-dark rounded">Sign in</Link>
+            <Link href="/signup" className="px-4 py-2 rounded-lg bg-gradient-to-r from-purple-500 to-gold-500 text-dark font-semibold hover:shadow-lg transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-500 focus-visible:ring-offset-2 focus-visible:ring-offset-dark">
               Get started
             </Link>
           </div>
@@ -33,9 +33,9 @@ export default function LandingPage() {
       </header>
 
       <main className="relative">
-        <section className="max-w-5xl mx-auto px-6 py-24 md:py-32">
-          {/* 1. Hero */}
-          <div id="product" className="text-center mb-20">
+        {/* 1. Hero */}
+        <section id="product" className="max-w-5xl mx-auto px-6 py-24 md:py-32 animate-fade-in-up">
+          <div className="text-center">
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-gold-500/22 bg-gold-500/10 text-gold-500 text-xs font-bold mb-6">
               <span>Monitor available now · More plans coming soon</span>
             </div>
@@ -61,9 +61,11 @@ export default function LandingPage() {
               </Link>
             </div>
           </div>
+        </section>
 
-          {/* 2. Problem framing */}
-          <div className="mb-24">
+        {/* 2. Problem framing */}
+        <section className="border-t border-white/8 bg-white/[0.02]">
+          <div className="max-w-5xl mx-auto px-6 py-16 md:py-20">
             <h2 className="text-2xl md:text-3xl font-bold mb-4">Upgrades shouldn&apos;t be a leap of faith.</h2>
             <p className="text-muted leading-relaxed mb-4 max-w-3xl">
               Every model swap, prompt change, or config update is a decision. Without evidence, you&apos;re guessing on risk. AfterAI turns change into measurable upgrade risk and a clear decision trail so platform teams and leadership can move with confidence.
@@ -72,9 +74,11 @@ export default function LandingPage() {
               With faster model releases, provider deprecations, and agentic systems in production, AI change is now continuous — but approvals haven&apos;t caught up.
             </p>
           </div>
+        </section>
 
-          {/* 3. Who it's for */}
-          <div className="mb-24">
+        {/* 3. Who it's for */}
+        <section className="border-t border-white/8">
+          <div className="max-w-5xl mx-auto px-6 py-16 md:py-20">
             <h2 className="text-2xl md:text-3xl font-bold mb-6">Built for platform teams who own AI in production.</h2>
             <ul className="space-y-3 text-muted max-w-2xl mb-4">
               <li className="flex items-start gap-2">
@@ -92,16 +96,18 @@ export default function LandingPage() {
             </ul>
             <p className="text-sm text-muted2">If you don&apos;t run AI in production, this probably isn&apos;t for you.</p>
           </div>
+        </section>
 
-          {/* 4. Core concepts — AURA, ACE, PACR */}
-          <div className="mb-24">
-            <div className="rounded-xl border border-white/10 bg-white/[0.03] p-6 mb-8 max-w-2xl">
+        {/* 4. Core concepts — AURA, ACE, PACR */}
+        <section className="border-t border-white/8 bg-white/[0.02]">
+          <div className="max-w-5xl mx-auto px-6 py-16 md:py-20">
+            <div className="rounded-xl border border-white/10 bg-white/[0.04] p-6 mb-8 max-w-2xl transition-all hover:border-gold-500/20 focus-within:border-gold-500/20">
               <p className="font-semibold text-white mb-2">The decision moment</p>
               <p className="text-sm text-muted leading-relaxed">
                 Every production AI change eventually reaches a point where someone must approve it — often with incomplete information. AfterAI is built specifically for that moment.
               </p>
             </div>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
               <ValueTile
                 title="AURA"
                 subtitle="AI Upgrade Risk Assessment"
@@ -121,31 +127,46 @@ export default function LandingPage() {
             </div>
             <p className="text-sm text-muted2 mt-4">PACR is where AURA and ACE converge into a system of record.</p>
           </div>
+        </section>
 
-          {/* 5. What AfterAI is not */}
-          <div className="mb-24">
-            <h2 className="text-2xl md:text-3xl font-bold mb-6">What AfterAI is not</h2>
-            <ul className="space-y-2 text-muted max-w-2xl mb-4">
-              <li className="flex items-start gap-2">
-                <span className="text-muted2">·</span>
-                <span>Not request-level observability or logging.</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="text-muted2">·</span>
-                <span>Not prompt tuning, routing, or automatic model switching.</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="text-muted2">·</span>
-                <span>Not a compliance tool that shows up after decisions are already made.</span>
-              </li>
-            </ul>
-            <p className="text-muted leading-relaxed max-w-2xl">
-              AfterAI exists at the decision moment — when a change is proposed and someone has to say yes or no.
-            </p>
+        {/* 5. What AfterAI is not */}
+        <section className="border-t border-white/8">
+          <div className="max-w-5xl mx-auto px-6 py-16 md:py-20">
+            <div className="max-w-2xl rounded-2xl border border-white/10 bg-white/[0.04] p-8 md:p-10">
+              <div className="flex items-start gap-4 mb-6">
+                <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-white/8 border border-white/10 flex items-center justify-center">
+                  <FiSlash className="w-5 h-5 text-muted2" aria-hidden />
+                </div>
+                <div>
+                  <h2 className="text-2xl md:text-3xl font-bold mb-1">What AfterAI is not</h2>
+                  <p className="text-sm text-muted2">Clear boundaries</p>
+                </div>
+              </div>
+              <ul className="space-y-3 text-muted mb-6">
+                <li className="flex items-start gap-3">
+                  <span className="text-gold-500/70 mt-0.5">×</span>
+                  <span>Not request-level observability or logging.</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-gold-500/70 mt-0.5">×</span>
+                  <span>Not prompt tuning, routing, or automatic model switching.</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-gold-500/70 mt-0.5">×</span>
+                  <span>Not a compliance tool that shows up after decisions are already made.</span>
+                </li>
+              </ul>
+              <p className="text-muted leading-relaxed border-t border-white/8 pt-6">
+                AfterAI exists at the decision moment — when a change is proposed and someone has to say yes or no.
+              </p>
+            </div>
           </div>
+        </section>
 
-          {/* 6. How it works / architecture */}
-          <div className="mb-24 rounded-2xl border border-white/10 bg-white/[0.04] p-8 md:p-12">
+        {/* 6. How it works / architecture */}
+        <section id="docs" className="border-t border-white/8 bg-white/[0.02]">
+          <div className="max-w-5xl mx-auto px-6 py-16 md:py-20">
+          <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-8 md:p-12">
             <h2 className="text-2xl font-bold mb-4">Built for production, not your hot path.</h2>
             <p className="text-muted leading-relaxed mb-8 max-w-2xl">
               AfterAI uses confidence-weighted deltas, works with any provider, and never sits in front of your inference. Capture change and risk out-of-band — no proxy, no routing, zero impact on latency.
@@ -176,15 +197,18 @@ export default function LandingPage() {
               </div>
             </div>
           </div>
+          </div>
+        </section>
 
-          {/* 7. Pricing */}
-          <div id="pricing" className="mb-24">
-            <div className="max-w-5xl mx-auto p-8 rounded-2xl border border-white/14 bg-gradient-to-b from-white/8 to-white/4 backdrop-blur-xl">
+        {/* 7. Pricing */}
+        <section id="pricing" className="border-t border-white/8">
+          <div className="max-w-5xl mx-auto px-6 py-16 md:py-20">
+            <div className="p-8 rounded-2xl border border-white/14 bg-gradient-to-b from-white/8 to-white/4 backdrop-blur-xl">
               <div className="text-center mb-8">
                 <h2 className="text-3xl font-bold mb-4">Start monitoring for free.</h2>
                 <p className="text-muted">Monitor is live. Assess and Enterprise are coming soon.</p>
               </div>
-              <div className="grid md:grid-cols-3 gap-6">
+              <div className="grid md:grid-cols-3 gap-6 items-stretch">
                 <PricingCard
                   name="Monitor"
                   price="$0"
@@ -215,9 +239,11 @@ export default function LandingPage() {
               </div>
             </div>
           </div>
+        </section>
 
-          {/* 8. Trust & coming-soon */}
-          <div id="trust" className="mb-16">
+        {/* 8. Trust & coming-soon */}
+        <section id="trust" className="border-t border-white/8 bg-white/[0.02]">
+          <div className="max-w-5xl mx-auto px-6 py-16 md:py-20">
             <h2 className="text-2xl font-bold mb-4">Early access, real product.</h2>
             <p className="text-muted leading-relaxed mb-6 max-w-2xl">
               AfterAI is in early access. Monitor is live — sign up, capture AI Change Events, and run a preview AURA on a real upgrade. We&apos;re building Assess and Enterprise with platform teams like yours.
@@ -253,26 +279,26 @@ export default function LandingPage() {
 
 function ValueTile({ title, subtitle, description, badge }: { title: string; subtitle: string; description: string; badge?: string }) {
   return (
-    <div className="p-6 rounded-xl border border-white/10 bg-white/5 hover:border-gold-500/20 hover:bg-white/6 transition-all group hover:scale-[1.02]">
+    <div className="flex h-full flex-col p-6 rounded-xl border border-white/10 bg-white/5 hover:border-gold-500/20 hover:bg-white/6 transition-all duration-200 group hover:scale-[1.01]">
       <div className="flex items-start justify-between mb-3">
         <div>
           <h3 className="font-bold text-lg mb-1">{title}</h3>
           <p className="text-sm text-muted2 mb-3">{subtitle}</p>
         </div>
         {badge && (
-          <span className="px-2 py-1 text-xs rounded-full border border-gold-500/22 bg-gold-500/10 text-gold-500 font-semibold">
+          <span className="px-2 py-1 text-xs rounded-full border border-gold-500/22 bg-gold-500/10 text-gold-500 font-semibold flex-shrink-0">
             {badge}
           </span>
         )}
       </div>
-      <p className="text-sm text-muted leading-relaxed">{description}</p>
+      <p className="text-sm text-muted leading-relaxed flex-1 min-h-0">{description}</p>
     </div>
   );
 }
 
 function PillItem({ label, desc }: { label: string; desc: string }) {
   return (
-    <div className="flex items-start gap-3 px-4 py-3 rounded-xl bg-white/5 border border-white/8">
+    <div className="flex items-start gap-3 px-4 py-3 rounded-xl bg-white/5 border border-white/8 transition-all duration-200 hover:border-white/14 hover:bg-white/[0.07]">
       <span className="text-sm font-semibold text-white flex-shrink-0">{label}</span>
       <span className="text-sm text-muted2">{desc}</span>
     </div>
@@ -294,41 +320,45 @@ type PricingCardProps = {
 
 function PricingCard({ name, price, priceSub, period, features, addOn, ctaLabel, ctaHref, highlighted, comingSoon }: PricingCardProps) {
   return (
-    <div className={`p-6 rounded-xl border ${highlighted ? "border-gold-500/30 bg-gradient-to-b from-white/10 to-white/5" : "border-white/10 bg-white/5"}`}>
-      <h3 className="font-bold text-xl mb-2">{name}</h3>
-      <div className="mb-4">
-        <span className="text-3xl font-bold">{price}</span>
-        {priceSub && <span className="text-lg font-semibold text-muted2 ml-1">{priceSub}</span>}
-        {period && <span className="text-muted2 ml-2">/{period}</span>}
+    <div className={`flex h-full flex-col p-6 rounded-xl border transition-all duration-200 ${highlighted ? "border-gold-500/30 bg-gradient-to-b from-white/10 to-white/5 hover:border-gold-500/40" : "border-white/10 bg-white/5 hover:border-white/20 hover:bg-white/[0.07]"}`}>
+      <div className="flex-1 min-h-0 flex flex-col">
+        <h3 className="font-bold text-xl mb-2">{name}</h3>
+        <div className="mb-4">
+          <span className="text-3xl font-bold">{price}</span>
+          {priceSub && <span className="text-lg font-semibold text-muted2 ml-1">{priceSub}</span>}
+          {period && <span className="text-muted2 ml-2">/{period}</span>}
+        </div>
+        <ul className="space-y-2">
+          {features.map((feature) => (
+            <li key={feature} className="flex items-start gap-2 text-sm text-muted">
+              <FiCheck className="mt-0.5 text-gold-500 flex-shrink-0" />
+              <span>{feature}</span>
+            </li>
+          ))}
+        </ul>
+        {addOn && (
+          <p className="mt-4 text-xs text-muted2 border-t border-white/8 pt-4">{addOn}</p>
+        )}
       </div>
-      <ul className="space-y-2">
-        {features.map((feature) => (
-          <li key={feature} className="flex items-start gap-2 text-sm text-muted">
-            <FiCheck className="mt-0.5 text-gold-500 flex-shrink-0" />
-            <span>{feature}</span>
-          </li>
-        ))}
-      </ul>
-      {addOn && (
-        <p className="mt-4 text-xs text-muted2 border-t border-white/8 pt-4">{addOn}</p>
-      )}
-      {highlighted && ctaHref && (
-        <Link
-          href={ctaHref}
-          className="mt-6 block w-full text-center px-4 py-2 rounded-lg bg-gradient-to-r from-purple-500 to-gold-500 text-dark font-semibold hover:shadow-lg transition-all"
-        >
-          {ctaLabel ?? "Get started"}
-        </Link>
-      )}
-      {comingSoon && (
-        <button
-          type="button"
-          disabled
-          className="mt-6 w-full px-4 py-2 rounded-lg border border-white/12 bg-white/5 text-muted2 font-semibold cursor-not-allowed"
-        >
-          {ctaLabel ?? "Coming soon"}
-        </button>
-      )}
+      <div className="mt-6 pt-4 border-t border-white/8 min-h-[52px] flex items-end">
+        {highlighted && ctaHref && (
+          <Link
+            href={ctaHref}
+            className="block w-full text-center px-4 py-3 rounded-lg bg-gradient-to-r from-purple-500 to-gold-500 text-dark font-semibold hover:shadow-lg transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-500 focus-visible:ring-offset-2 focus-visible:ring-offset-dark"
+          >
+            {ctaLabel ?? "Get started"}
+          </Link>
+        )}
+        {comingSoon && (
+          <button
+            type="button"
+            disabled
+            className="w-full px-4 py-3 rounded-lg border border-white/12 bg-white/5 text-muted2 font-semibold cursor-not-allowed"
+          >
+            {ctaLabel ?? "Coming soon"}
+          </button>
+        )}
+      </div>
     </div>
   );
 }

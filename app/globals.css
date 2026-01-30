@@ -20,6 +20,10 @@
   margin: 0;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 html,
 body {
   max-width: 100vw;
@@ -27,6 +31,14 @@ body {
   background: var(--bg);
   color: var(--text);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, sans-serif;
+}
+
+/* Anchor offset for sticky header (avoid content hiding under nav) */
+[id="product"],
+[id="pricing"],
+[id="trust"],
+[id="docs"] {
+  scroll-margin-top: 5rem;
 }
 
 body {
@@ -75,6 +87,37 @@ a {
 
 .animate-float {
   animation: float 10s ease-in-out infinite;
+}
+
+/* Section / card enter animation (lightweight) */
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.5s ease-out forwards;
+}
+
+.animate-fade-in-up-delay-1 { animation-delay: 0.08s; }
+.animate-fade-in-up-delay-2 { animation-delay: 0.16s; }
+.animate-fade-in-up-delay-3 { animation-delay: 0.24s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-in-up,
+  .animate-fade-in-up-delay-1,
+  .animate-fade-in-up-delay-2,
+  .animate-fade-in-up-delay-3 {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
 }
 
 /* Form inputs: visible text, placeholder, caret, focus */
