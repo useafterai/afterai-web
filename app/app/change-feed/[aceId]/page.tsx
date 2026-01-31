@@ -10,7 +10,17 @@ type AceDetail = {
   received_at?: string;
   occurred_at?: string;
   system?: { system_id?: string; name?: string; type?: string };
-  source?: { origin?: string; actor?: { actor_type?: string; display_name?: string } };
+  source?: {
+    origin?: string;
+    actor?: { actor_type?: string; display_name?: string };
+    approval?: {
+      rule_type?: string;
+      approver_role?: string;
+      approver_identity?: string;
+      custom_rule_text?: string;
+      notes?: string;
+    };
+  };
   change?: {
     change_type?: string;
     intent?: string;
@@ -18,6 +28,11 @@ type AceDetail = {
     baseline?: Record<string, unknown>;
     candidate?: Record<string, unknown>;
     diff_summary?: string;
+    model_change?: { before?: Record<string, unknown>; after?: Record<string, unknown> };
+    prompt_change?: { before?: Record<string, unknown>; after?: Record<string, unknown> };
+    inference_change?: { before?: Record<string, unknown>; after?: Record<string, unknown> };
+    tooling_change?: { before?: Record<string, unknown>; after?: Record<string, unknown> };
+    other_changes?: Array<{ category_key?: string; before?: { summary?: string }; after?: { summary?: string }; notes?: string }>;
   };
   risk?: { severity?: string; blast_radius?: string; customer_impact?: string };
   environment?: string;
@@ -167,6 +182,56 @@ export default function AceDetailPage() {
               </>
             )}
           </dl>
+          {/* Manual ACE: before/after category deltas */}
+          {ace.change?.model_change && (
+            <div className="mt-3 pt-3 border-t border-white/10">
+              <h3 className="text-xs font-medium text-muted2 mb-2">Model change</h3>
+              <div className="grid grid-cols-2 gap-3 text-xs">
+                <div><span className="text-muted2">Before:</span> <pre className="mt-1 p-2 bg-black/20 rounded overflow-auto max-h-20">{JSON.stringify(ace.change.model_change.before ?? {}, null, 2)}</pre></div>
+                <div><span className="text-muted2">After:</span> <pre className="mt-1 p-2 bg-black/20 rounded overflow-auto max-h-20">{JSON.stringify(ace.change.model_change.after ?? {}, null, 2)}</pre></div>
+              </div>
+            </div>
+          )}
+          {ace.change?.prompt_change && (
+            <div className="mt-3 pt-3 border-t border-white/10">
+              <h3 className="text-xs font-medium text-muted2 mb-2">Prompt change (metadata)</h3>
+              <div className="grid grid-cols-2 gap-3 text-xs">
+                <div><span className="text-muted2">Before:</span> <pre className="mt-1 p-2 bg-black/20 rounded overflow-auto max-h-20">{JSON.stringify(ace.change.prompt_change.before ?? {}, null, 2)}</pre></div>
+                <div><span className="text-muted2">After:</span> <pre className="mt-1 p-2 bg-black/20 rounded overflow-auto max-h-20">{JSON.stringify(ace.change.prompt_change.after ?? {}, null, 2)}</pre></div>
+              </div>
+            </div>
+          )}
+          {ace.change?.inference_change && (
+            <div className="mt-3 pt-3 border-t border-white/10">
+              <h3 className="text-xs font-medium text-muted2 mb-2">Inference config change</h3>
+              <div className="grid grid-cols-2 gap-3 text-xs">
+                <div><span className="text-muted2">Before:</span> <pre className="mt-1 p-2 bg-black/20 rounded overflow-auto max-h-20">{JSON.stringify(ace.change.inference_change.before ?? {}, null, 2)}</pre></div>
+                <div><span className="text-muted2">After:</span> <pre className="mt-1 p-2 bg-black/20 rounded overflow-auto max-h-20">{JSON.stringify(ace.change.inference_change.after ?? {}, null, 2)}</pre></div>
+              </div>
+            </div>
+          )}
+          {ace.change?.tooling_change && (
+            <div className="mt-3 pt-3 border-t border-white/10">
+              <h3 className="text-xs font-medium text-muted2 mb-2">Tooling change</h3>
+              <div className="grid grid-cols-2 gap-3 text-xs">
+                <div><span className="text-muted2">Before:</span> <pre className="mt-1 p-2 bg-black/20 rounded overflow-auto max-h-20">{JSON.stringify(ace.change.tooling_change.before ?? {}, null, 2)}</pre></div>
+                <div><span className="text-muted2">After:</span> <pre className="mt-1 p-2 bg-black/20 rounded overflow-auto max-h-20">{JSON.stringify(ace.change.tooling_change.after ?? {}, null, 2)}</pre></div>
+              </div>
+            </div>
+          )}
+          {ace.change?.other_changes && ace.change.other_changes.length > 0 && (
+            <div className="mt-3 pt-3 border-t border-white/10">
+              <h3 className="text-xs font-medium text-muted2 mb-2">Other changes</h3>
+              <ul className="space-y-2 text-xs">
+                {ace.change.other_changes.map((o, i) => (
+                  <li key={i} className="p-2 bg-black/20 rounded">
+                    <span className="text-muted2">{o.category_key ?? "—"}:</span> Before: {o.before?.summary ?? "—"} → After: {o.after?.summary ?? "—"}
+                    {o.notes && <span className="text-muted2 ml-2">({o.notes})</span>}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </section>
 
         {ace.risk && (
@@ -194,6 +259,39 @@ export default function AceDetailPage() {
                 </span>
               )}
             </div>
+            {ace.source.approval && (
+              <div className="mt-3 pt-3 border-t border-white/10">
+                <h3 className="text-xs font-medium text-muted2 mb-2">Approval</h3>
+                <dl className="grid grid-cols-2 gap-2 text-xs">
+                  <dt className="text-muted2">Rule</dt>
+                  <dd>{ace.source.approval.rule_type?.replace(/_/g, " ") ?? "—"}</dd>
+                  {ace.source.approval.approver_role && (
+                    <>
+                      <dt className="text-muted2">Approver role</dt>
+                      <dd>{ace.source.approval.approver_role}</dd>
+                    </>
+                  )}
+                  {ace.source.approval.approver_identity && (
+                    <>
+                      <dt className="text-muted2">Approver</dt>
+                      <dd>{ace.source.approval.approver_identity}</dd>
+                    </>
+                  )}
+                  {ace.source.approval.custom_rule_text && (
+                    <>
+                      <dt className="text-muted2">Custom rule</dt>
+                      <dd className="col-span-1">{ace.source.approval.custom_rule_text}</dd>
+                    </>
+                  )}
+                  {ace.source.approval.notes && (
+                    <>
+                      <dt className="text-muted2">Notes</dt>
+                      <dd>{ace.source.approval.notes}</dd>
+                    </>
+                  )}
+                </dl>
+              </div>
+            )}
           </section>
         )}
       </div>
