@@ -35,5 +35,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# docs (do not push .md in docs to GitHub)
-docs/*.md
+# Markdown (keep root README only)
+*.md
+!/README.md
