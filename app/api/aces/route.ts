@@ -14,7 +14,10 @@ export async function GET(request: NextRequest) {
 
   const { searchParams } = new URL(request.url);
   const limit = searchParams.get("limit") ?? "50";
-  const url = `${base}/aces?limit=${limit}`;
+  const status = searchParams.get("status");
+  const url = status
+    ? `${base}/aces?limit=${limit}&status=${encodeURIComponent(status)}`
+    : `${base}/aces?limit=${limit}`;
 
   const res = await fetch(url, {
     method: "GET",

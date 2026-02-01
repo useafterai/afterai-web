@@ -106,7 +106,7 @@ export default function LandingPage() {
           </div>
         </section>
 
-        {/* 4. Core concepts — AURA, ACE, PACR */}
+        {/* 4. Canonical flow — AIS → ACE → AURA → PACR */}
         <section className="border-t border-white/8 bg-white/[0.02]">
           <div className="max-w-5xl mx-auto px-6 py-16 md:py-20 section-with-anchor">
             <span className="section-heading-anchor" aria-hidden="true" />
@@ -114,29 +114,48 @@ export default function LandingPage() {
             <div className="rounded-xl border border-white/10 bg-white/[0.04] p-6 mb-8 max-w-2xl transition-all hover:border-gold-500/20 focus-within:border-gold-500/20">
               <p className="font-semibold text-white mb-2">The decision moment</p>
               <p className="text-sm text-muted leading-relaxed">
-                Every production AI change eventually reaches a point where someone must approve it — often with incomplete information. AfterAI is built specifically for that moment.
+                Every production AI change — or decision not to change — eventually reaches a point where someone must act. AfterAI is built for that moment: from pre-decision signals to durable records.
               </p>
             </div>
             </div>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch motion-section-content">
+            {/* Flow diagram: AIS → ACE → AURA → PACR */}
+            <div className="mb-10 motion-section-content">
+              <h3 className="text-sm font-semibold text-muted2 uppercase tracking-wide mb-4">Canonical flow</h3>
+              <div className="flex flex-wrap items-center gap-3 md:gap-4 p-4 md:p-6 rounded-xl border border-white/10 bg-white/[0.04]">
+                <FlowBox label="AIS" sub="Signals" />
+                <FlowArrow />
+                <FlowBox label="ACE" sub="Decisions" />
+                <FlowArrow />
+                <FlowBox label="AURA" sub="Risk" />
+                <FlowArrow />
+                <FlowBox label="PACR" sub="Record" />
+              </div>
+              <p className="text-xs text-muted2 mt-3">Signals (AIS) inform decision-worthy moments (ACE). Risk (AURA) attaches to an ACE. The durable record (PACR) may record a decision to act or not act.</p>
+            </div>
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch motion-section-content">
               <ValueTile
-                title="AURA"
-                subtitle="AI Upgrade Risk Assessment"
-                description="Delta-focused evaluation before you ship. Confidence-weighted deltas across quality, cost, latency, stability, and safety so you understand upgrade risk before it hits production."
+                title="AIS"
+                subtitle="AI Indicator Signals"
+                description="Pre-decision signals: drift, regression, disagreement, staleness. High-volume, non-billable, informational only. Inputs to ACE escalation."
               />
               <ValueTile
                 title="ACE"
                 subtitle="AI Change Event"
-                description="Every change, one unit. Track model swaps, config changes, and pipeline updates with full context. Your change feed — not your hot path."
+                description="Decision-worthy moments. States: pending (human attention) → confirmed (billable). Your change feed — not your hot path."
+              />
+              <ValueTile
+                title="AURA"
+                subtitle="Risk assessment"
+                description="Risk attached to an ACE. Modes: Prospective (planned change), Diagnostic (no-change drift), Counterfactual (what-if)."
               />
               <ValueTile
                 title="PACR"
                 subtitle="Production AI Change Record"
-                description="The durable artifact when a change is locked. A clear, auditable record for the changes that matter most."
+                description="Durable decision record. May represent a decision to act or not act. AURA and ACE converge here."
                 badge="Coming soon"
               />
             </div>
-            <p className="text-sm text-muted2 mt-4">PACR is where AURA and ACE converge into a system of record.</p>
+            <p className="text-sm text-muted2 mt-4">We support both planned changes and no-change scenarios: when drift is detected but you decide to defer, the record still exists.</p>
           </div>
         </section>
 
@@ -158,7 +177,15 @@ export default function LandingPage() {
               <ul className="space-y-3 text-muted mb-6">
                 <li className="flex items-start gap-3">
                   <span className="text-gold-500/70 mt-0.5">×</span>
-                  <span>Not request-level observability or logging.</span>
+                  <span>No inference-path instrumentation — we never sit in front of your inference.</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-gold-500/70 mt-0.5">×</span>
+                  <span>No production traffic logging — evaluations are controlled and offline.</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-gold-500/70 mt-0.5">×</span>
+                  <span>Not request-level observability or telemetry.</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="text-gold-500/70 mt-0.5">×</span>
@@ -170,7 +197,7 @@ export default function LandingPage() {
                 </li>
               </ul>
               <p className="text-muted leading-relaxed border-t border-white/8 pt-6">
-                AfterAI exists at the decision moment — when a change is proposed and someone has to say yes or no.
+                AfterAI uses controlled, offline evaluations only. It exists at the decision moment — when a change is proposed (or drift is detected and you choose not to act) and someone has to say yes or no.
               </p>
             </div>
           </div>
@@ -184,12 +211,12 @@ export default function LandingPage() {
             <h2 className="text-2xl font-bold mb-4 motion-section-heading">Built for production, not your hot path.</h2>
             <div className="motion-section-content">
             <p className="text-muted leading-relaxed mb-8 max-w-2xl">
-              AfterAI uses confidence-weighted deltas, works with any provider, and never sits in front of your inference. Capture change and risk out-of-band — no proxy, no routing, zero impact on latency.
+              AfterAI uses confidence-weighted deltas, works with any provider, and never sits in front of your inference. No inference-path instrumentation, no production traffic logging — controlled, offline evaluations only. Capture change and risk out-of-band; zero impact on latency.
             </p>
             <div className="flex flex-col sm:flex-row md:flex-wrap gap-4 mb-10">
-              <PillItem label="Confidence-weighted deltas" desc="Quality, cost, latency, stability, safety" />
-              <PillItem label="Provider-neutral, out-of-band" desc="Fail-open; not in your inference path" />
-              <PillItem label="No routing proxy" desc="Zero hot-path impact; capture without intercepting" />
+              <PillItem label="No inference-path instrumentation" desc="Never in front of your inference" />
+              <PillItem label="No production traffic logging" desc="Controlled, offline evaluations only" />
+              <PillItem label="Provider-neutral, out-of-band" desc="Fail-open; no proxy, no routing" />
             </div>
             <div className="grid md:grid-cols-2 gap-8 pt-8 border-t border-white/10">
               <div>
@@ -376,6 +403,23 @@ export default function LandingPage() {
         </div>
       </footer>
     </div>
+  );
+}
+
+function FlowBox({ label, sub }: { label: string; sub: string }) {
+  return (
+    <div className="px-4 py-3 rounded-lg border border-white/12 bg-white/5 min-w-[72px] text-center">
+      <div className="font-bold text-white">{label}</div>
+      <div className="text-xs text-muted2">{sub}</div>
+    </div>
+  );
+}
+
+function FlowArrow() {
+  return (
+    <span className="text-muted2 shrink-0" aria-hidden>
+      →
+    </span>
   );
 }
 

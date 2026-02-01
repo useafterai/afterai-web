@@ -2,9 +2,14 @@
 const nextConfig = {
   reactStrictMode: true,
   output: 'standalone',
-  // Allow images from external domains if needed
   images: {
     domains: [],
+  },
+  async redirects() {
+    return [
+      { source: '/app/change-feed', destination: '/app/decisions', permanent: true },
+      { source: '/app/change-feed/:aceId', destination: '/app/decisions/:aceId', permanent: true },
+    ]
   },
 }
 

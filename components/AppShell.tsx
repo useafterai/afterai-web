@@ -54,7 +54,8 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
       name: "OBSERVE",
       section: true,
       items: [
-        { name: "Change Feed", href: "/app/change-feed", icon: FiActivity },
+        { name: "Signals (AIS)", href: "/app/signals", icon: FiActivity },
+        { name: "Decisions (ACE)", href: "/app/decisions", icon: FiActivity },
         { name: "Drift Watch", href: "/app/drift-watch", icon: FiTrendingUp },
         { name: "Dashboards", href: "/app/dashboards", icon: FiFileText },
       ],

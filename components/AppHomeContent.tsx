@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { FiActivity, FiTrendingUp, FiArrowRight } from "react-icons/fi";
+import { FiActivity, FiTrendingUp, FiArrowRight, FiRadio } from "react-icons/fi";
 
 export default function AppHomeContent() {
   return (
@@ -10,9 +10,9 @@ export default function AppHomeContent() {
       </div>
 
       <div className="grid md:grid-cols-2 gap-6">
-        {/* Start Monitoring Card */}
+        {/* Decisions (ACE) — primary workflow */}
         <Link
-          href="/app/change-feed"
+          href="/app/decisions"
           className="group p-8 rounded-2xl border border-white/14 bg-gradient-to-b from-white/8 to-white/4 hover:border-gold-500/30 hover:shadow-xl transition-all"
         >
           <div className="flex items-start justify-between mb-4">
@@ -23,12 +23,35 @@ export default function AppHomeContent() {
               Free
             </span>
           </div>
-          <h2 className="text-2xl font-bold mb-3">Start Monitoring</h2>
+          <h2 className="text-2xl font-bold mb-3">Decisions (ACE)</h2>
           <p className="text-muted mb-6 leading-relaxed">
-            Begin capturing AI change events (ACE) and track changes across your AI systems. View your change feed, monitor drift, and access basic dashboards.
+            Decision-worthy moments: Pending ACEs need your attention; Confirmed ACEs are billable. View and act on your AI change events.
           </p>
           <div className="flex items-center gap-2 text-purple-400 group-hover:gap-4 transition-all font-semibold">
-            Go to Change Feed
+            Go to Decisions
+            <FiArrowRight />
+          </div>
+        </Link>
+
+        {/* Signals (AIS) Card */}
+        <Link
+          href="/app/signals"
+          className="group p-8 rounded-2xl border border-white/14 bg-gradient-to-b from-white/8 to-white/4 hover:border-purple-500/30 hover:shadow-xl transition-all"
+        >
+          <div className="flex items-start justify-between mb-4">
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500/80 to-gold-500/80 flex items-center justify-center mb-4">
+              <FiRadio className="w-6 h-6 text-white" />
+            </div>
+            <span className="px-3 py-1 rounded-full border border-purple-500/22 bg-purple-500/10 text-purple-400 text-xs font-semibold">
+              AIS
+            </span>
+          </div>
+          <h2 className="text-2xl font-bold mb-3">Signals (AIS)</h2>
+          <p className="text-muted mb-6 leading-relaxed">
+            Pre-decision signals: drift, regression, disagreement, staleness. High-volume, non-billable, informational only. Inputs to ACE escalation.
+          </p>
+          <div className="flex items-center gap-2 text-purple-400 group-hover:gap-4 transition-all font-semibold">
+            Go to Signals
             <FiArrowRight />
           </div>
         </Link>
