@@ -249,7 +249,7 @@ export default function LandingPage() {
             <span className="section-heading-anchor" aria-hidden="true" />
             <div className="p-8 rounded-2xl border border-white/14 bg-gradient-to-b from-white/8 to-white/4 backdrop-blur-xl">
               <div className="text-center mb-8">
-                <h2 className="text-3xl font-bold mb-4 motion-section-heading">Start monitoring for free.</h2>
+                <h2 className="text-3xl font-bold mb-4 motion-section-heading">Start decision-grade AI change intelligence for free.</h2>
                 <p className="text-muted motion-section-content">Monitor is live. Assess and Enterprise are coming soon.</p>
               </div>
               <div className="grid md:grid-cols-3 gap-6 items-stretch motion-section-content">
@@ -257,7 +257,12 @@ export default function LandingPage() {
                   name="Monitor"
                   price="$0"
                   period="month"
-                  features={["25 ACE events/month", "Change Feed, basic dashboards", "Email support", "1 preview AURA/month"]}
+                  features={[
+                    "Unlimited AIS (AI Indicator Signals)",
+                    "25 ACE events/month",
+                    "Basic dashboards + email support",
+                    "1 preview AURA/month",
+                  ]}
                   addOn="Need one full assessment now? Add one full AURA for $99 (one-time)."
                   ctaLabel="Get started"
                   ctaHref="/signup"
@@ -267,16 +272,34 @@ export default function LandingPage() {
                   name="Assess"
                   price="$250"
                   period="month"
-                  features={["Unlimited ACE", "Full AURA assessments", "Advanced analytics", "Priority support"]}
+                  features={[
+                    "Unlimited AIS (AI Indicator Signals)",
+                    "Up to 100 AURAs/month",
+                    "1,000 ACEs/month",
+                    "SSO (single IdP)",
+                    "Basic RBAC (Admin / Member / Viewer)",
+                    "Limited audit log (7–14 days)",
+                    "Advanced analytics",
+                    "Priority support",
+                  ]}
                   ctaLabel="Coming soon"
                   comingSoon
                 />
                 <PricingCard
                   name="Enterprise"
-                  price="$4,500"
-                  priceSub="or custom"
-                  period="month"
-                  features={["PACR", "Custom integrations", "Dedicated support", "SLA"]}
+                  price="Custom"
+                  period=""
+                  priceNote="Starts at $4,500/month"
+                  features={[
+                    "Unlimited AIS (AI Indicator Signals)",
+                    "SSO + RBAC",
+                    "Audit log",
+                    "Retention policies",
+                    "Single-tenant eval compute (private / isolated)",
+                    "Optional customer-managed keys (BYOK)",
+                    "Custom integrations",
+                    "SLA / dedicated support",
+                  ]}
                   ctaLabel="Talk to us"
                   comingSoon
                 />
@@ -455,6 +478,7 @@ type PricingCardProps = {
   name: string;
   price: string;
   priceSub?: string;
+  priceNote?: string;
   period: string;
   features: string[];
   addOn?: string;
@@ -464,7 +488,7 @@ type PricingCardProps = {
   comingSoon?: boolean;
 };
 
-function PricingCard({ name, price, priceSub, period, features, addOn, ctaLabel, ctaHref, highlighted, comingSoon }: PricingCardProps) {
+function PricingCard({ name, price, priceSub, priceNote, period, features, addOn, ctaLabel, ctaHref, highlighted, comingSoon }: PricingCardProps) {
   return (
     <div className={`flex h-full flex-col p-6 rounded-xl border transition-all duration-200 ${highlighted ? "border-gold-500/30 bg-gradient-to-b from-white/10 to-white/5 hover:border-gold-500/40" : "border-white/10 bg-white/5 hover:border-white/20 hover:bg-white/[0.07]"}`}>
       <div className="flex-1 min-h-0 flex flex-col">
@@ -473,6 +497,7 @@ function PricingCard({ name, price, priceSub, period, features, addOn, ctaLabel,
           <span className="text-3xl font-bold">{price}</span>
           {priceSub && <span className="text-lg font-semibold text-muted2 ml-1">{priceSub}</span>}
           {period && <span className="text-muted2 ml-2">/{period}</span>}
+          {priceNote && <p className="text-sm text-muted2 mt-1">{priceNote}</p>}
         </div>
         <ul className="space-y-2">
           {features.map((feature) => (
