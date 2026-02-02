@@ -22,13 +22,19 @@ export default function DecisionCarousel() {
 
   const scrollToSlide = (index: number) => {
     setHasInteracted(true);
+    setActiveIndex(index);
     const el = document.getElementById(`slide-${STEPS[index].id}`);
-    if (el) {
+    if (!el) return;
+    const isDesktop = typeof window !== "undefined" && window.matchMedia("(min-width: 768px)").matches;
+    if (isDesktop) {
+      el.scrollIntoView({ behavior: getScrollBehavior(), block: "nearest" });
+    } else {
       el.scrollIntoView({ behavior: getScrollBehavior(), block: "nearest", inline: "start" });
     }
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (typeof window !== "undefined" && window.matchMedia("(min-width: 768px)").matches) return;
     const el = scrollRef.current;
     if (!el) return;
     const behavior = getScrollBehavior();
@@ -53,13 +59,15 @@ export default function DecisionCarousel() {
     if (cards.length === 0) return;
 
     const ratios = new Map<Element, number>();
-    const updateActive = () => {
+    const updateActive = (root: Element | null) => {
+      const isDesktop = root === null;
+      const minRatio = isDesktop ? 0.3 : 0.6;
       let bestIndex = -1;
-      let bestRatio = 0.59;
+      let bestRatio = minRatio - 0.01;
       cards.forEach((card, i) => {
         if (!card) return;
         const r = ratios.get(card) ?? 0;
-        if (r >= 0.6 && r > bestRatio) {
+        if (r >= minRatio && r > bestRatio) {
           bestRatio = r;
           bestIndex = i;
         }
@@ -69,18 +77,38 @@ export default function DecisionCarousel() {
       }
     };
 
-    const observer = new IntersectionObserver(
+    const observerMobile = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => {
-          ratios.set(entry.target, entry.intersectionRatio);
-        });
-        updateActive();
+        entries.forEach((entry) => ratios.set(entry.target, entry.intersectionRatio));
+        updateActive(container);
       },
       { root: container, rootMargin: "0px", threshold: [0.1, 0.25, 0.5, 0.6, 0.75, 1] }
     );
 
-    cards.forEach((card) => card && observer.observe(card));
-    return () => cards.forEach((card) => card && observer.unobserve(card));
+    const observerDesktop = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => ratios.set(entry.target, entry.intersectionRatio));
+        updateActive(null);
+      },
+      { root: null, rootMargin: "-20% 0px", threshold: [0.1, 0.25, 0.5, 0.6, 0.75, 1] }
+    );
+
+    const mq = window.matchMedia("(min-width: 768px)");
+    const setup = () => {
+      const useDesktop = mq.matches;
+      cards.forEach((card) => {
+        if (!card) return;
+        observerMobile.unobserve(card);
+        observerDesktop.unobserve(card);
+        (useDesktop ? observerDesktop : observerMobile).observe(card);
+      });
+    };
+    setup();
+    mq.addEventListener("change", setup);
+    return () => {
+      mq.removeEventListener("change", setup);
+      cards.forEach((card) => card && (observerMobile.unobserve(card), observerDesktop.unobserve(card)));
+    };
   }, []);
 
   return (
@@ -113,7 +141,7 @@ export default function DecisionCarousel() {
         ))}
       </div>
 
-      {/* Horizontal scroll-snap carousel + mobile peek */}
+      {/* Mobile: carousel | Desktop: 2x2 grid */}
       <div className="relative">
         <div
           ref={scrollRef}
@@ -122,18 +150,18 @@ export default function DecisionCarousel() {
           aria-label="Decision flow carousel"
           onKeyDown={handleKeyDown}
           onScroll={handleScroll}
-          className="decision-carousel -mx-6 flex overflow-x-auto overscroll-x-contain px-6 pb-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold-500/40 focus-visible:ring-offset-2 focus-visible:ring-offset-dark md:-mx-4 md:gap-4 md:px-4 md:pb-4"
+          className="decision-carousel -mx-6 flex overflow-x-auto overscroll-x-contain px-6 pb-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold-500/40 focus-visible:ring-offset-2 focus-visible:ring-offset-dark md:mx-0 md:grid md:grid-cols-2 md:grid-rows-2 md:gap-6 md:overflow-x-hidden md:px-0 md:pb-0"
         >
-          <BentoCard id="slide-ais" ref={(el) => { cardRefs.current[0] = el; }} label="AIS" headline="Signals that escalate" copy="Pre-decision signals: drift, regression, disagreement, staleness. High-volume, non-billable." variant="upstream">
+          <BentoCard id="slide-ais" ref={(el) => { cardRefs.current[0] = el; }} label="AIS" headline="Signals that escalate" copy="Pre-decision signals: drift, regression, disagreement, staleness. High-volume, non-billable." isActive={activeIndex === 0} isAce={false}>
             <AISThumbnail />
           </BentoCard>
-          <BentoCard id="slide-ace" ref={(el) => { cardRefs.current[1] = el; }} label="ACE" headline="The decision-worthy moment" copy="Pending (human attention) → confirmed (billable). Your change feed — not your hot path." variant="dominant">
+          <BentoCard id="slide-ace" ref={(el) => { cardRefs.current[1] = el; }} label="ACE" headline="The decision-worthy moment" copy="Pending (human attention) → confirmed (billable). Your change feed — not your hot path." isActive={activeIndex === 1} isAce={true}>
             <ACEThumbnail />
           </BentoCard>
-          <BentoCard id="slide-aura" ref={(el) => { cardRefs.current[2] = el; }} label="AURA" headline="Risk attached to ACE" copy="Prospective, Diagnostic, Counterfactual. Confidence-weighted deltas." variant="downstream">
+          <BentoCard id="slide-aura" ref={(el) => { cardRefs.current[2] = el; }} label="AURA" headline="Risk attached to ACE" copy="Prospective, Diagnostic, Counterfactual. Confidence-weighted deltas." isActive={activeIndex === 2} isAce={false}>
             <AURAThumbnail />
           </BentoCard>
-          <BentoCard id="slide-pacr" ref={(el) => { cardRefs.current[3] = el; }} label="PACR" headline="Durable decision record" copy="Decision to act or not act. AURA and ACE converge here." badge="Coming soon" variant="downstream">
+          <BentoCard id="slide-pacr" ref={(el) => { cardRefs.current[3] = el; }} label="PACR" headline="Durable decision record" copy="Decision to act or not act. AURA and ACE converge here." badge="Coming soon" isActive={activeIndex === 3} isAce={false}>
             <PACRThumbnail />
           </BentoCard>
         </div>
@@ -159,7 +187,8 @@ const BentoCard = React.forwardRef(function BentoCard({
   headline,
   copy,
   badge,
-  variant,
+  isActive,
+  isAce,
   children,
 }: {
   id?: string;
@@ -167,22 +196,20 @@ const BentoCard = React.forwardRef(function BentoCard({
   headline: string;
   copy: string;
   badge?: string;
-  variant: "upstream" | "dominant" | "downstream";
+  isActive?: boolean;
+  isAce?: boolean;
   children: React.ReactNode;
 }, ref: React.Ref<HTMLDivElement>) {
-  const variantStyles = {
-    upstream: "border-white/8 bg-white/[0.03]",
-    dominant: "border-white/12 bg-white/[0.05] ring-1 ring-gold-500/10",
-    downstream: "border-white/10 bg-white/[0.04]",
-  };
   return (
     <div
       ref={ref}
       id={id}
-      className={`decision-carousel-card bento-card group flex w-[85vw] min-w-[280px] shrink-0 flex-col rounded-2xl border p-5 transition-all duration-200 hover:border-gold-500/20 md:w-[min(380px,78vw)] md:min-w-[320px] ${variantStyles[variant]}`}
+      className={`decision-carousel-card bento-card group flex w-[85vw] min-w-[280px] shrink-0 flex-col rounded-2xl border border-white/10 bg-white/[0.03] p-5 transition-all duration-200 md:w-full md:min-w-0 ${
+        isActive ? "ring-2 ring-amber-400/30 ring-offset-2 ring-offset-dark" : "hover:border-white/15"
+      } ${isAce ? "md:hover:shadow-[0_0_24px_-8px_rgba(251,191,36,0.15)]" : ""}`}
     >
       <div className="flex items-start justify-between gap-3 mb-3">
-        <span className="inline-flex px-2.5 py-1 text-xs font-semibold rounded-lg border border-white/12 bg-white/5 text-muted2 transition-colors duration-200 group-hover:border-white/20 group-hover:bg-white/8 group-hover:text-white/90">
+        <span className="inline-flex px-2.5 py-1 text-xs font-semibold rounded-lg border border-white/10 bg-white/5 text-muted2 transition-colors duration-200 group-hover:border-white/20 group-hover:bg-white/8 group-hover:text-white/90">
           {label}
         </span>
         {badge && (
@@ -193,7 +220,7 @@ const BentoCard = React.forwardRef(function BentoCard({
       </div>
       <h3 className="font-bold text-white mb-2">{headline}</h3>
       <p className="text-sm text-muted leading-relaxed mb-4 line-clamp-3">{copy}</p>
-      <div className="rounded-xl border border-white/8 bg-dark/60 overflow-hidden max-h-[180px]">
+      <div className="rounded-xl border border-white/10 bg-dark/60 overflow-hidden max-h-[180px]">
         {children}
       </div>
     </div>
@@ -211,7 +238,7 @@ function AISThumbnail() {
   return (
     <div className="w-full p-3 space-y-2">
       {signals.map((s, i) => (
-        <div key={i} className="flex items-center justify-between gap-2 py-1.5 px-2 rounded-lg bg-white/[0.04] border border-white/6">
+        <div key={i} className="flex items-center justify-between gap-2 py-1.5 px-2 rounded-lg bg-white/[0.04] border border-white/10">
           <span className="px-1.5 py-0.5 text-[10px] rounded bg-white/10 text-muted2">{s.chip}</span>
           <span className="text-[10px] text-muted2 tabular-nums">{s.time}</span>
         </div>
@@ -253,7 +280,7 @@ function AURAThumbnail() {
   return (
     <div className="w-full p-3">
       <div className="text-[10px] font-semibold text-muted2 uppercase tracking-wide mb-2">Delta</div>
-      <div className="rounded-lg border border-white/10 bg-white/[0.04] divide-y divide-white/6">
+      <div className="rounded-lg border border-white/10 bg-white/[0.04] divide-y divide-white/10">
         {metrics.map((m) => (
           <div key={m.label} className="flex items-center justify-between py-2 px-2 text-[10px] first:pt-2 last:pb-2">
             <span className="text-muted2">{m.label}</span>
