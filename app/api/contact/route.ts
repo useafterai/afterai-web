@@ -1,17 +1,27 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
 
-const TO_EMAIL = "oscar@useafter.ai";
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
 
 // Resend free plan: use onboarding@resend.dev until you verify your domain
 const DEFAULT_FROM = "AfterAI Contact <onboarding@resend.dev>";
+const DEFAULT_TO = "hello@useafter.ai";
 
 export async function POST(request: NextRequest) {
   const apiKey = process.env.RESEND_API_KEY?.trim();
   if (!apiKey) {
     return NextResponse.json(
       { ok: false, error: "Email is not configured (RESEND_API_KEY missing)." },
-      { status: 503 }
+      { status: 500 }
+    );
+  }
+
+  const toEmail = process.env.CONTACT_TO_EMAIL?.trim() || DEFAULT_TO;
+  if (!toEmail || !toEmail.includes("@")) {
+    return NextResponse.json(
+      { ok: false, error: "Invalid CONTACT_TO_EMAIL." },
+      { status: 500 }
     );
   }
 
@@ -33,7 +43,6 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  const resend = new Resend(apiKey);
   const from = process.env.CONTACT_FROM?.trim() || DEFAULT_FROM;
   const subject = `Enterprise inquiry${name ? ` – ${name}` : ""}`;
   const text = [
@@ -45,20 +54,30 @@ export async function POST(request: NextRequest) {
     .filter(Boolean)
     .join("\n");
 
-  const { data, error } = await resend.emails.send({
-    from,
-    to: TO_EMAIL,
-    replyTo: email,
-    subject,
-    text,
-  });
+  const resend = new Resend(apiKey);
 
-  if (error) {
+  try {
+    const { data, error } = await resend.emails.send({
+      from,
+      to: toEmail,
+      replyTo: email,
+      subject,
+      text,
+    });
+
+    if (error) {
+      return NextResponse.json(
+        { ok: false, error: error.message || "Failed to send email." },
+        { status: 502 }
+      );
+    }
+
+    return NextResponse.json({ ok: true, id: data?.id });
+  } catch (err) {
+    const message = err instanceof Error ? err.message : "Upstream email failure.";
     return NextResponse.json(
-      { ok: false, error: error.message || "Failed to send email." },
+      { ok: false, error: message },
       { status: 502 }
     );
   }
-
-  return NextResponse.json({ ok: true, id: data?.id });
 }

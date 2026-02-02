@@ -56,7 +56,7 @@ export default function ContactPage() {
         </div>
         <h1 className="text-3xl font-bold mb-2">Talk to us</h1>
         <p className="text-muted mb-8">
-          Send us a message and we&apos;ll get back to you. Your message is delivered to oscar@useafter.ai.
+          Send us a message and we&apos;ll get back to you.
         </p>
 
         {status === "success" ? (
