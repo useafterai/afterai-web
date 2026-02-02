@@ -18,7 +18,12 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  const toEmail = process.env.CONTACT_TO_EMAIL?.trim() || DEFAULT_TO;
+  // When Resend domain is unverified, only the account owner can receive. Set CONTACT_TEST_TO_EMAIL
+  // to that address so the endpoint returns 200 in testing. Omit in production once domain is verified.
+  const toEmail =
+    process.env.CONTACT_TEST_TO_EMAIL?.trim() ||
+    process.env.CONTACT_TO_EMAIL?.trim() ||
+    DEFAULT_TO;
   if (!toEmail || !toEmail.includes("@")) {
     return NextResponse.json(
       { ok: false, error: "Invalid CONTACT_TO_EMAIL." },
@@ -70,8 +75,19 @@ export async function POST(request: NextRequest) {
     });
 
     if (error) {
-      // Log server-side only; never expose Resend details or secrets to the client
-      console.error("[contact] Resend send failed:", error.message || "unknown");
+      const msg = (error.message || "unknown").toLowerCase();
+      const isTestingRestriction =
+        msg.includes("domain") ||
+        msg.includes("verif") ||
+        msg.includes("recipient") ||
+        msg.includes("only send");
+      if (isTestingRestriction) {
+        console.error(
+          "[contact] Resend blocked: domain unverified or testing recipient restriction."
+        );
+      } else {
+        console.error("[contact] Resend send failed:", error.message || "unknown");
+      }
       return NextResponse.json(
         { ok: false, error: "Email send failed." },
         { status: 502 }
@@ -81,7 +97,19 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ ok: true, id: data?.id });
   } catch (err) {
     const safeMessage = err instanceof Error ? err.message : "unknown";
-    console.error("[contact] Resend send failed:", safeMessage);
+    const msg = safeMessage.toLowerCase();
+    const isTestingRestriction =
+      msg.includes("domain") ||
+      msg.includes("verif") ||
+      msg.includes("recipient") ||
+      msg.includes("only send");
+    if (isTestingRestriction) {
+      console.error(
+        "[contact] Resend blocked: domain unverified or testing recipient restriction."
+      );
+    } else {
+      console.error("[contact] Resend send failed:", safeMessage);
+    }
     return NextResponse.json(
       { ok: false, error: "Email send failed." },
       { status: 502 }
