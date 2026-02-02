@@ -119,7 +119,7 @@ export default function LandingPage() {
                 Every production AI change — or decision not to change — eventually reaches a point where someone must act. AfterAI is built for that moment: from pre-decision signals to durable records.
               </p>
             </div>
-            {/* Snap-based decision carousel: AIS → ACE → AURA → PACR */}
+            {/* 3-step carousel: ACE, AURA, PACR | AIS as transversal */}
             <DecisionCarousel />
             <p className="text-sm text-muted2 mt-6 motion-section-content">Canonical flow: AIS → ACE → (AURA + PACR). We support both planned changes and no-change scenarios: when drift is detected but you decide to defer, the record still exists.</p>
           </div>

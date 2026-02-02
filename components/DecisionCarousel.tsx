@@ -3,7 +3,6 @@
 import React, { useEffect, useRef, useState } from "react";
 
 const STEPS = [
-  { id: "ais", label: "AIS", sub: "Signals" },
   { id: "ace", label: "ACE", sub: "Decision moment" },
   { id: "aura", label: "AURA", sub: "Risk" },
   { id: "pacr", label: "PACR", sub: "Record" },
@@ -25,16 +24,10 @@ export default function DecisionCarousel() {
     setActiveIndex(index);
     const el = document.getElementById(`slide-${STEPS[index].id}`);
     if (!el) return;
-    const isDesktop = typeof window !== "undefined" && window.matchMedia("(min-width: 768px)").matches;
-    if (isDesktop) {
-      el.scrollIntoView({ behavior: getScrollBehavior(), block: "nearest" });
-    } else {
-      el.scrollIntoView({ behavior: getScrollBehavior(), block: "nearest", inline: "start" });
-    }
+    el.scrollIntoView({ behavior: getScrollBehavior(), block: "nearest", inline: "start" });
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (typeof window !== "undefined" && window.matchMedia("(min-width: 768px)").matches) return;
     const el = scrollRef.current;
     if (!el) return;
     const behavior = getScrollBehavior();
@@ -60,8 +53,7 @@ export default function DecisionCarousel() {
 
     const ratios = new Map<Element, number>();
     const updateActive = (root: Element | null) => {
-      const isDesktop = root === null;
-      const minRatio = isDesktop ? 0.3 : 0.6;
+      const minRatio = 0.6;
       let bestIndex = -1;
       let bestRatio = minRatio - 0.01;
       cards.forEach((card, i) => {
@@ -77,7 +69,7 @@ export default function DecisionCarousel() {
       }
     };
 
-    const observerMobile = new IntersectionObserver(
+    const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => ratios.set(entry.target, entry.intersectionRatio));
         updateActive(container);
@@ -85,39 +77,17 @@ export default function DecisionCarousel() {
       { root: container, rootMargin: "0px", threshold: [0.1, 0.25, 0.5, 0.6, 0.75, 1] }
     );
 
-    const observerDesktop = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => ratios.set(entry.target, entry.intersectionRatio));
-        updateActive(null);
-      },
-      { root: null, rootMargin: "-20% 0px", threshold: [0.1, 0.25, 0.5, 0.6, 0.75, 1] }
-    );
-
-    const mq = window.matchMedia("(min-width: 768px)");
-    const setup = () => {
-      const useDesktop = mq.matches;
-      cards.forEach((card) => {
-        if (!card) return;
-        observerMobile.unobserve(card);
-        observerDesktop.unobserve(card);
-        (useDesktop ? observerDesktop : observerMobile).observe(card);
-      });
-    };
-    setup();
-    mq.addEventListener("change", setup);
-    return () => {
-      mq.removeEventListener("change", setup);
-      cards.forEach((card) => card && (observerMobile.unobserve(card), observerDesktop.unobserve(card)));
-    };
+    cards.forEach((card) => card && observer.observe(card));
+    return () => cards.forEach((card) => card && observer.unobserve(card));
   }, []);
 
   return (
     <div className="motion-section-content relative">
-      {/* Step indicator: AIS → ACE → AURA → PACR (clickable pills) */}
+      {/* Step indicator: ACE → AURA → PACR (clickable pills) */}
       <div
-        className="sticky top-[4.5rem] z-10 mb-4 flex flex-wrap items-center gap-2 rounded-lg border border-white/10 bg-dark/95 px-4 py-3 backdrop-blur-sm"
+        className="sticky top-[4.5rem] z-10 mb-3 flex flex-wrap items-center gap-2 rounded-lg border border-white/10 bg-dark/95 px-4 py-3 backdrop-blur-sm"
         role="tablist"
-        aria-label="Canonical flow steps"
+        aria-label="Decision flow steps"
       >
         {STEPS.map((step, i) => (
           <span key={step.id} className="flex items-center gap-2">
@@ -125,7 +95,7 @@ export default function DecisionCarousel() {
               type="button"
               role="tab"
               aria-selected={activeIndex === i}
-              aria-label={`Step ${i + 1} of 4: ${step.label} (${step.sub})`}
+              aria-label={`Step ${i + 1} of 3: ${step.label} (${step.sub})`}
               onClick={() => scrollToSlide(i)}
               className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-gold-500/40 focus-visible:ring-offset-2 focus-visible:ring-offset-dark ${
                 activeIndex === i
@@ -141,7 +111,26 @@ export default function DecisionCarousel() {
         ))}
       </div>
 
-      {/* Mobile: carousel | Desktop: 2x2 grid */}
+      {/* AIS transversal strip (not a step) */}
+      <div className="mb-4 rounded-lg border border-white/10 bg-white/[0.02] px-4 py-3">
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+          <div>
+            <span className="text-xs font-semibold text-muted2">AIS (AI Indicator Signals)</span>
+            <p className="text-xs text-muted2/90 mt-0.5 max-w-xl">
+              Continuous pre-decision signals that feed ACE, inform AURA, and are cited in PACR.
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-1.5">
+            {["drift", "regression", "disagreement", "staleness"].map((chip) => (
+              <span key={chip} className="px-2 py-0.5 text-[10px] rounded border border-white/10 bg-white/5 text-muted2">
+                {chip}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* 3-step carousel: ACE, AURA, PACR */}
       <div className="relative">
         <div
           ref={scrollRef}
@@ -150,18 +139,15 @@ export default function DecisionCarousel() {
           aria-label="Decision flow carousel"
           onKeyDown={handleKeyDown}
           onScroll={handleScroll}
-          className="decision-carousel -mx-6 flex overflow-x-auto overscroll-x-contain px-6 pb-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold-500/40 focus-visible:ring-offset-2 focus-visible:ring-offset-dark md:mx-0 md:grid md:grid-cols-2 md:grid-rows-2 md:gap-6 md:overflow-x-hidden md:px-0 md:pb-0"
+          className="decision-carousel -mx-6 flex overflow-x-auto overscroll-x-contain px-6 pb-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold-500/40 focus-visible:ring-offset-2 focus-visible:ring-offset-dark md:-mx-4 md:gap-6 md:px-4 md:pb-4"
         >
-          <BentoCard id="slide-ais" ref={(el) => { cardRefs.current[0] = el; }} label="AIS" headline="Signals that escalate" copy="Pre-decision signals: drift, regression, disagreement, staleness. High-volume, non-billable." isActive={activeIndex === 0} isAce={false}>
-            <AISThumbnail />
-          </BentoCard>
-          <BentoCard id="slide-ace" ref={(el) => { cardRefs.current[1] = el; }} label="ACE" headline="The decision-worthy moment" copy="Pending (human attention) → confirmed (billable). Your change feed — not your hot path." isActive={activeIndex === 1} isAce={true}>
+          <BentoCard id="slide-ace" ref={(el) => { cardRefs.current[0] = el; }} label="ACE" headline="The decision-worthy moment" copy="Pending (human attention) → confirmed (billable). Your change feed — not your hot path." isActive={activeIndex === 0} isAce={true}>
             <ACEThumbnail />
           </BentoCard>
-          <BentoCard id="slide-aura" ref={(el) => { cardRefs.current[2] = el; }} label="AURA" headline="Risk attached to ACE" copy="Prospective, Diagnostic, Counterfactual. Confidence-weighted deltas." isActive={activeIndex === 2} isAce={false}>
+          <BentoCard id="slide-aura" ref={(el) => { cardRefs.current[1] = el; }} label="AURA" headline="Risk attached to ACE" copy="Prospective, Diagnostic, Counterfactual. Confidence-weighted deltas." isActive={activeIndex === 1} isAce={false}>
             <AURAThumbnail />
           </BentoCard>
-          <BentoCard id="slide-pacr" ref={(el) => { cardRefs.current[3] = el; }} label="PACR" headline="Durable decision record" copy="Decision to act or not act. AURA and ACE converge here." badge="Coming soon" isActive={activeIndex === 3} isAce={false}>
+          <BentoCard id="slide-pacr" ref={(el) => { cardRefs.current[2] = el; }} label="PACR" headline="Durable decision record" copy="Decision to act or not act. AURA and ACE converge here." badge="Coming soon" isActive={activeIndex === 2} isAce={false}>
             <PACRThumbnail />
           </BentoCard>
         </div>
@@ -204,7 +190,7 @@ const BentoCard = React.forwardRef(function BentoCard({
     <div
       ref={ref}
       id={id}
-      className={`decision-carousel-card bento-card group flex w-[85vw] min-w-[280px] shrink-0 flex-col rounded-2xl border border-white/10 bg-white/[0.03] p-5 transition-all duration-200 md:w-full md:min-w-0 ${
+      className={`decision-carousel-card bento-card group flex w-[85vw] min-w-[280px] shrink-0 flex-col rounded-2xl border border-white/10 bg-white/[0.03] p-5 transition-all duration-200 md:w-[min(420px,72vw)] md:min-w-[320px] ${
         isActive ? "ring-2 ring-amber-400/30 ring-offset-2 ring-offset-dark" : "hover:border-white/15"
       } ${isAce ? "md:hover:shadow-[0_0_24px_-8px_rgba(251,191,36,0.15)]" : ""}`}
     >
@@ -226,26 +212,6 @@ const BentoCard = React.forwardRef(function BentoCard({
     </div>
   );
 });
-
-function AISThumbnail() {
-  const signals = [
-    { chip: "drift", time: "2m" },
-    { chip: "regression", time: "5m" },
-    { chip: "disagreement", time: "12m" },
-    { chip: "staleness", time: "1h" },
-    { chip: "drift", time: "2h" },
-  ];
-  return (
-    <div className="w-full p-3 space-y-2">
-      {signals.map((s, i) => (
-        <div key={i} className="flex items-center justify-between gap-2 py-1.5 px-2 rounded-lg bg-white/[0.04] border border-white/10">
-          <span className="px-1.5 py-0.5 text-[10px] rounded bg-white/10 text-muted2">{s.chip}</span>
-          <span className="text-[10px] text-muted2 tabular-nums">{s.time}</span>
-        </div>
-      ))}
-    </div>
-  );
-}
 
 function ACEThumbnail() {
   const entries = [

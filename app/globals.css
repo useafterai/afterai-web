@@ -326,7 +326,7 @@ select.input-afterai {
   }
 }
 
-/* Decision carousel: mobile scroll-snap, desktop grid */
+/* Decision carousel: scroll-snap mobile + desktop */
 .decision-carousel {
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
@@ -336,16 +336,6 @@ select.input-afterai {
 .decision-carousel .decision-carousel-card {
   scroll-snap-align: start;
   scroll-snap-stop: normal;
-}
-
-@media (min-width: 768px) {
-  .decision-carousel {
-    scroll-snap-type: none;
-    -webkit-overflow-scrolling: auto;
-  }
-  .decision-carousel .decision-carousel-card {
-    scroll-snap-align: unset;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
