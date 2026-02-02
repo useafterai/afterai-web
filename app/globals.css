@@ -38,7 +38,8 @@ body {
 [id="pricing"],
 [id="faq"],
 [id="trust"],
-[id="docs"] {
+[id="docs"],
+[id="decision-moment"] {
   scroll-margin-top: 5rem;
 }
 
@@ -305,4 +306,22 @@ select.input-afterai {
   color: rgba(239, 68, 68, 0.95);
   font-size: 0.8125rem;
   margin-top: 0.375rem;
+}
+
+/* Bento card: hover lift + soft glow */
+.bento-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+.bento-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 40px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(246, 201, 69, 0.08);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bento-card {
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  .bento-card:hover {
+    transform: none;
+  }
 }

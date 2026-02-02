@@ -109,55 +109,64 @@ export default function LandingPage() {
         </section>
 
         {/* 4. Canonical flow — AIS → ACE → AURA → PACR */}
-        <section className="border-t border-white/8 bg-white/[0.02]">
-          <div className="max-w-5xl mx-auto px-6 py-16 md:py-20 section-with-anchor">
+        <section id="decision-moment" className="border-t border-white/8 bg-white/[0.02]">
+          <div className="max-w-6xl mx-auto px-6 py-16 md:py-20 section-with-anchor">
             <span className="section-heading-anchor" aria-hidden="true" />
-            <div className="motion-section-heading">
-            <div className="rounded-xl border border-white/10 bg-white/[0.04] p-6 mb-8 max-w-2xl transition-all hover:border-gold-500/20 focus-within:border-gold-500/20">
-              <p className="font-semibold text-white mb-2">The decision moment</p>
-              <p className="text-sm text-muted leading-relaxed">
+            <div className="motion-section-heading mb-10">
+              <h2 className="text-2xl md:text-3xl font-bold mb-3">The decision moment</h2>
+              <p className="text-muted leading-relaxed max-w-2xl">
                 Every production AI change — or decision not to change — eventually reaches a point where someone must act. AfterAI is built for that moment: from pre-decision signals to durable records.
               </p>
             </div>
-            </div>
-            {/* Flow diagram: AIS → ACE → AURA → PACR */}
-            <div className="mb-10 motion-section-content">
-              <h3 className="text-sm font-semibold text-muted2 uppercase tracking-wide mb-4">Canonical flow</h3>
-              <div className="flex flex-wrap items-center gap-3 md:gap-4 p-4 md:p-6 rounded-xl border border-white/10 bg-white/[0.04]">
-                <FlowBox label="AIS" sub="Signals" />
-                <FlowArrow />
-                <FlowBox label="ACE" sub="Decisions" />
-                <FlowArrow />
-                <FlowBox label="AURA" sub="Risk" />
-                <FlowArrow />
-                <FlowBox label="PACR" sub="Record" />
+            {/* Hierarchical bento: AIS (4) → ACE (8) | AURA+PACR (4) stacked */}
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-6 motion-section-content">
+              {/* AIS: upstream, md:col-span-4, shorter, lighter */}
+              <div className="md:col-span-4">
+                <BentoCard
+                  label="AIS"
+                  headline="Signals that escalate"
+                  copy="Pre-decision signals: drift, regression, disagreement, staleness. High-volume, non-billable. Inputs to ACE escalation."
+                  variant="upstream"
+                >
+                  <AISThumbnail />
+                </BentoCard>
               </div>
-              <p className="text-xs text-muted2 mt-3">Signals (AIS) inform decision-worthy moments (ACE). Risk (AURA) attaches to an ACE. The durable record (PACR) may record a decision to act or not act.</p>
+              {/* Right block: ACE (8) + AURA+PACR (4) stacked */}
+              <div className="md:col-span-8 grid grid-cols-1 md:grid-cols-12 gap-6">
+                {/* ACE: dominant, md:col-span-8, spans both rows */}
+                <div className="md:col-span-8 md:row-span-2">
+                  <BentoCard
+                    label="ACE"
+                    headline="The decision-worthy moment"
+                    copy="States: pending (human attention) → confirmed (billable). Your change feed — not your hot path."
+                    variant="dominant"
+                  >
+                    <ACEThumbnail />
+                  </BentoCard>
+                </div>
+                {/* AURA + PACR: stacked, md:col-span-4 */}
+                <div className="md:col-span-4 flex flex-col gap-6">
+                  <BentoCard
+                    label="AURA"
+                    headline="Risk attached to ACE"
+                    copy="Modes: Prospective (planned change), Diagnostic (no-change drift), Counterfactual (what-if)."
+                    variant="downstream"
+                  >
+                    <AURAThumbnail />
+                  </BentoCard>
+                  <BentoCard
+                    label="PACR"
+                    headline="Durable decision record"
+                    copy="May represent a decision to act or not act. AURA and ACE converge here."
+                    badge="Coming soon"
+                    variant="downstream"
+                  >
+                    <PACRThumbnail />
+                  </BentoCard>
+                </div>
+              </div>
             </div>
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch motion-section-content">
-              <ValueTile
-                title="AIS"
-                subtitle="AI Indicator Signals"
-                description="Pre-decision signals: drift, regression, disagreement, staleness. High-volume, non-billable, informational only. Inputs to ACE escalation."
-              />
-              <ValueTile
-                title="ACE"
-                subtitle="AI Change Event"
-                description="Decision-worthy moments. States: pending (human attention) → confirmed (billable). Your change feed — not your hot path."
-              />
-              <ValueTile
-                title="AURA"
-                subtitle="Risk assessment"
-                description="Risk attached to an ACE. Modes: Prospective (planned change), Diagnostic (no-change drift), Counterfactual (what-if)."
-              />
-              <ValueTile
-                title="PACR"
-                subtitle="Production AI Change Record"
-                description="Durable decision record. May represent a decision to act or not act. AURA and ACE converge here."
-                badge="Coming soon"
-              />
-            </div>
-            <p className="text-sm text-muted2 mt-4">We support both planned changes and no-change scenarios: when drift is detected but you decide to defer, the record still exists.</p>
+            <p className="text-sm text-muted2 mt-6 motion-section-content">Canonical flow: AIS → ACE → (AURA + PACR). We support both planned changes and no-change scenarios: when drift is detected but you decide to defer, the record still exists.</p>
           </div>
         </section>
 
@@ -314,38 +323,123 @@ export default function LandingPage() {
   );
 }
 
-function FlowBox({ label, sub }: { label: string; sub: string }) {
+function BentoCard({
+  label,
+  headline,
+  copy,
+  badge,
+  variant,
+  children,
+}: {
+  label: string;
+  headline: string;
+  copy: string;
+  badge?: string;
+  variant: "upstream" | "dominant" | "downstream";
+  children: React.ReactNode;
+}) {
+  const variantStyles = {
+    upstream: "border-white/8 bg-white/[0.03]",
+    dominant: "border-white/12 bg-white/[0.05] ring-1 ring-gold-500/10",
+    downstream: "border-white/10 bg-white/[0.04]",
+  };
   return (
-    <div className="px-4 py-3 rounded-lg border border-white/12 bg-white/5 min-w-[72px] text-center">
-      <div className="font-bold text-white">{label}</div>
-      <div className="text-xs text-muted2">{sub}</div>
-    </div>
-  );
-}
-
-function FlowArrow() {
-  return (
-    <span className="text-muted2 shrink-0" aria-hidden>
-      →
-    </span>
-  );
-}
-
-function ValueTile({ title, subtitle, description, badge }: { title: string; subtitle: string; description: string; badge?: string }) {
-  return (
-    <div className="flex h-full flex-col p-6 rounded-xl border border-white/10 bg-white/5 hover:border-gold-500/20 hover:bg-white/6 transition-all duration-200 group hover:scale-[1.01]">
-      <div className="flex items-start justify-between mb-3">
-        <div>
-          <h3 className="font-bold text-lg mb-1">{title}</h3>
-          <p className="text-sm text-muted2 mb-3">{subtitle}</p>
-        </div>
+    <div
+      className={`bento-card flex h-full flex-col rounded-2xl border p-6 transition-all duration-200 hover:border-gold-500/20 ${variantStyles[variant]}`}
+    >
+      <div className="flex items-start justify-between gap-3 mb-4">
+        <span className="inline-flex px-2.5 py-1 text-xs font-semibold rounded-lg border border-white/12 bg-white/5 text-muted2">
+          {label}
+        </span>
         {badge && (
           <span className="px-2 py-1 text-xs rounded-full border border-gold-500/22 bg-gold-500/10 text-gold-500 font-semibold flex-shrink-0">
             {badge}
           </span>
         )}
       </div>
-      <p className="text-sm text-muted leading-relaxed flex-1 min-h-0">{description}</p>
+      <h3 className="font-bold text-white mb-2">{headline}</h3>
+      <p className="text-sm text-muted leading-relaxed flex-1 mb-5">{copy}</p>
+      <div className="rounded-xl border border-white/8 bg-dark/60 overflow-hidden min-h-[100px] flex items-center justify-center">
+        {children}
+      </div>
+    </div>
+  );
+}
+
+function AISThumbnail() {
+  const chips = ["drift", "regression", "disagreement", "staleness"];
+  return (
+    <div className="w-full p-4 space-y-2">
+      {[1, 2, 3].map((i) => (
+        <div key={i} className="flex items-center gap-2">
+          <div className="h-1.5 w-16 rounded bg-white/20" />
+          <div className="flex gap-1.5 flex-wrap">
+            {chips.slice(0, 2).map((c) => (
+              <span key={c} className="px-1.5 py-0.5 text-[10px] rounded bg-white/10 text-muted2">
+                {c}
+              </span>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function ACEThumbnail() {
+  return (
+    <div className="w-full p-4">
+      <div className="rounded-lg border border-gold-500/20 bg-gold-500/5 p-3">
+        <div className="flex items-center justify-between mb-2">
+          <span className="text-xs font-semibold text-white">Change Feed</span>
+          <span className="px-1.5 py-0.5 text-[10px] rounded bg-gold-500/20 text-gold-500">decision</span>
+        </div>
+        <div className="space-y-1.5 text-xs text-muted">
+          <div className="flex gap-2">
+            <span className="text-muted2">pending</span>
+            <span>→</span>
+            <span className="text-gold-500/90">confirmed</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function AURAThumbnail() {
+  const metrics = [
+    { label: "quality", before: "92", after: "94", delta: "+2" },
+    { label: "latency", before: "120ms", after: "95ms", delta: "-25" },
+    { label: "cost", before: "1.0x", after: "1.1x", delta: "+10%" },
+  ];
+  return (
+    <div className="w-full p-3 space-y-2">
+      {metrics.map((m) => (
+        <div key={m.label} className="flex items-center justify-between text-[10px]">
+          <span className="text-muted2 capitalize">{m.label}</span>
+          <div className="flex items-center gap-2">
+            <span className="text-muted line-through">{m.before}</span>
+            <span className="text-white font-medium">{m.after}</span>
+            <span className="text-gold-500/90 font-semibold">{m.delta}</span>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function PACRThumbnail() {
+  const fields = ["decision", "owner", "evidence", "risk", "scope"];
+  return (
+    <div className="w-full p-4">
+      <div className="rounded-lg border border-white/10 bg-white/5 p-3 space-y-1.5">
+        {fields.map((f) => (
+          <div key={f} className="flex justify-between text-[10px]">
+            <span className="text-muted2 capitalize">{f}</span>
+            <span className="text-muted">—</span>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
