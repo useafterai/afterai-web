@@ -314,7 +314,7 @@ export default function PricingSection() {
 
           <p className="mt-6 text-center">
             <Link
-              href="#pricing-specs"
+              href="/pricing"
               className="text-sm font-medium text-gold-500 hover:text-gold-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-500/40 focus-visible:ring-offset-2 focus-visible:ring-offset-dark rounded"
             >
               View full pricing specifications →

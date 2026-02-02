@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { FiArrowRight, FiCheck, FiSlash } from "react-icons/fi";
+import { FiArrowRight, FiCheck } from "react-icons/fi";
 import PricingSection from "@/components/PricingSection";
 
 export default function LandingPage() {
@@ -24,7 +24,7 @@ export default function LandingPage() {
           <div className="hidden md:flex items-center gap-8">
             <Link href="#product" className="text-muted hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-500/40 focus-visible:ring-offset-2 focus-visible:ring-offset-dark rounded">Product</Link>
             <Link href="#pricing" className="text-muted hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-500/40 focus-visible:ring-offset-2 focus-visible:ring-offset-dark rounded">Pricing</Link>
-            <Link href="#faq" className="text-muted hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-500/40 focus-visible:ring-offset-2 focus-visible:ring-offset-dark rounded">FAQ</Link>
+            <Link href="/faq" className="text-muted hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-500/40 focus-visible:ring-offset-2 focus-visible:ring-offset-dark rounded">FAQ</Link>
             <Link href="#docs" className="text-muted hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-500/40 focus-visible:ring-offset-2 focus-visible:ring-offset-dark rounded">Docs</Link>
             <Link href="/login" className="text-muted hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-500/40 focus-visible:ring-offset-2 focus-visible:ring-offset-dark rounded">Sign in</Link>
             <Link href="/signup" className="px-4 py-2 rounded-lg bg-gradient-to-r from-purple-500 to-gold-500 text-dark font-semibold hover:shadow-lg transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-500 focus-visible:ring-offset-2 focus-visible:ring-offset-dark">
@@ -160,51 +160,7 @@ export default function LandingPage() {
           </div>
         </section>
 
-        {/* 5. What AfterAI is not — contrast beat, tied to Core Concepts */}
-        <section className="border-t border-white/8">
-          <div className="max-w-5xl mx-auto px-6 pt-8 pb-16 md:pt-10 md:pb-20 section-with-anchor">
-            <span className="section-heading-anchor" aria-hidden="true" />
-            <p className="text-xs font-semibold uppercase tracking-wider text-muted2 mb-4 motion-section-heading">By contrast</p>
-            <div className="max-w-2xl rounded-xl border border-white/10 bg-white/[0.04] p-8 md:p-10 motion-section-content">
-              <div className="flex items-start gap-4 mb-6">
-                <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-white/8 border border-white/10 flex items-center justify-center">
-                  <FiSlash className="w-5 h-5 text-muted2" aria-hidden />
-                </div>
-                <div>
-                  <h2 className="text-2xl md:text-3xl font-bold mb-1">What AfterAI is not</h2>
-                  <p className="text-sm text-muted2">Clear boundaries</p>
-                </div>
-              </div>
-              <ul className="space-y-3 text-muted mb-6">
-                <li className="flex items-start gap-3">
-                  <span className="text-gold-500/70 mt-0.5">×</span>
-                  <span>No inference-path instrumentation — we never sit in front of your inference.</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="text-gold-500/70 mt-0.5">×</span>
-                  <span>No production traffic logging — evaluations are controlled and offline.</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="text-gold-500/70 mt-0.5">×</span>
-                  <span>Not request-level observability or telemetry.</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="text-gold-500/70 mt-0.5">×</span>
-                  <span>Not prompt tuning, routing, or automatic model switching.</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="text-gold-500/70 mt-0.5">×</span>
-                  <span>Not a compliance tool that shows up after decisions are already made.</span>
-                </li>
-              </ul>
-              <p className="text-muted leading-relaxed border-t border-white/8 pt-6">
-                AfterAI uses controlled, offline evaluations only. It exists at the decision moment — when a change is proposed (or drift is detected and you choose not to act) and someone has to say yes or no.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        {/* 6. How it works / architecture */}
+        {/* 5. How it works / architecture */}
         <section id="docs" className="border-t border-white/8 bg-white/[0.02]">
           <div className="max-w-5xl mx-auto px-6 py-16 md:py-20 section-with-anchor">
             <span className="section-heading-anchor" aria-hidden="true" />
@@ -247,7 +203,7 @@ export default function LandingPage() {
         {/* 7. Pricing — accordion cards, 3 bullets collapsed, expand for technical limits */}
         <PricingSection />
 
-        {/* FAQ */}
+        {/* FAQ — first 4 + Why DIY + link to full FAQ */}
         <section id="faq" className="border-t border-white/8 bg-white/[0.02]">
           <div className="max-w-5xl mx-auto px-6 py-16 md:py-20 section-with-anchor">
             <span className="section-heading-anchor" aria-hidden="true" />
@@ -278,54 +234,17 @@ export default function LandingPage() {
                 </div>
               </details>
               <details className="faqitem">
-                <summary>Can AfterAI automatically block or roll back changes?</summary>
+                <summary>Why go with AfterAI instead of DIY?</summary>
                 <div className="faq-answer">
-                  No. AfterAI never takes action in production. It produces evidence and decision options — humans remain accountable.
-                </div>
-              </details>
-              <details className="faqitem">
-                <summary>Is this a compliance or security product?</summary>
-                <div className="faq-answer">
-                  No. Governance is an output, not an entry requirement. Teams adopt AfterAI to move faster, not to satisfy compliance checklists — but the artifacts it produces do hold up in audits.
-                </div>
-              </details>
-              <details className="faqitem">
-                <summary>Why not build this internally?</summary>
-                <div className="faq-answer">
-                  Most teams do — until the first forced migration, incident, or audit. AfterAI standardizes how evidence is generated, compared, and preserved, so every approval isn&apos;t a bespoke process.
-                </div>
-              </details>
-              <details className="faqitem">
-                <summary>Can&apos;t we do this with docs and dashboards?</summary>
-                <div className="faq-answer">
-                  Docs and dashboards capture outputs. AfterAI captures decisions: scope, evidence, trade-offs, confidence, and approvals — in a repeatable format.
-                </div>
-              </details>
-              <details className="faqitem">
-                <summary>Does AfterAI tune prompts or optimize models?</summary>
-                <div className="faq-answer">
-                  No. AfterAI evaluates changes; it does not suggest or apply optimizations.
-                </div>
-              </details>
-              <details className="faqitem">
-                <summary>Does AfterAI route between models or providers?</summary>
-                <div className="faq-answer">
-                  No. It is provider-neutral and intentionally avoids becoming part of the execution layer.
-                </div>
-              </details>
-              <details className="faqitem">
-                <summary>What kinds of changes does AfterAI cover?</summary>
-                <div className="faq-answer">
-                  Model upgrades, prompt edits, configuration changes, safety policy updates, and forced migrations — anything where risk and accountability matter.
-                </div>
-              </details>
-              <details className="faqitem">
-                <summary>How hard is it to get started?</summary>
-                <div className="faq-answer">
-                  Most teams start metadata-only with minimal integration. You can add deeper evaluation or content capture later as needed.
+                  Building change intelligence in-house means maintaining eval pipelines, escalation logic, and audit trails yourself. AfterAI gives you a canonical flow (AIS → ACE → AURA → PACR), consistent limits and billing, and a defensible decision trail without owning the full stack. You get decision-grade evidence and optional PACRs when you need them, without building observability or request-level telemetry.
                 </div>
               </details>
             </div>
+            <p className="mt-6 motion-section-content">
+              <Link href="/faq" className="text-sm font-medium text-gold-500 hover:text-gold-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-500/40 focus-visible:ring-offset-2 focus-visible:ring-offset-dark rounded">
+                See a full list of FAQ →
+              </Link>
+            </p>
           </div>
         </section>
 
@@ -357,36 +276,6 @@ export default function LandingPage() {
           </div>
         </section>
 
-        {/* Full pricing specifications — linked from pricing section */}
-        <section id="pricing-specs" className="border-t border-white/8 bg-white/[0.02]">
-          <div className="max-w-5xl mx-auto px-6 py-16 md:py-20 section-with-anchor">
-            <span className="section-heading-anchor" aria-hidden="true" />
-            <h2 className="text-2xl font-bold mb-6 motion-section-heading">Full pricing specifications</h2>
-            <div className="motion-section-content space-y-8 text-sm text-muted">
-              <div>
-                <h3 className="text-xs font-semibold uppercase tracking-wider text-white/80 mb-3">Definitions</h3>
-                <dl className="space-y-2">
-                  <dt className="font-medium text-white/90">AIS (AI Indicator Signals)</dt>
-                  <dd className="pl-4">Pre-decision signals: drift, regression, disagreement, staleness. High-volume, non-billable, informational only.</dd>
-                  <dt className="font-medium text-white/90 mt-3">ACE (AI Change Event)</dt>
-                  <dd className="pl-4">Decision-worthy moment. States: pending (human attention) → confirmed (billable).</dd>
-                  <dt className="font-medium text-white/90 mt-3">AURA</dt>
-                  <dd className="pl-4">Risk assessment attached to an ACE. Modes: Prospective, Diagnostic, Counterfactual. Lite depth (preview) is not exportable; full-depth assessments are exportable on Assess and above.</dd>
-                  <dt className="font-medium text-white/90 mt-3">PACR (Production AI Change Record)</dt>
-                  <dd className="pl-4">Durable decision record. Immutable on Enterprise. May represent a decision to act or not act.</dd>
-                </dl>
-              </div>
-              <div>
-                <h3 className="text-xs font-semibold uppercase tracking-wider text-white/80 mb-3">Tier summary</h3>
-                <ul className="space-y-2 list-disc list-inside">
-                  <li><strong className="text-white/90">Monitor:</strong> 25 ACE/month, unlimited AIS, 1 preview AURA/month (lite depth). Add-on: Lite AURA $99 one-time/month (lite depth, not exportable).</li>
-                  <li><strong className="text-white/90">Assess:</strong> 1,000 ACEs/month, up to 100 full-depth AURAs/month, exportable results, SSO, RBAC, audit log 7–14 days.</li>
-                  <li><strong className="text-white/90">Enterprise:</strong> Everything in Assess plus PACR, single-tenant eval compute, BYOK, retention policies, custom integrations, SLA. Custom pricing (starts at $4,500/month).</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </section>
       </main>
 
       {/* 9. Footer */}

@@ -38,8 +38,7 @@ body {
 [id="pricing"],
 [id="faq"],
 [id="trust"],
-[id="docs"],
-[id="pricing-specs"] {
+[id="docs"] {
   scroll-margin-top: 5rem;
 }
 
