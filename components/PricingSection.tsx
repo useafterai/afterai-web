@@ -185,32 +185,33 @@ export default function PricingSection() {
             <PricingCardInner
               id="monitor"
               title="Monitor"
-              price="$0 / month"
+              price="Free"
               tagline="See AI systems change early."
               bullets={[
-                "Unlimited AI Indicator Signals (AIS)",
-                "Light AI change tracking",
-                "1 preview AURA / month",
+                "Unlimited AIS (AI Indicator Signals)",
+                "Light AI change visibility",
+                "1 preview AURA / month (lite, not exportable)",
               ]}
               expandedGroups={[
                 {
                   heading: "Usage & limits",
                   items: [
-                    "1 AI system (additional systems require upgrade)",
-                    "25 ACE events / month",
-                    "Unlimited AIS signals",
+                    "10 ACE / month",
+                    "Unlimited AIS",
+                    "1 AI system",
+                    "Email support",
                   ],
                 },
                 {
                   heading: "Evaluation",
                   items: [
-                    "1 preview AURA / month (lite depth, not exportable)",
+                    "1 preview AURA / month (lite, not exportable)",
                   ],
                 },
                 {
                   heading: "Add-ons",
                   items: [
-                    "Lite AURA: $99 one-time / month (lite depth, not exportable)",
+                    "Additional AI systems or AURAs require upgrade",
                   ],
                 },
                 {
@@ -231,32 +232,33 @@ export default function PricingSection() {
               price="$250 / month"
               tagline="Evaluate AI changes before they ship."
               bullets={[
-                "Everything in Monitor, plus",
-                "Up to 100 AURAs / month",
-                "Exportable results + advanced analytics",
+                "30 ACE / month",
+                "6 AURA runs / month",
+                "Up to 3 AI systems",
               ]}
               expandedGroups={[
                 {
-                  heading: "Evaluation & reporting",
+                  heading: "Usage & limits",
                   items: [
-                    "Up to 100 full-depth AURA assessments / month",
-                    "Exportable results (PDF/JSON)",
-                    "Historical comparisons + baselines",
+                    "Unlimited AIS",
+                    "Soft records only (editable, non-audit)",
+                    "Exportable summaries (CSV / JSON / PDF)",
+                    "Additional AI systems available for purchase",
                   ],
                 },
                 {
-                  heading: "Usage",
+                  heading: "Evaluation & reporting",
                   items: [
-                    "1,000 ACEs / month",
-                    "Unlimited AIS signals",
+                    "30 ACE / month",
+                    "6 AURA runs / month",
+                    "Up to 3 AI systems",
                   ],
                 },
                 {
                   heading: "Access & governance",
                   items: [
-                    "SSO (single IdP)",
-                    "Basic RBAC (Admin / Member / Viewer)",
-                    "Limited audit log (7–14 days)",
+                    "RBAC (Admin / Member / Viewer)",
+                    "Exportable summaries (CSV / JSON / PDF)",
                   ],
                 },
                 {
@@ -273,21 +275,30 @@ export default function PricingSection() {
             <PricingCardInner
               id="enterprise"
               title="Enterprise"
-              price="Custom"
-              priceSubline="Starts at $4,500/month"
+              price="$4,500 / month"
               tagline="Make AI decisions defensible."
               bullets={[
-                "Everything in Assess, plus",
-                "Immutable PACRs + approvals",
-                "Enterprise security & controls",
+                "400 ACE / month",
+                "80 AURA runs / month",
+                "Up to 20 AI systems",
               ]}
               expandedGroups={[
                 {
+                  heading: "Usage & limits",
+                  items: [
+                    "Unlimited AIS",
+                    "400 ACE / month",
+                    "80 AURA runs / month",
+                    "Up to 20 AI systems",
+                    "Additional AI systems available for purchase",
+                  ],
+                },
+                {
                   heading: "Records & accountability",
                   items: [
-                    "Immutable PACRs",
-                    "Approval metadata (who / when / why)",
-                    "Retention policies",
+                    "Immutable PACR creation",
+                    "Approval workflows and RBAC",
+                    "Retention controls",
                   ],
                 },
                 {
@@ -301,7 +312,7 @@ export default function PricingSection() {
                 {
                   heading: "Integrations & support",
                   items: [
-                    "Custom integrations",
+                    "Executive dashboards (portfolio readiness, risk accumulation)",
                     "SLA / dedicated support",
                   ],
                 },

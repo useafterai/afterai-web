@@ -60,9 +60,9 @@ export default function PricingPage() {
           <section>
             <h2 className="text-xs font-semibold uppercase tracking-wider text-white/80 mb-4">Tier summary</h2>
             <ul className="space-y-3 list-disc list-inside">
-              <li><strong className="text-white/90">Monitor:</strong> 1 AI system (additional systems require upgrade), 25 ACE/month, unlimited AIS, 1 preview AURA/month (lite depth). Add-on: Lite AURA $99 one-time/month (lite depth, not exportable).</li>
-              <li><strong className="text-white/90">Assess:</strong> 1,000 ACEs/month, up to 100 full-depth AURAs/month, exportable results, SSO, RBAC, audit log 7–14 days.</li>
-              <li><strong className="text-white/90">Enterprise:</strong> Everything in Assess plus PACR, single-tenant eval compute, BYOK, retention policies, custom integrations, SLA. Custom pricing (starts at $4,500/month).</li>
+              <li><strong className="text-white/90">Monitor (Free):</strong> 10 ACE/month, unlimited AIS, 1 AI system, 1 preview AURA/month (lite, not exportable). Email support.</li>
+              <li><strong className="text-white/90">Assess ($250/month):</strong> 30 ACE/month, 6 AURA runs/month, up to 3 AI systems. Unlimited AIS, soft records only (editable, non-audit), exportable summaries (CSV/JSON/PDF). Additional AI systems available for purchase.</li>
+              <li><strong className="text-white/90">Enterprise ($4,500/month):</strong> 400 ACE/month, 80 AURA runs/month, up to 20 AI systems. Unlimited AIS, immutable PACR creation, approval workflows and RBAC, retention controls, executive dashboards (portfolio readiness, risk accumulation). Additional AI systems available for purchase.</li>
             </ul>
           </section>
 
@@ -70,16 +70,16 @@ export default function PricingPage() {
             <h2 className="text-xs font-semibold uppercase tracking-wider text-white/80 mb-4">Features by tier</h2>
             <div className="rounded-xl border border-white/10 bg-white/[0.04] p-6 space-y-6">
               <div>
-                <h3 className="font-semibold text-white/90 mb-2">Monitor</h3>
-                <p className="text-muted text-sm mb-2">1 AI system (additional systems require upgrade). The free tier lets you monitor one system at a time — for example one chatbot, one agent, or one pipeline. Light AI change tracking, unlimited AIS, 1 preview AURA/month (lite depth, not exportable). Email support. Add-on: Lite AURA $99 one-time/month for an extra lite-depth assessment (not exportable).</p>
+                <h3 className="font-semibold text-white/90 mb-2">Monitor (Free)</h3>
+                <p className="text-muted text-sm mb-2">Unlimited AIS (AI Indicator Signals), light AI change visibility, 1 preview AURA/month (lite, not exportable). Usage & limits: 10 ACE/month, unlimited AIS, 1 AI system. Email support. Additional AI systems or AURAs require upgrade.</p>
               </div>
               <div>
-                <h3 className="font-semibold text-white/90 mb-2">Assess</h3>
-                <p className="text-muted text-sm">Everything in Monitor, plus up to 100 full-depth AURA assessments/month, exportable results (PDF/JSON), historical comparisons and baselines, 1,000 ACEs/month, SSO (single IdP), basic RBAC (Admin / Member / Viewer), limited audit log (7–14 days), priority support. No add-on or pay-per-AURA; full evaluation depth and export included.</p>
+                <h3 className="font-semibold text-white/90 mb-2">Assess ($250/month)</h3>
+                <p className="text-muted text-sm">30 ACE/month, 6 AURA runs/month, up to 3 AI systems. Unlimited AIS, soft records only (editable, non-audit), exportable summaries (CSV/JSON/PDF). Additional AI systems available for purchase. Priority support.</p>
               </div>
               <div>
-                <h3 className="font-semibold text-white/90 mb-2">Enterprise</h3>
-                <p className="text-muted text-sm">Everything in Assess, plus immutable PACRs, approval metadata (who / when / why), retention policies, single-tenant eval compute (private / isolated), optional customer-managed keys (BYOK), full audit logs, custom integrations, SLA and dedicated support. Custom pricing starting at $4,500/month.</p>
+                <h3 className="font-semibold text-white/90 mb-2">Enterprise ($4,500/month)</h3>
+                <p className="text-muted text-sm">400 ACE/month, 80 AURA runs/month, up to 20 AI systems. Unlimited AIS, immutable PACR creation, approval workflows and RBAC, retention controls, executive dashboards (portfolio readiness, risk accumulation). Additional AI systems available for purchase. Single-tenant eval compute (private/isolated), optional BYOK, full audit logs, SLA and dedicated support.</p>
               </div>
             </div>
           </section>
