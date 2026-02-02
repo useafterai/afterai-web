@@ -72,14 +72,20 @@ export default function LandingPage() {
         <section className="border-t border-white/8 bg-white/[0.02]">
           <div className="max-w-5xl mx-auto px-6 py-16 md:py-20 section-with-anchor">
             <span className="section-heading-anchor" aria-hidden="true" />
-            <h2 className="text-2xl md:text-3xl font-bold mb-4 motion-section-heading">Upgrades shouldn&apos;t be a leap of faith.</h2>
-            <div className="motion-section-content">
-            <p className="text-muted leading-relaxed mb-4 max-w-3xl">
-              Every model swap, prompt change, or config update is a decision. Without evidence, you&apos;re guessing on risk. AfterAI turns change into measurable upgrade risk and a clear decision trail so platform teams and leadership can move with confidence.
-            </p>
-            <p className="text-sm text-muted2 italic max-w-2xl">
-              With faster model releases, provider deprecations, and agentic systems in production, AI change is now continuous — but approvals haven&apos;t caught up.
-            </p>
+            <h2 className="text-2xl md:text-3xl font-bold mb-4 motion-section-heading">Upgrades shouldn&apos;t be a leap of faith — neither should deciding not to upgrade.</h2>
+            <div className="motion-section-content space-y-4">
+              <p className="text-muted leading-relaxed max-w-3xl">
+                Every model swap, prompt change, or decision to hold is a production decision.
+              </p>
+              <p className="text-muted leading-relaxed max-w-3xl">
+                Without evidence, you&apos;re guessing on risk.
+              </p>
+              <p className="text-muted leading-relaxed max-w-3xl">
+                AfterAI turns AI change — and no-change — into measurable upgrade risk and a durable decision trail, so platform teams and leadership can move or deliberately not move with confidence.
+              </p>
+              <p className="text-sm text-muted2 italic max-w-2xl">
+                With faster model releases, provider deprecations, and agentic systems in production, AI change is continuous — but approvals, deferrals, and accountability haven&apos;t caught up.
+              </p>
             </div>
           </div>
         </section>
