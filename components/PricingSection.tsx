@@ -318,7 +318,7 @@ export default function PricingSection() {
               expanded={expandedId === "enterprise"}
               onToggle={() => handleToggle("enterprise")}
               ctaLabel="Talk to us"
-              ctaHref="/signup"
+              ctaHref="/contact"
             />
           </div>
 
