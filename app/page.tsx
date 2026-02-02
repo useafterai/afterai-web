@@ -26,6 +26,7 @@ export default function LandingPage() {
             <Link href="#pricing" className="text-muted hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-500/40 focus-visible:ring-offset-2 focus-visible:ring-offset-dark rounded">Pricing</Link>
             <Link href="/faq" className="text-muted hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-500/40 focus-visible:ring-offset-2 focus-visible:ring-offset-dark rounded">FAQ</Link>
             <Link href="#docs" className="text-muted hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-500/40 focus-visible:ring-offset-2 focus-visible:ring-offset-dark rounded">Docs</Link>
+            <Link href="/security" className="text-muted hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-500/40 focus-visible:ring-offset-2 focus-visible:ring-offset-dark rounded">Security</Link>
             <Link href="/login" className="text-muted hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-500/40 focus-visible:ring-offset-2 focus-visible:ring-offset-dark rounded">Sign in</Link>
             <Link href="/signup" className="px-4 py-2 rounded-lg bg-gradient-to-r from-purple-500 to-gold-500 text-dark font-semibold hover:shadow-lg transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-500 focus-visible:ring-offset-2 focus-visible:ring-offset-dark">
               Get started
@@ -263,7 +264,7 @@ export default function LandingPage() {
               <li className="flex items-center gap-2"><FiCheck className="text-gold-500 flex-shrink-0" /> See how often AI is actually changing</li>
               <li className="flex items-center gap-2"><FiCheck className="text-gold-500 flex-shrink-0" /> Run a preview AURA on a real upgrade</li>
             </ul>
-            <p className="text-sm text-muted2 mb-6">No credit card required for Monitor. Provider-neutral — bring your own models and pipelines.</p>
+            <p className="text-sm text-muted2 mb-6">No credit card required for Monitor. Provider-neutral — bring your own models and pipelines. Security is built in — same posture whether you use the console, API, or SDK. <Link href="/security" className="text-gold-500 hover:text-gold-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-500/40 focus-visible:ring-offset-2 focus-visible:ring-offset-dark rounded font-medium">Security overview →</Link></p>
             <div className="flex flex-wrap gap-4">
               <Link href="/signup" className="px-6 py-3 rounded-xl bg-gradient-to-r from-purple-500 to-gold-500 text-dark font-bold hover:shadow-lg transition-all">
                 Get started free
@@ -276,12 +277,37 @@ export default function LandingPage() {
           </div>
         </section>
 
+        {/* Security */}
+        <section id="security" className="border-t border-white/8 bg-white/[0.02]">
+          <div className="max-w-5xl mx-auto px-6 py-16 md:py-20 section-with-anchor">
+            <span className="section-heading-anchor" aria-hidden="true" />
+            <h2 className="text-2xl md:text-3xl font-bold mb-4 motion-section-heading">Security built for production.</h2>
+            <div className="motion-section-content">
+            <p className="text-muted leading-relaxed mb-4 max-w-2xl">
+              The same authentication and access model applies whether you use the console, the API, or the SDK. We&apos;re built for teams who need a defensible, audit-friendly posture.
+            </p>
+            <p className="text-muted leading-relaxed mb-6 max-w-2xl">
+              We never sit in your inference path; telemetry is out-of-band and designed to fail open.
+            </p>
+            <Link href="/security" className="inline-flex items-center gap-2 text-gold-500 font-semibold hover:text-gold-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-500/40 focus-visible:ring-offset-2 focus-visible:ring-offset-dark rounded">
+              Security overview
+              <FiArrowRight />
+            </Link>
+            </div>
+          </div>
+        </section>
+
       </main>
 
       {/* 9. Footer */}
       <footer className="border-t border-white/8 py-8">
-        <div className="max-w-7xl mx-auto px-6 flex items-center justify-center text-sm text-muted2">
+        <div className="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8 text-sm text-muted2">
           <span>© {new Date().getFullYear()} AfterAI</span>
+          <div className="flex items-center gap-6">
+            <Link href="/security" className="hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-500/40 focus-visible:ring-offset-2 focus-visible:ring-offset-dark rounded">Security</Link>
+            <Link href="/privacy" className="hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-500/40 focus-visible:ring-offset-2 focus-visible:ring-offset-dark rounded">Privacy</Link>
+            <Link href="/terms" className="hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-500/40 focus-visible:ring-offset-2 focus-visible:ring-offset-dark rounded">Terms</Link>
+          </div>
         </div>
       </footer>
     </div>
