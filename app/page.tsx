@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { FiArrowRight, FiCheck, FiSlash } from "react-icons/fi";
+import PricingSection from "@/components/PricingSection";
 
 export default function LandingPage() {
   return (
@@ -243,70 +244,8 @@ export default function LandingPage() {
           </div>
         </section>
 
-        {/* 7. Pricing */}
-        <section id="pricing" className="border-t border-white/8">
-          <div className="max-w-5xl mx-auto px-6 py-16 md:py-20 section-with-anchor">
-            <span className="section-heading-anchor" aria-hidden="true" />
-            <div className="p-8 rounded-2xl border border-white/14 bg-gradient-to-b from-white/8 to-white/4 backdrop-blur-xl">
-              <div className="text-center mb-8">
-                <h2 className="text-3xl font-bold mb-4 motion-section-heading">Start decision-grade AI change intelligence for free.</h2>
-                <p className="text-muted motion-section-content">Monitor is live. Assess and Enterprise are coming soon.</p>
-              </div>
-              <div className="grid md:grid-cols-3 gap-6 items-stretch motion-section-content">
-                <PricingCard
-                  name="Monitor"
-                  price="$0"
-                  period="month"
-                  features={[
-                    "Unlimited AIS (AI Indicator Signals)",
-                    "25 ACE events/month",
-                    "Basic dashboards + email support",
-                    "1 preview AURA/month",
-                  ]}
-                  addOn="Need one full assessment now? Add one full AURA for $99 (one-time)."
-                  ctaLabel="Get started"
-                  ctaHref="/signup"
-                  highlighted
-                />
-                <PricingCard
-                  name="Assess"
-                  price="$250"
-                  period="month"
-                  features={[
-                    "Unlimited AIS (AI Indicator Signals)",
-                    "Up to 100 AURAs/month",
-                    "1,000 ACEs/month",
-                    "SSO (single IdP)",
-                    "Basic RBAC (Admin / Member / Viewer)",
-                    "Limited audit log (7–14 days)",
-                    "Advanced analytics",
-                    "Priority support",
-                  ]}
-                  ctaLabel="Coming soon"
-                  comingSoon
-                />
-                <PricingCard
-                  name="Enterprise"
-                  price="Custom"
-                  period=""
-                  priceNote="Starts at $4,500/month"
-                  features={[
-                    "Unlimited AIS (AI Indicator Signals)",
-                    "SSO + RBAC",
-                    "Audit log",
-                    "Retention policies",
-                    "Single-tenant eval compute (private / isolated)",
-                    "Optional customer-managed keys (BYOK)",
-                    "Custom integrations",
-                    "SLA / dedicated support",
-                  ]}
-                  ctaLabel="Talk to us"
-                  comingSoon
-                />
-              </div>
-            </div>
-          </div>
-        </section>
+        {/* 7. Pricing — accordion cards, 3 bullets collapsed, expand for technical limits */}
+        <PricingSection />
 
         {/* FAQ */}
         <section id="faq" className="border-t border-white/8 bg-white/[0.02]">
@@ -417,6 +356,37 @@ export default function LandingPage() {
             </div>
           </div>
         </section>
+
+        {/* Full pricing specifications — linked from pricing section */}
+        <section id="pricing-specs" className="border-t border-white/8 bg-white/[0.02]">
+          <div className="max-w-5xl mx-auto px-6 py-16 md:py-20 section-with-anchor">
+            <span className="section-heading-anchor" aria-hidden="true" />
+            <h2 className="text-2xl font-bold mb-6 motion-section-heading">Full pricing specifications</h2>
+            <div className="motion-section-content space-y-8 text-sm text-muted">
+              <div>
+                <h3 className="text-xs font-semibold uppercase tracking-wider text-white/80 mb-3">Definitions</h3>
+                <dl className="space-y-2">
+                  <dt className="font-medium text-white/90">AIS (AI Indicator Signals)</dt>
+                  <dd className="pl-4">Pre-decision signals: drift, regression, disagreement, staleness. High-volume, non-billable, informational only.</dd>
+                  <dt className="font-medium text-white/90 mt-3">ACE (AI Change Event)</dt>
+                  <dd className="pl-4">Decision-worthy moment. States: pending (human attention) → confirmed (billable).</dd>
+                  <dt className="font-medium text-white/90 mt-3">AURA</dt>
+                  <dd className="pl-4">Risk assessment attached to an ACE. Modes: Prospective, Diagnostic, Counterfactual. Lite depth (preview) is not exportable; full-depth assessments are exportable on Assess and above.</dd>
+                  <dt className="font-medium text-white/90 mt-3">PACR (Production AI Change Record)</dt>
+                  <dd className="pl-4">Durable decision record. Immutable on Enterprise. May represent a decision to act or not act.</dd>
+                </dl>
+              </div>
+              <div>
+                <h3 className="text-xs font-semibold uppercase tracking-wider text-white/80 mb-3">Tier summary</h3>
+                <ul className="space-y-2 list-disc list-inside">
+                  <li><strong className="text-white/90">Monitor:</strong> 25 ACE/month, unlimited AIS, 1 preview AURA/month (lite depth). Add-on: Lite AURA $99 one-time/month (lite depth, not exportable).</li>
+                  <li><strong className="text-white/90">Assess:</strong> 1,000 ACEs/month, up to 100 full-depth AURAs/month, exportable results, SSO, RBAC, audit log 7–14 days.</li>
+                  <li><strong className="text-white/90">Enterprise:</strong> Everything in Assess plus PACR, single-tenant eval compute, BYOK, retention policies, custom integrations, SLA. Custom pricing (starts at $4,500/month).</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
       </main>
 
       {/* 9. Footer */}
@@ -474,65 +444,3 @@ function PillItem({ label, desc }: { label: string; desc: string }) {
   );
 }
 
-type PricingCardProps = {
-  name: string;
-  price: string;
-  priceSub?: string;
-  priceNote?: string;
-  period: string;
-  features: string[];
-  addOn?: string;
-  ctaLabel?: string;
-  ctaHref?: string;
-  highlighted?: boolean;
-  comingSoon?: boolean;
-};
-
-function PricingCard({ name, price, priceSub, priceNote, period, features, addOn, ctaLabel, ctaHref, highlighted, comingSoon }: PricingCardProps) {
-  return (
-    <div className={`flex h-full flex-col p-6 rounded-xl border transition-all duration-200 ${highlighted ? "border-gold-500/30 bg-gradient-to-b from-white/10 to-white/5 hover:border-gold-500/40" : "border-white/10 bg-white/5 hover:border-white/20 hover:bg-white/[0.07]"}`}>
-      <div className="flex-1 min-h-0 flex flex-col">
-        <h3 className="font-bold text-xl mb-2">{name}</h3>
-        <div className="mb-4">
-          <span className="text-3xl font-bold">{price}</span>
-          {priceSub && <span className="text-lg font-semibold text-muted2 ml-1">{priceSub}</span>}
-          {period && <span className="text-muted2 ml-2">/{period}</span>}
-          {priceNote && <p className="text-sm text-muted2 mt-1">{priceNote}</p>}
-        </div>
-        <ul className="space-y-2">
-          {features.map((feature) => (
-            <li key={feature} className="flex items-start gap-2 text-sm text-muted">
-              <FiCheck className="mt-0.5 text-gold-500 flex-shrink-0" />
-              <span>{feature}</span>
-            </li>
-          ))}
-        </ul>
-        {addOn && (
-          <p className="mt-4 text-xs text-muted2 border-t border-white/8 pt-4">{addOn}</p>
-        )}
-      </div>
-      <div className="mt-6 pt-4 border-t border-white/8 flex items-end">
-        <div className="w-full min-h-[48px] flex items-center justify-center rounded-lg">
-          {highlighted && ctaHref && (
-            <Link
-              href={ctaHref}
-              className="w-full min-h-[48px] flex items-center justify-center px-4 rounded-lg bg-gradient-to-r from-purple-500 to-gold-500 text-dark font-semibold text-[15px] hover:shadow-lg transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-500 focus-visible:ring-offset-2 focus-visible:ring-offset-dark"
-            >
-              {ctaLabel ?? "Get started"}
-            </Link>
-          )}
-          {comingSoon && (
-            <button
-              type="button"
-              disabled
-              className="w-full min-h-[48px] flex items-center justify-center px-4 rounded-lg border border-dashed border-white/12 bg-white/[0.03] text-muted2 font-semibold text-[15px] cursor-not-allowed opacity-90"
-              aria-disabled="true"
-            >
-              {ctaLabel ?? "Coming soon"}
-            </button>
-          )}
-        </div>
-      </div>
-    </div>
-  );
-}

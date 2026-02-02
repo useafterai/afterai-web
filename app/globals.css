@@ -38,8 +38,25 @@ body {
 [id="pricing"],
 [id="faq"],
 [id="trust"],
-[id="docs"] {
+[id="docs"],
+[id="pricing-specs"] {
   scroll-margin-top: 5rem;
+}
+
+/* Pricing accordion: smooth expand/collapse */
+.pricing-expand-content {
+  transition: grid-template-rows 0.3s ease-out;
+}
+
+.pricing-chevron svg {
+  transition: transform 0.3s ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pricing-expand-content,
+  .pricing-chevron svg {
+    transition: none;
+  }
 }
 
 /* FAQ section: collapsible items with custom chevron */
