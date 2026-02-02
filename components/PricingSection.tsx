@@ -196,6 +196,7 @@ export default function PricingSection() {
                 {
                   heading: "Usage & limits",
                   items: [
+                    "1 AI system (additional systems require upgrade)",
                     "25 ACE events / month",
                     "Unlimited AIS signals",
                   ],
