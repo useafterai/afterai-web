@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
 
-export const runtime = "nodejs";
+// No runtime = "nodejs" here: Cloudflare Pages/Workers don't support it and fail to publish.
+// On Vercel, API routes use Node by default. Use dynamic so responses aren't cached.
 export const dynamic = "force-dynamic";
 
 // Resend free plan: use onboarding@resend.dev until you verify your domain
@@ -43,7 +44,10 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  const from = process.env.CONTACT_FROM?.trim() || DEFAULT_FROM;
+  const from =
+    process.env.CONTACT_FROM_EMAIL?.trim() ||
+    process.env.CONTACT_FROM?.trim() ||
+    DEFAULT_FROM;
   const subject = `Enterprise inquiry${name ? ` – ${name}` : ""}`;
   const text = [
     name && `Name: ${name}`,
@@ -66,17 +70,20 @@ export async function POST(request: NextRequest) {
     });
 
     if (error) {
+      // Log server-side only; never expose Resend details or secrets to the client
+      console.error("[contact] Resend send failed:", error.message || "unknown");
       return NextResponse.json(
-        { ok: false, error: error.message || "Failed to send email." },
+        { ok: false, error: "Email send failed." },
         { status: 502 }
       );
     }
 
     return NextResponse.json({ ok: true, id: data?.id });
   } catch (err) {
-    const message = err instanceof Error ? err.message : "Upstream email failure.";
+    const safeMessage = err instanceof Error ? err.message : "unknown";
+    console.error("[contact] Resend send failed:", safeMessage);
     return NextResponse.json(
-      { ok: false, error: message },
+      { ok: false, error: "Email send failed." },
       { status: 502 }
     );
   }
