@@ -60,7 +60,7 @@ export default function PricingPage() {
           <section>
             <h2 className="text-xs font-semibold uppercase tracking-wider text-white/80 mb-4">Tier summary</h2>
             <ul className="space-y-3 list-disc list-inside">
-              <li><strong className="text-white/90">Monitor:</strong> 25 ACE/month, unlimited AIS, 1 preview AURA/month (lite depth). Add-on: Lite AURA $99 one-time/month (lite depth, not exportable).</li>
+              <li><strong className="text-white/90">Monitor:</strong> 1 AI system (additional systems require upgrade), 25 ACE/month, unlimited AIS, 1 preview AURA/month (lite depth). Add-on: Lite AURA $99 one-time/month (lite depth, not exportable).</li>
               <li><strong className="text-white/90">Assess:</strong> 1,000 ACEs/month, up to 100 full-depth AURAs/month, exportable results, SSO, RBAC, audit log 7–14 days.</li>
               <li><strong className="text-white/90">Enterprise:</strong> Everything in Assess plus PACR, single-tenant eval compute, BYOK, retention policies, custom integrations, SLA. Custom pricing (starts at $4,500/month).</li>
             </ul>
@@ -71,7 +71,7 @@ export default function PricingPage() {
             <div className="rounded-xl border border-white/10 bg-white/[0.04] p-6 space-y-6">
               <div>
                 <h3 className="font-semibold text-white/90 mb-2">Monitor</h3>
-                <p className="text-muted text-sm">Light AI change tracking, unlimited AIS, 1 preview AURA/month (lite depth, not exportable). Email support. Add-on: Lite AURA $99 one-time/month for an extra lite-depth assessment (not exportable).</p>
+                <p className="text-muted text-sm mb-2">1 AI system (additional systems require upgrade). The free tier lets you monitor one system at a time — for example one chatbot, one agent, or one pipeline. Light AI change tracking, unlimited AIS, 1 preview AURA/month (lite depth, not exportable). Email support. Add-on: Lite AURA $99 one-time/month for an extra lite-depth assessment (not exportable).</p>
               </div>
               <div>
                 <h3 className="font-semibold text-white/90 mb-2">Assess</h3>
