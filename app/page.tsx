@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { FiArrowRight, FiCheck } from "react-icons/fi";
 import PricingSection from "@/components/PricingSection";
+import DecisionCarousel from "@/components/DecisionCarousel";
 
 export default function LandingPage() {
   return (
@@ -118,54 +119,8 @@ export default function LandingPage() {
                 Every production AI change — or decision not to change — eventually reaches a point where someone must act. AfterAI is built for that moment: from pre-decision signals to durable records.
               </p>
             </div>
-            {/* Hierarchical bento: AIS (4) → ACE (8) | AURA+PACR (4) stacked */}
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-6 motion-section-content">
-              {/* AIS: upstream, md:col-span-4, shorter, lighter */}
-              <div className="md:col-span-4">
-                <BentoCard
-                  label="AIS"
-                  headline="Signals that escalate"
-                  copy="Pre-decision signals: drift, regression, disagreement, staleness. High-volume, non-billable."
-                  variant="upstream"
-                >
-                  <AISThumbnail />
-                </BentoCard>
-              </div>
-              {/* Right block: ACE (8) + AURA+PACR (4) stacked */}
-              <div className="md:col-span-8 grid grid-cols-1 md:grid-cols-12 gap-6">
-                {/* ACE: dominant, md:col-span-8 */}
-                <div className="md:col-span-8">
-                <BentoCard
-                  label="ACE"
-                  headline="The decision-worthy moment"
-                  copy="Pending (human attention) → confirmed (billable). Your change feed — not your hot path."
-                    variant="dominant"
-                  >
-                    <ACEThumbnail />
-                  </BentoCard>
-                </div>
-                {/* AURA + PACR: stacked, md:col-span-4 */}
-                <div className="md:col-span-4 flex flex-col gap-4">
-                <BentoCard
-                  label="AURA"
-                  headline="Risk attached to ACE"
-                  copy="Prospective, Diagnostic, Counterfactual. Confidence-weighted deltas."
-                    variant="downstream"
-                  >
-                    <AURAThumbnail />
-                  </BentoCard>
-                <BentoCard
-                  label="PACR"
-                  headline="Durable decision record"
-                  copy="Decision to act or not act. AURA and ACE converge here."
-                    badge="Coming soon"
-                    variant="downstream"
-                  >
-                    <PACRThumbnail />
-                  </BentoCard>
-                </div>
-              </div>
-            </div>
+            {/* Snap-based decision carousel: AIS → ACE → AURA → PACR */}
+            <DecisionCarousel />
             <p className="text-sm text-muted2 mt-6 motion-section-content">Canonical flow: AIS → ACE → (AURA + PACR). We support both planned changes and no-change scenarios: when drift is detected but you decide to defer, the record still exists.</p>
           </div>
         </section>
@@ -319,143 +274,6 @@ export default function LandingPage() {
           </div>
         </div>
       </footer>
-    </div>
-  );
-}
-
-function BentoCard({
-  label,
-  headline,
-  copy,
-  badge,
-  variant,
-  children,
-}: {
-  label: string;
-  headline: string;
-  copy: string;
-  badge?: string;
-  variant: "upstream" | "dominant" | "downstream";
-  children: React.ReactNode;
-}) {
-  const variantStyles = {
-    upstream: "border-white/8 bg-white/[0.03]",
-    dominant: "border-white/12 bg-white/[0.05] ring-1 ring-gold-500/10",
-    downstream: "border-white/10 bg-white/[0.04]",
-  };
-  return (
-    <div
-      className={`bento-card group flex flex-col rounded-2xl border p-5 transition-all duration-200 hover:border-gold-500/20 ${variantStyles[variant]}`}
-    >
-      <div className="flex items-start justify-between gap-3 mb-3">
-        <span className="inline-flex px-2.5 py-1 text-xs font-semibold rounded-lg border border-white/12 bg-white/5 text-muted2 transition-colors duration-200 group-hover:border-white/20 group-hover:bg-white/8 group-hover:text-white/90">
-          {label}
-        </span>
-        {badge && (
-          <span className="px-2 py-1 text-xs rounded-full border border-gold-500/22 bg-gold-500/10 text-gold-500 font-semibold flex-shrink-0">
-            {badge}
-          </span>
-        )}
-      </div>
-      <h3 className="font-bold text-white mb-2">{headline}</h3>
-      <p className="text-sm text-muted leading-relaxed mb-4 line-clamp-3">{copy}</p>
-      <div className="rounded-xl border border-white/8 bg-dark/60 overflow-hidden max-h-[180px]">
-        {children}
-      </div>
-    </div>
-  );
-}
-
-function AISThumbnail() {
-  const signals = [
-    { chip: "drift", time: "2m" },
-    { chip: "regression", time: "5m" },
-    { chip: "disagreement", time: "12m" },
-    { chip: "staleness", time: "1h" },
-    { chip: "drift", time: "2h" },
-  ];
-  return (
-    <div className="w-full p-3 space-y-2">
-      {signals.map((s, i) => (
-        <div key={i} className="flex items-center justify-between gap-2 py-1.5 px-2 rounded-lg bg-white/[0.04] border border-white/6">
-          <span className="px-1.5 py-0.5 text-[10px] rounded bg-white/10 text-muted2">{s.chip}</span>
-          <span className="text-[10px] text-muted2 tabular-nums">{s.time}</span>
-        </div>
-      ))}
-    </div>
-  );
-}
-
-function ACEThumbnail() {
-  const entries = [
-    {
-      status: "pending",
-      chips: ["provider change", "risk: medium"],
-    },
-    {
-      status: "confirmed",
-      chips: ["prompt change", "owner: team-alpha"],
-    },
-  ];
-  return (
-    <div className="w-full p-3 space-y-2">
-      <div className="text-[10px] font-semibold text-muted2 uppercase tracking-wide mb-2">Change Feed</div>
-      {entries.map((e, i) => (
-        <div key={i} className="rounded-lg border border-white/10 bg-white/[0.04] p-2.5 space-y-2">
-          <div className="flex items-center justify-between gap-2">
-            <span className={`text-[10px] font-semibold ${e.status === "pending" ? "text-muted2" : "text-gold-500/90"}`}>
-              {e.status}
-            </span>
-          </div>
-          <div className="flex flex-wrap gap-1.5">
-            {e.chips.map((c) => (
-              <span key={c} className="px-1.5 py-0.5 text-[9px] rounded bg-white/10 text-muted2">{c}</span>
-            ))}
-          </div>
-        </div>
-      ))}
-    </div>
-  );
-}
-
-function AURAThumbnail() {
-  const metrics = [
-    { label: "Quality", before: "92", after: "94", delta: "+2" },
-    { label: "Latency", before: "120ms", after: "95ms", delta: "-25" },
-    { label: "Cost", before: "1.0x", after: "1.1x", delta: "+10%" },
-  ];
-  return (
-    <div className="w-full p-3">
-      <div className="text-[10px] font-semibold text-muted2 uppercase tracking-wide mb-2">Delta</div>
-      <div className="rounded-lg border border-white/10 bg-white/[0.04] divide-y divide-white/6">
-        {metrics.map((m) => (
-          <div key={m.label} className="flex items-center justify-between py-2 px-2 text-[10px] first:pt-2 last:pb-2">
-            <span className="text-muted2">{m.label}</span>
-            <div className="flex items-center gap-2 tabular-nums">
-              <span className="text-muted line-through">{m.before}</span>
-              <span className="text-white font-medium">{m.after}</span>
-              <span className="text-gold-500/90 font-semibold">{m.delta}</span>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function PACRThumbnail() {
-  const fields = ["Decision", "Owner", "Evidence", "Risk", "Scope"];
-  return (
-    <div className="w-full p-3">
-      <div className="text-[10px] font-semibold text-muted2 uppercase tracking-wide mb-2">Record preview</div>
-      <div className="rounded-lg border border-white/10 bg-white/[0.04] p-2.5 space-y-1.5">
-        {fields.map((f) => (
-          <div key={f} className="flex justify-between text-[10px] py-0.5">
-            <span className="text-muted2">{f}</span>
-            <span className="text-muted">—</span>
-          </div>
-        ))}
-      </div>
     </div>
   );
 }

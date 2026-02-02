@@ -325,3 +325,22 @@ select.input-afterai {
     transform: none;
   }
 }
+
+/* Decision carousel: horizontal scroll-snap */
+.decision-carousel {
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  gap: 1rem;
+  -webkit-overflow-scrolling: touch;
+}
+.decision-carousel .decision-carousel-card {
+  scroll-snap-align: start;
+  scroll-snap-stop: normal;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .decision-carousel {
+    scroll-snap-type: none;
+    scroll-behavior: auto;
+  }
+}
