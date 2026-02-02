@@ -60,9 +60,9 @@ export default function PricingPage() {
           <section>
             <h2 className="text-xs font-semibold uppercase tracking-wider text-white/80 mb-4">Tier summary</h2>
             <ul className="space-y-3 list-disc list-inside">
-              <li><strong className="text-white/90">Monitor (Free):</strong> 10 ACE/month, unlimited AIS, 1 AI system, 1 preview AURA/month (lite, not exportable). Email support.</li>
-              <li><strong className="text-white/90">Assess ($250/month):</strong> 30 ACE/month, 6 AURA runs/month, up to 3 AI systems. Unlimited AIS, soft records only (editable, non-audit), exportable summaries (CSV/JSON/PDF). Additional AI systems available for purchase.</li>
-              <li><strong className="text-white/90">Enterprise ($4,500/month):</strong> 400 ACE/month, 80 AURA runs/month, up to 20 AI systems. Unlimited AIS, immutable PACR creation, approval workflows and RBAC, retention controls, executive dashboards (portfolio readiness, risk accumulation). Additional AI systems available for purchase.</li>
+              <li><strong className="text-white/90">Monitor (Free):</strong> $0/month. Unlimited AIS, light AI change visibility, 1 Lite AURA/month. Usage: 10 ACE events/month, 1 AI system. Evaluation: 1 AURA/month (lite depth, not exportable). Add-on: Full AURA $99 one-time/month (not exportable). Email support.</li>
+              <li><strong className="text-white/90">Assess ($250/month):</strong> Everything in Monitor, plus up to 6 AURAs/month, exportable results + advanced analytics. 30 ACEs/month, unlimited AIS, up to 3 AI systems. 6 full-depth AURA assessments/month, exportable (PDF/JSON), historical comparisons + baselines. SSO, RBAC, audit log 7–14 days. Priority support.</li>
+              <li><strong className="text-white/90">Enterprise (Custom):</strong> Typically starts at $4,500/month. Everything in Assess, plus immutable PACRs + approvals, enterprise security & controls. 400 ACEs/month, 80 AURA runs/month, up to 20 AI systems. Immutable PACRs, approval metadata, retention policies. Single-tenant, BYOK, full audit logs. Custom integrations, SLA / dedicated support.</li>
             </ul>
           </section>
 
@@ -71,15 +71,15 @@ export default function PricingPage() {
             <div className="rounded-xl border border-white/10 bg-white/[0.04] p-6 space-y-6">
               <div>
                 <h3 className="font-semibold text-white/90 mb-2">Monitor (Free)</h3>
-                <p className="text-muted text-sm mb-2">Unlimited AIS (AI Indicator Signals), light AI change visibility, 1 preview AURA/month (lite, not exportable). Usage & limits: 10 ACE/month, unlimited AIS, 1 AI system. Email support. Additional AI systems or AURAs require upgrade.</p>
+                <p className="text-muted text-sm mb-2">$0/month. Unlimited AI Indicator Signals (AIS), light AI change visibility, 1 Lite AURA/month. Usage & limits: 10 ACE events/month, unlimited AIS signals, 1 AI system. Evaluation: 1 AURA/month (lite depth, not exportable). Add-ons: Full AURA $99 one-time/month (not exportable). Email support.</p>
               </div>
               <div>
                 <h3 className="font-semibold text-white/90 mb-2">Assess ($250/month)</h3>
-                <p className="text-muted text-sm">30 ACE/month, 6 AURA runs/month, up to 3 AI systems. Unlimited AIS, soft records only (editable, non-audit), exportable summaries (CSV/JSON/PDF). Additional AI systems available for purchase. Priority support.</p>
+                <p className="text-muted text-sm">Everything in Monitor, plus up to 6 AURAs/month, exportable results + advanced analytics. Evaluation & reporting: 6 full-depth AURA assessments/month, exportable (PDF/JSON), historical comparisons + baselines. Usage: 30 ACEs/month, unlimited AIS signals, up to 3 AI systems. Access & governance: SSO (single IdP), basic RBAC (Admin / Member / Viewer), limited audit log (7–14 days). Priority support.</p>
               </div>
               <div>
-                <h3 className="font-semibold text-white/90 mb-2">Enterprise ($4,500/month)</h3>
-                <p className="text-muted text-sm">400 ACE/month, 80 AURA runs/month, up to 20 AI systems. Unlimited AIS, immutable PACR creation, approval workflows and RBAC, retention controls, executive dashboards (portfolio readiness, risk accumulation). Additional AI systems available for purchase. Single-tenant eval compute (private/isolated), optional BYOK, full audit logs, SLA and dedicated support.</p>
+                <h3 className="font-semibold text-white/90 mb-2">Enterprise (Custom)</h3>
+                <p className="text-muted text-sm">Typically starts at $4,500/month. Everything in Assess, plus immutable PACRs + approvals, enterprise security & controls. Records & accountability: Immutable PACRs, approval metadata (who / when / why), retention policies. Security & isolation: Single-tenant eval compute (private/isolated), optional BYOK, full audit logs. Usage: 400 ACEs/month, 80 AURA runs/month, up to 20 AI systems. Custom integrations, SLA / dedicated support.</p>
               </div>
             </div>
           </section>
