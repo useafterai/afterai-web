@@ -31,14 +31,33 @@ function LoginForm() {
           password: formData.password,
         }),
       });
-      const data = await res.json().catch(() => ({}));
+      const text = await res.text();
       if (!res.ok) {
-        setError(res.status === 503 ? "Login temporarily unavailable. Please try again later." : "Invalid credentials");
+        let message = "Invalid credentials";
+        if (res.status === 503) {
+          message = "Login temporarily unavailable. Please try again later.";
+        } else if (res.status === 405) {
+          message = "Login request failed. Please refresh and try again.";
+        }
+        try {
+          const data = text.trim() ? JSON.parse(text) : {};
+          if (typeof (data as { error?: string }).error === "string") {
+            message = (data as { error: string }).error;
+          }
+        } catch {
+          // use default message
+        }
+        setError(message);
         return;
       }
-      if (data?.ok) {
-        router.push(returnTo);
-        return;
+      try {
+        const data = text.trim() ? JSON.parse(text) : {};
+        if (data?.ok) {
+          router.push(returnTo);
+          return;
+        }
+      } catch {
+        // non-JSON success response
       }
       setError("Invalid credentials");
     } catch {
