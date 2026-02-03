@@ -51,7 +51,7 @@ export async function POST(_request: NextRequest) {
     if (!res.ok) {
       return NextResponse.json(
         { error: "Rotate service returned an error." },
-        res.status >= 500 ? 502 : 400
+        { status: res.status >= 500 ? 502 : 400 }
       );
     }
   }
@@ -59,14 +59,14 @@ export async function POST(_request: NextRequest) {
   if (!res.ok) {
     return NextResponse.json(
       { error: (data as { detail?: string }).detail ?? "Rotate failed" },
-      res.status >= 500 ? 502 : res.status
+      { status: res.status >= 500 ? 502 : res.status }
     );
   }
 
   if (!data.api_key || typeof data.api_key !== "string") {
     return NextResponse.json(
       { error: "Invalid response from rotate service." },
-      502
+      { status: 502 }
     );
   }
 
