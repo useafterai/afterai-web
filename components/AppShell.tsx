@@ -18,6 +18,7 @@ import {
   FiLogOut,
   FiUser,
 } from "react-icons/fi";
+import SecretsPane from "@/components/SecretsPane";
 
 type NavItem = {
   name: string;
@@ -123,6 +124,9 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
               <div className="font-semibold text-sm">oscarsk91</div>
             </div>
           </div>
+
+          {/* Secrets: Tenant ID + API key (rotate) */}
+          <SecretsPane />
 
           {/* Navigation */}
           <nav className="flex-1 overflow-y-auto p-4 space-y-6">
