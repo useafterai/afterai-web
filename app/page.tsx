@@ -174,6 +174,32 @@ export default function LandingPage() {
         {/* 7. Pricing — accordion cards, 3 bullets collapsed, expand for technical limits */}
         <PricingSection />
 
+        {/* Cloud — Azure, AWS, GCP blurb + link to /cloud */}
+        <section id="cloud" className="border-t border-white/8 bg-white/[0.02]">
+          <div className="max-w-5xl mx-auto px-6 py-16 md:py-20 section-with-anchor">
+            <span className="section-heading-anchor" aria-hidden="true" />
+            <h2 className="text-2xl md:text-3xl font-bold mb-3 motion-section-heading">One platform for Azure, AWS, and GCP.</h2>
+            <p className="text-muted leading-relaxed max-w-2xl mb-6 motion-section-content">
+              Ingest D4 telemetry with full CSP provenance from Microsoft Azure, Amazon Web Services, and Google Cloud. Same provenance model — no lock-in.
+            </p>
+            <div className="flex flex-wrap items-center gap-8 mb-6 motion-section-content">
+              <div className="h-10 flex items-center">
+                <Image src="/assets/azure.png" alt="Microsoft Azure" width={120} height={40} className="max-h-10 w-auto object-contain" />
+              </div>
+              <div className="h-10 flex items-center">
+                <Image src="/assets/aws.png" alt="Amazon Web Services" width={120} height={40} className="max-h-10 w-auto object-contain" />
+              </div>
+              <div className="h-10 flex items-center">
+                <Image src="/assets/gcp.png" alt="Google Cloud" width={140} height={40} className="max-h-10 w-auto object-contain" />
+              </div>
+            </div>
+            <Link href="/cloud" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl border border-white/16 bg-white/5 text-white font-semibold hover:bg-white/8 transition-all motion-section-content focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-500/40 focus-visible:ring-offset-2 focus-visible:ring-offset-dark">
+              Cloud providers
+              <FiArrowRight />
+            </Link>
+          </div>
+        </section>
+
         {/* FAQ — first 4 + Why DIY + link to full FAQ */}
         <section id="faq" className="border-t border-white/8 bg-white/[0.02]">
           <div className="max-w-5xl mx-auto px-6 py-16 md:py-20 section-with-anchor">

@@ -36,6 +36,7 @@ body {
 /* Anchor offset for sticky header (avoid content hiding under nav) */
 [id="product"],
 [id="pricing"],
+[id="cloud"],
 [id="faq"],
 [id="trust"],
 [id="docs"],
