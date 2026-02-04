@@ -81,21 +81,21 @@ export default function CloudPage() {
           <div className="grid sm:grid-cols-3 gap-6">
             <ProviderCard
               name="Microsoft Azure"
-              logoSrc="/cloud-logos/azure.svg"
+              logoSrc="/assets/azure.png"
               logoAlt="Microsoft Azure"
               telemetry="Azure Monitor metrics"
               detail="afterai-export-azure-monitor — resource-id, subscription-id, tenant-id. source.csp_telemetry: azure.monitor.metrics"
             />
             <ProviderCard
               name="Amazon Web Services"
-              logoSrc="/cloud-logos/aws.svg"
+              logoSrc="/assets/aws.png"
               logoAlt="Amazon Web Services"
               telemetry="AWS CloudWatch metrics"
               detail="afterai-export-cloudwatch — region, resource-id, account-id. source.csp_telemetry: aws.cloudwatch.metrics"
             />
             <ProviderCard
               name="Google Cloud"
-              logoSrc="/cloud-logos/gcp.svg"
+              logoSrc="/assets/gcp.png"
               logoAlt="Google Cloud"
               telemetry="GCP Cloud Monitoring"
               detail="afterai-export-gcp-monitoring — project-id, resource-id. source.csp_telemetry: gcp.monitoring.metrics"
@@ -205,10 +205,15 @@ function ProviderCard({
 }) {
   return (
     <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-6 flex flex-col">
-      <div className="flex items-center gap-3 mb-4">
-        <div className="h-10 w-auto flex items-center justify-center shrink-0">
-          <Image src={logoSrc} alt={logoAlt} width={120} height={40} className="h-8 w-auto object-contain object-left" />
-        </div>
+      <div className="h-12 w-full flex items-center justify-center mb-4 shrink-0">
+        <Image
+          src={logoSrc}
+          alt={logoAlt}
+          width={160}
+          height={48}
+          className="max-h-12 w-full object-contain object-center"
+          sizes="(max-width: 640px) 100vw, 33vw"
+        />
       </div>
       <h3 className="text-lg font-semibold text-white mb-1">{name}</h3>
       <p className="text-sm text-gold-500 mb-3">{telemetry}</p>
